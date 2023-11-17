@@ -1,0 +1,30 @@
+import React from 'react'
+import Post from '../compoenents/post/Post'
+import Create_new_post from '../compoenents/post/Create_new_post'
+import Filter_card from './Filter_card'
+import Search_input from '../compoenents/trends/Search_input'
+
+const page = () => {
+  return (
+    <main className=" w-[95%]  md:w-[80%] mx-auto mt-4 flex space-x-6  ">
+    <section className=" min-w-[30%] max-w-[30%]  hidden md:block space-y-4 " >
+        <Filter_card />
+
+
+    </section>
+    <section className="w-full md:w-[70%] h-[50px] ">
+        <Search_input />
+        
+        <div className="flex flex-col gap-4 mt-4" >
+            <Post  image="/post_image.jpg" />
+            <Post  image="/post_image1.jpg" />
+            <Post  image="/post_image2.jpg" />
+
+        </div>
+    </section>
+
+</main>
+  )
+}
+
+export default page
