@@ -18,7 +18,7 @@ const Navbar = () => {
                         <Link href="/">Home</Link>
                     </li>
                     <li className=" text-neutral-500 text-[14px] p-5 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                        <Link href="/Explore" >Explore</Link>
+                        <Link href="/explore" >Explore</Link>
                     </li>
                     <li className=" text-neutral-500 text-[14px] p-5 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
                         <Link href="/">Bookmarks</Link>
@@ -40,7 +40,7 @@ const Navbar = () => {
                     </Link>
                 </li>
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                    <Link href="/" className="">
+                    <Link href="/explore" className="">
                         <MdOutlineExplore size={30} color="blue"  />
                     </Link>
                 </li>

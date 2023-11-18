@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import User_card from "./User_card";
 
-const To_follow = () => {
+const Pepole_to_follow = () => {
     return (
         <div className=" bg-[#FFFFFF] p-4 rounded-md  flex flex-col gap-2 shadow-md  mx-auto ">
             <h1 className="font-semibold  ">Who to follow</h1>
@@ -19,4 +19,4 @@ const To_follow = () => {
     );
 };
 
-export default To_follow;
+export default Pepole_to_follow ;
