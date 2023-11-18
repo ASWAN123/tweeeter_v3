@@ -1,33 +1,51 @@
+"use client";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { AiFillCodeSandboxCircle } from "react-icons/ai";
 import { GoHomeFill } from "react-icons/go";
 import { MdOutlineExplore } from "react-icons/md";
 import { MdOutlineBookmark } from "react-icons/md";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+    const pathname = usePathname();
+    const pages = [
+        { path: "/", name: "Home" },
+        { path: "/explore", name: "Explore" },
+        { path: "/bookmarks", name: "Bookmarks" },
+    ];
+
     return (
         <nav>
-            <header className="h-[60px] shadow-sm flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF]    ">
-                <a href="/" className="flex items-center gap-2 font-semibold md:text-black text-transparent ">
+            <header className="h-[60px] shadow-sm flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF] ">
+                <a
+                    href="/"
+                    className="flex items-center gap-2 font-semibold md:text-black text-transparent "
+                >
                     <AiFillCodeSandboxCircle size={24} color="blue" /> Tweeter
                 </a>
                 {/* list  for desktop version */}
-                <ul className="hidden md:flex items-center min-h-full  space-x-10  ">
-                    <li className=" text-neutral-500 text-[14px] p-5 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                        <Link href="/">Home</Link>
-                    </li>
-                    <li className=" text-neutral-500 text-[14px] p-5 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                        <Link href="/explore" >Explore</Link>
-                    </li>
-                    <li className=" text-neutral-500 text-[14px] p-5 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                        <Link href="/">Bookmarks</Link>
-                    </li>
+
+                <ul className="hidden md:flex items-center min-h-full w-[300px] gap-4 ">
+                    {pages.map((elem, index) => {
+                        return (
+                            <li
+                                key={index}
+                                className="h-[60px]  flex flex-col w-full  items-center justify-center  gap-4  "
+                            >
+                                
+                                <Link className="pt-4  hover:cursor-pointer font-medium text-[14px] text-neutral-500  " href={elem.path}>{elem.name}</Link>
+                                <span className={`-mb-[5px] w-full h-1 rounded-t-md ${elem.path === pathname ? "bg-blue-500" : "bg-transparent"}`}></span>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 <div className="font-medium  flex items-center  space-x-6  ">
-                    <Link href="/login">Login</Link>
-                    <Link href="/register" className="">
+                    <Link className="hover:text-blue-500 " href="/login">
+                        Login
+                    </Link>
+                    <Link className="hover:text-blue-500 " href="/register">
                         Join us!
                     </Link>
                 </div>
@@ -41,12 +59,16 @@ const Navbar = () => {
                 </li>
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
                     <Link href="/explore" className="">
-                        <MdOutlineExplore size={30} color="blue"  />
+                        <MdOutlineExplore size={30} color="blue" />
                     </Link>
                 </li>
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
-                    <Link href="/">
-                        <MdOutlineBookmark size={30} color="gray" className="" />
+                    <Link href="/bookmarks">
+                        <MdOutlineBookmark
+                            size={30}
+                            color="gray"
+                            className=""
+                        />
                     </Link>
                 </li>
             </ul>

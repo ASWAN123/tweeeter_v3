@@ -1,4 +1,5 @@
-import React from 'react'
+import Link from 'next/link'
+
 
 const page = () => {
   return (
@@ -14,7 +15,7 @@ const page = () => {
         <input type="password" className='w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100  outline-none' placeholder='********'/>
       </div>
       <input className='mt-4 px-6 py-2 hover:cursor-pointer rounded-md text-white bg-blue-500 ' type="submit" value="Login" />
-      <span>Create a new account <span className='text-blue-500 underline font-semibold'>Register</span></span>
+      <span>Create a new account <Link href="/register" className='text-blue-500 underline font-semibold'>Register</Link></span>
       
     </form>
   )
