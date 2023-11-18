@@ -1,24 +1,114 @@
-import Link from 'next/link'
+"use client";
+import Link from "next/link";
+
+import { signIn } from "next-auth/react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+// import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 
-const page = () => {
-  return (
-    <form className='w-[350px] bg-[#ffffff] mx-auto md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md '>
-      <p className='text-semibold text-[20px] leading-3 mb-8 mt-2'>Login Form</p>
-      <div className='flex flex-col gap-2'>
-        <label htmlFor="">Email</label>
-        <input type="Email"  className='w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100 outline-none placeholder:leading-6 ' placeholder='Email@gmail.com'/>
-      </div>
+type Inputs = {
+    email: string;
+    password: string;
+    save: boolean;
+};
 
-      <div className='flex flex-col gap-2'>
-        <label htmlFor="">Password</label>
-        <input type="password" className='w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100  outline-none' placeholder='********'/>
-      </div>
-      <input className='mt-4 px-6 py-2 hover:cursor-pointer rounded-md text-white bg-blue-500 ' type="submit" value="Login" />
-      <span>Create a new account <Link href="/register" className='text-blue-500 underline font-semibold'>Register</Link></span>
-      
-    </form>
-  )
-}
 
-export default page
+
+const SignInSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "This field has to be filled." })
+        .email("This is not a valid email."),
+    password: z
+        .string()
+        // .min(6, "Password must be at least 6 characters length"),
+});
+
+type SignInSchemaType = z.infer<typeof SignInSchema>;
+
+const Page = () => {
+    // const { data: session } = useSession();
+
+    // useEffect(() => {
+    //     if (session) {
+    //         redirect("/profile");
+    //     }
+    // }, [session]);
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm<SignInSchemaType>({ resolver: zodResolver(SignInSchema) });
+
+    const onSubmit: SubmitHandler<SignInSchemaType> = async (data) => {
+        console.log(data);
+        const signWithData = await signIn("credentials", data);
+
+        // console.log(signWithData);
+    };
+
+    return (
+        <form className="w-[350px] bg-[#ffffff] mx-auto md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md "  onSubmit={handleSubmit(onSubmit)} >
+            <p className="text-semibold text-[20px] leading-3 mb-8 mt-2">
+                Login Form
+            </p>
+            <div className="flex flex-col gap-2">
+                <label htmlFor="" className="font-semibold text-neutral-500" >
+                    Email
+                </label>
+                <input
+                    type="email"
+                    {...register("email")}
+                    className="w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100 outline-none placeholder:leading-6 "
+                    placeholder="Email@gmail.com"
+                />
+                {errors.email && (
+                    <p className="text-red-400 my-1 pl-2">
+                        {errors.email?.message}
+                    </p>
+                )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <label htmlFor="" className="font-semibold text-neutral-500">
+                    Password
+                </label>
+                <input
+                    type="password"
+                    {...register("password")}
+                    className="w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100  outline-none"
+                    placeholder="********"
+                />
+                {errors.password && (
+                <p className="text-red-400 my-1 pl-2">
+                    {errors.password?.message}
+                </p>
+            )}
+            </div>
+            <button
+                
+                className="mt-4 px-6 py-2 hover:cursor-pointer rounded-md text-white bg-blue-500 "
+                type="submit"
+                // value="Login"
+            >Login</button>
+
+            <p>
+                Create a new account{" "}
+                <Link
+                    href="/register"
+                    className="text-blue-500 underline font-semibold"
+                >
+                    Register
+                </Link>
+            </p>
+        </form>
+    );
+};
+
+export default Page;
