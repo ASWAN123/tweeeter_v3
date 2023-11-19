@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { BiImageAlt, BiWorld } from "react-icons/bi";
+import { ImageIcon } from "../icons/Icons";
 
 
 const HandleUploadFile = () => {
@@ -15,7 +16,7 @@ const Upload_image = () => {
     return       <div>
     {/* Icon */}
     <div onClick={HandleUploadFile}>
-      <BiImageAlt size={24} color="blue" />
+      <ImageIcon  width={24} height={24} className=" text-blue-500 md:w-6 md:h-6 " />
     </div>
     <label htmlFor="dropzone-file">
       <input

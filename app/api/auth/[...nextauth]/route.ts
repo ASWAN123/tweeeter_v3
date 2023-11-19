@@ -3,13 +3,11 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
 import NextAuth , { NextAuthOptions} from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-// import jwt from "jsonwebtoken"
 
 
 
-
-export const authOptions : NextAuthOptions  = {
-    adapter: PrismaAdapter(db) ,
+export const authOptions : NextAuthOptions  =     {
+    adapter: PrismaAdapter(db),
     session:{
         strategy:'jwt'
     },
@@ -20,12 +18,12 @@ export const authOptions : NextAuthOptions  = {
 
         CredentialsProvider({
 
-          name: "Credentials" ,
+          name: "Credentials",
 
           credentials: {
-            email: { label: "Email", type: "email", placeholder: "email" } ,
+            email: { label: "Email", type: "email", placeholder: "email" },
             password: { label: "Password", type: "password" }
-          } ,
+          },
           async authorize(credentials) {
 
 
@@ -59,25 +57,12 @@ export const authOptions : NextAuthOptions  = {
           } 
         })
       ],
-    //   jwt: {
-    //     async encode({ secret, token }) {
-    //       return jwt.sign(token, secret)
-    //     },
-    // },
 
       callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            return true
-          },
-          async redirect({ url, baseUrl }) {
-            return baseUrl
-          },
-          async session({ session, user, token }) {
-            return session
-          },
-          async jwt({ token, user, account, profile, isNewUser }) {
-            return token
-          }
+        signIn: async (user) => {
+          // You can customize the path here
+          return '/'; // Replace with your desired sign-in path
+        },
       },
 
 }

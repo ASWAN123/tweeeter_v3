@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const Filter_card = ({ options , defaultvalue }) => {
+const Filter_card = ({ options  , defaultvalue  }) => {
 
     const [selectOption, setSelectOption] = useState(defaultvalue);
 

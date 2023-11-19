@@ -3,16 +3,17 @@ import React from "react";
 import { Menu } from "@headlessui/react";
 import { BiImageAlt, BiWorld } from "react-icons/bi";
 import { BsFillPeopleFill } from "react-icons/bs";
+import { WorldIcon } from "../icons/Icons";
 
 const Privacy_menu = () => {
     return (
         <>
         <Menu as="div" className="relative mr-auto">
             <Menu.Button className="flex items-center gap-2 text-blue-500">
-                <BiWorld size={24} color="blue" />
+                <WorldIcon  width={24} height={24} className=" text-blue-500 " />
                 Everyone can reply
             </Menu.Button>
-            <Menu.Items className="flex flex-col gap-2 absolute z-30 bg-white p-4  rounded-md  w-[300px] top-[60px] shadow-lg  border ">
+            <Menu.Items className="flex flex-col gap-2 absolute z-30 bg-white p-4  rounded-md  -ml-8 w-[280px] md:w-[300px] top-[60px] shadow-lg  border ">
                 <Menu.Item disabled>
                     <div className="flex flex-col gap-1 mb-2">
                         <p className="font-semibold">Who can reply?</p>

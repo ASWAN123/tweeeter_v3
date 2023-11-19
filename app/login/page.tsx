@@ -5,16 +5,16 @@ import { signIn } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 type Inputs = {
-    email: string;
-    password: string;
-    save: boolean;
-};
+    email: string ;
+    password: string ; 
+    save: boolean ;
+} ;
 
 
 
@@ -31,13 +31,21 @@ const SignInSchema = z.object({
 type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 const Page = () => {
-    // const { data: session } = useSession();
+    const { data: session } = useSession();
+    const [userLogedIn ,  setUserLogedIn] = useState(false)
+    console.log(session)
+    useEffect(() => {
+        if( session){
+            setUserLogedIn(true)
+            console.log('updated session ')
+        }else{
+            setUserLogedIn(false)
+        }
+    } , [session])
 
-    // useEffect(() => {
-    //     if (session) {
-    //         redirect("/profile");
-    //     }
-    // }, [session]);
+
+
+    const [loading , setLoading ] = useState(false)
 
     const {
         register,
@@ -47,10 +55,11 @@ const Page = () => {
     } = useForm<SignInSchemaType>({ resolver: zodResolver(SignInSchema) });
 
     const onSubmit: SubmitHandler<SignInSchemaType> = async (data) => {
+        setLoading(true)
         console.log(data);
         const signWithData = await signIn("credentials", data);
-
-        // console.log(signWithData);
+        console.log(signWithData);
+        setLoading(false)
     };
 
     return (
@@ -65,6 +74,7 @@ const Page = () => {
                 <input
                     type="email"
                     {...register("email")}
+                    disabled={loading}
                     className="w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100 outline-none placeholder:leading-6 "
                     placeholder="Email@gmail.com"
                 />
@@ -82,6 +92,8 @@ const Page = () => {
                 <input
                     type="password"
                     {...register("password")}
+                    disabled={loading}
+                    autoComplete="on"
                     className="w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100  outline-none"
                     placeholder="********"
                 />
@@ -95,18 +107,19 @@ const Page = () => {
                 
                 className="mt-4 px-6 py-2 hover:cursor-pointer rounded-md text-white bg-blue-500 "
                 type="submit"
-                // value="Login"
-            >Login</button>
+                
+                >{ loading === true ?  "processing..." : "Login" }</button>
 
             <p>
                 Create a new account{" "}
                 <Link
                     href="/register"
                     className="text-blue-500 underline font-semibold"
-                >
+                    >
                     Register
                 </Link>
             </p>
+        { userLogedIn && <p className=" text-emerald-500">your are already  logged  in </p> }
         </form>
     );
 };

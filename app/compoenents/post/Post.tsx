@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Engagement_actions from "./Engagement_actions";
-import Create_new_comment from "../Comments/Create_new_comment";
-import Comment from "../Comments/Comment";
+import Create_new_comment from "../comments/Create_new_comment";
+import Comment from "../comments/Comment";
 
 
 const Post = ({ image }) => {

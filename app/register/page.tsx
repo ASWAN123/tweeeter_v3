@@ -116,6 +116,7 @@ const Page = () => {
                     type="password"
                     disabled ={loading}
                     {...register("password")}
+                    autoComplete="on"
                     className="w-full px-2 py-2 placeholder:text-neutral-500 bg-neutral-100  outline-none"
                     placeholder="********"
                 />
