@@ -44,9 +44,9 @@ const Page = () => {
         console.log(data);
         const addNewUser = await axios.post("/api/register", data);
         if (addNewUser.status === 201) {
-            setLoading(false)
             route.push("/login");
         }
+        setLoading(false)
     };
 
     return (

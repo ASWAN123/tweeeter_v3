@@ -6,8 +6,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect , useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
+
 
 
 type Inputs = {
@@ -32,16 +34,20 @@ type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 const Page = () => {
     const { data: session } = useSession();
+    let route = useRouter();
     const [userLogedIn ,  setUserLogedIn] = useState(false)
     console.log(session)
+
     useEffect(() => {
         if( session){
-            setUserLogedIn(true)
-            console.log('updated session ')
+            setUserLogedIn(true);
+            route.push('/')
         }else{
             setUserLogedIn(false)
         }
-    } , [session])
+    } , [session ,   route])
+
+
 
 
 

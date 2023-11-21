@@ -6,9 +6,12 @@ import { MdOutlineExplore } from "react-icons/md";
 import { MdOutlineBookmark } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession ,  signOut } from "next-auth/react";
 
 const Navbar = () => {
     const pathname = usePathname();
+    const  {data  : session} = useSession()
+
     const pages = [
         { path: "/", name: "Home" },
         { path: "/explore", name: "Explore" },
@@ -41,14 +44,20 @@ const Navbar = () => {
                     })}
                 </ul>
 
-                <div className="font-medium  flex items-center  space-x-6  ">
+                { !session && <div className="font-medium  flex items-center  space-x-6  ">
                     <Link className="hover:text-blue-500 " href="/login">
                         Login
                     </Link>
                     <Link className="hover:text-blue-500 " href="/register">
                         Join us!
                     </Link>
-                </div>
+                </div> }
+
+                {
+                    session &&                     <button  onClick={() => {signOut()}} className=" text-red-400 " >
+                    log out
+                </button>
+                }
             </header>
             {/* list for mobile  version */}
             <ul className="flex md:hidden justify-between items-center px-8 h-[60px] w-full space-x-6 fixed bottom-0 bg-[#FFFFFF]  z-[1000] shadow-md border-t-1 ">

@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 const Profile_user_card = () => {
   return (
-    <div className="flex gap-4 items-start bg-white rounded-md w-full p-4 -mt-24 col-span-3 shadow-md">
-    <div className="md:w-[150px] md:h-[150px] w-[100px] h-[100px] relative">
+    <div className="flex gap-4 items-start bg-white rounded-md w-full p-4 -mt-24 col-span-3 shadow-md" >
+    <div className="md:w-[150px] md:h-[150px] w-[100px] h-[100px] relative" >
         <Image
             src="/profile.png"
             alt="Picture of the author"

@@ -51,19 +51,16 @@ export const authOptions : NextAuthOptions  =     {
                 email: checkUserExist.email ,
             }
 
-            
-      
-
           } 
         })
       ],
 
-      callbacks: {
-        signIn: async (user) => {
-          // You can customize the path here
-          return '/'; // Replace with your desired sign-in path
-        },
-      },
+      // callbacks: {
+      //   signIn: async (user) => {
+      //     // You can customize the path here
+      //     return '/'; // Replace with your desired sign-in path
+      //   },
+      // },
 
 }
 
