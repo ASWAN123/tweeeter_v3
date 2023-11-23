@@ -26,6 +26,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={`${inter.className} w-3xl`}>
+                <div>{session?.user?.email}</div>
                 <SessionProvider session={session}>
                     <TanstackProvider>
                         <EdgeStoreProvider>

@@ -25,6 +25,7 @@ export default function Home() {
 
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">
+
             <section className="w-full md:w-[70%] h-[50px] ">
                 <div>{session?.user?.email}</div>
                 <Create_new_post />

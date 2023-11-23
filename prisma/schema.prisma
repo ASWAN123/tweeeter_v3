@@ -31,3 +31,9 @@ model Post {
   authorId           Int
   media_id           Int
 }
+
+
+
+
+
+

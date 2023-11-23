@@ -1,8 +1,13 @@
+"use client"
 import Image from "next/image";
 import Privacy_menu from "./Privacy_menu";
 import Upload_image from "./Upload_image";
+import { useState } from "react";
 
 const Create_new_post = () => {
+    const [urls, setUrls] = useState<string[]>([]);
+
+
     return (
         <form
             action=""
@@ -29,7 +34,7 @@ const Create_new_post = () => {
             </div>
             {/* buttons  for  post comment form */}
             <div className="mt-4 flex items-center justify-between  gap-2 md:pl-6">
-                <Upload_image />
+                <Upload_image  urls ={urls} setUrls = {setUrls}/>
 
                 <Privacy_menu />
 

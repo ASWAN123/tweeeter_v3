@@ -69,7 +69,7 @@ const Page = () => {
     };
 
     return (
-        <form className="w-[350px] bg-[#ffffff] mx-auto md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md "  onSubmit={handleSubmit(onSubmit)} >
+        <form className="w-[350px] bg-[#ffffff] mx-auto mt-12 md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md "  onSubmit={handleSubmit(onSubmit)} >
             <p className="text-semibold text-[20px] leading-3 mb-8 mt-2">
                 Login Form
             </p>

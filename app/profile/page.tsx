@@ -10,7 +10,14 @@ const page = () => {
         <main className=" w-full  mx-auto  ">
             <div className="relative min-w-full h-[250px]  bg-gradient-to-r from-blue-300 to-pink-400 block ">
                 {/* add some shit to make the user uplaod his cover  */}
-                <AiTwotoneEdit size={26} color="white"  />
+                <Image
+                    src="/cover.jpg"
+                    alt="Picture of the author"
+                    className=""
+                    layout="fill"
+                    objectFit="cover"
+                />
+                {/* <AiTwotoneEdit size={26} color="white"  /> */}
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
                 <Profile_user_card />
