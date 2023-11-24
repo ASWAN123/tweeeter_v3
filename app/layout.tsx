@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import TanstackProvider from "./compoenents/providers/TanstackProvider";
 import { EdgeStoreProvider } from "@/app/lib/edgestore";
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,11 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     const session = await getServerSession(authOptions);
-    console.log(session);
+    console.log(session , 'from layout')
+
+    // if (session?.user) {
+    //     return redirect("/")
+    //   }
 
     return (
         <html lang="en">
@@ -31,7 +36,8 @@ export default async function RootLayout({
                     <TanstackProvider>
                         <EdgeStoreProvider>
                             <Navbar />
-                            {children}
+                            { children }
+
                         </EdgeStoreProvider>
                     </TanstackProvider>
                 </SessionProvider>

@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-
 import { signIn } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
@@ -36,16 +35,9 @@ const Page = () => {
     const { data: session } = useSession();
     let route = useRouter();
     const [userLogedIn ,  setUserLogedIn] = useState(false)
-    console.log(session)
+    console.log(session ,  'from the  login comp')
 
-    useEffect(() => {
-        if( session){
-            setUserLogedIn(true);
-            route.push('/')
-        }else{
-            setUserLogedIn(false)
-        }
-    } , [session ,   route])
+
 
 
 
@@ -62,10 +54,11 @@ const Page = () => {
 
     const onSubmit: SubmitHandler<SignInSchemaType> = async (data) => {
         setLoading(true)
-        console.log(data);
         const signWithData = await signIn("credentials", data);
-        console.log(signWithData);
         setLoading(false)
+     
+
+
     };
 
     return (
