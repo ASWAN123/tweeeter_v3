@@ -10,13 +10,14 @@ import { useQuery} from "@tanstack/react-query"
 export default function Home() {
     const  {data : session } = useSession()
     
-    // const { isPending, error, data } = useQuery({
-    //     queryFn : () =>{
-    //         console.log('hi')
-    //     },
-    //     queryKey: ['hi']
+    const { isPending, error, data } = useQuery({
+        queryFn : async () => {
+            
+            
+        },
+        queryKey: ['hi']
 
-    // })
+    })
 
     
 
