@@ -19,11 +19,6 @@ export default function Home() {
 
     })
 
-    
-
-
-
-
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">
 
@@ -42,6 +37,7 @@ export default function Home() {
                 
                 <Hashtags />
                 <Pepole_to_follow />
+                
 
             </section>
 

@@ -1,4 +1,4 @@
-import { db } from "@/prisma/client";
+import { db } from "@/app/lib/db"
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
 import NextAuth , { NextAuthOptions} from "next-auth"
