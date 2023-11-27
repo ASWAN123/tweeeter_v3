@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/legacy/image"
 
 
 // starts  fixing  from this  point  where  the  image  in the  mobile  its  size  is not  good  enough

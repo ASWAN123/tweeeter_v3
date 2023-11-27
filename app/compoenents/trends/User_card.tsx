@@ -1,5 +1,5 @@
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { FriendIcon } from "../icons/Icons";
 
 const User_card = ({image}) => {

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Engagement_actions from "./Engagement_actions";
 import Create_new_comment from "../comments/Create_new_comment";
 import Comment from "../comments/Comment";
