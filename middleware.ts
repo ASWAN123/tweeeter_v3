@@ -16,12 +16,12 @@ export default async function middleware(req: NextRequest) {
     }
 
     if( session  &&  path === "/register" ){
-        return NextResponse.redirect(new URL('/', req.url ))
+        return NextResponse.redirect(new URL('/profile', req.url ))
     }
 
 
     if ( session &&  path === "/login"  ){
-      return NextResponse.redirect(new URL('/', req.url ))
+      return NextResponse.redirect(new URL('/profile', req.url ))
     }
 
     return NextResponse.next()

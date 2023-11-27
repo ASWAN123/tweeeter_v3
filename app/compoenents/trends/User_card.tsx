@@ -12,6 +12,7 @@ const User_card = ({image}) => {
                 layout="fill"
                 alt="Picture of the author"
                 className="rounded-md shadow-sm "
+                layout="responsive"
             />
         </div>
         <div className="flex  flex-col ">
@@ -37,6 +38,7 @@ const User_card = ({image}) => {
                 alt="Picture of the author"
                 className="rounded-md shadow-sm  -z-0"
                 layout="fill"
+
             />
         </div>
     

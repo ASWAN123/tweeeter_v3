@@ -10,6 +10,7 @@ const Create_new_comment = () => {
         height={40}
         width={40}
         alt="cover author"
+        layout="responsive"
     />
     <div className="flex w-full flex-col text-[14px]">
                   <input

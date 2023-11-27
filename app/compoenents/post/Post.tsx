@@ -14,6 +14,7 @@ const Post = ({ image }) => {
                         layout="fill"
                         alt="Picture of the author"
                         className="rounded-md shadow-sm "
+                        layout="responsive"
                     />
                 </div>
                 <div className="flex  flex-col gap-1">

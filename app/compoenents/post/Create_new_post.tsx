@@ -22,6 +22,7 @@ const Create_new_post = () => {
                     height={40}
                     alt="Picture of the author"
                     className="rounded-md shadow-sm "
+                    layout="responsive"
                 />
                 <textarea
                     className="w-full outline-none  p-2 resize-none"

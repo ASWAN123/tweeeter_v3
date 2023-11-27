@@ -12,6 +12,7 @@ const Comment = () => {
         height={40}
         width={40}
         alt="cover author"
+        layout="responsive"
     />
     <div className="w-full  flex flex-col gap-2 ">
         <div className="flex  flex-col gap-2 bg-neutral-100 p-2 rounded-md">
