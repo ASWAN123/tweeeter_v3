@@ -24,14 +24,11 @@ export default async function RootLayout({
     const session = await getServerSession(authOptions);
     console.log(session , 'from layout')
 
-    // if (session?.user) {
-    //     return redirect("/")
-    //   }
+
 
     return (
         <html lang="en">
             <body className={`${inter.className} w-3xl`}>
-                <div>{session?.user?.email}</div>
                 <SessionProvider session={session}>
                     <TanstackProvider>
                         <EdgeStoreProvider>

@@ -1,21 +1,23 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Engagement_actions from "./Engagement_actions";
 import Create_new_comment from "../comments/Create_new_comment";
 import Comment from "../comments/Comment";
 
 
 const Post = ({ image }) => {
+
     return (
         <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
             <div className="flex items-center gap-4 ">
                 <div className="relative w-[40px] h-[40px] ">
-                    <Image
-                        src="/profile.png"
-                        layout="fill"
-                        alt="Picture of the author"
-                        className="rounded-md shadow-sm "
-                        layout="responsive"
-                    />
+                <Image
+                className="rounded"
+                src="/profile.png"
+                height={40}
+                width={40}
+                alt="cover author"
+            />
+                        
                 </div>
                 <div className="flex  flex-col gap-1">
                     <p className="font-semibold text-[16px]">Mikael Stanley</p>
@@ -30,11 +32,13 @@ const Post = ({ image }) => {
             </p>
             <div className="w-full h-[200px] md:h-[400px] relative">
                 <Image
+                    fill
                     src={image}
                     alt="Picture of the author"
                     className="rounded-md shadow-sm  -z-0"
-                    layout="fill"
-                />
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                     />
             </div>
 
             {/* stat information */}

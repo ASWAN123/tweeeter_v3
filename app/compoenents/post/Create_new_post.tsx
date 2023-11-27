@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Privacy_menu from "./Privacy_menu";
 import Upload_image from "./Upload_image";
 import { useState } from "react";
@@ -16,14 +16,14 @@ const Create_new_post = () => {
             <h1 className="font-semibold  ">Tweet something</h1>
             <hr />
             <div className="flex space-x-2 items-center ">
-                <Image
-                    src="/profile.png"
-                    width={40}
-                    height={40}
-                    alt="Picture of the author"
-                    className="rounded-md shadow-sm "
-                    layout="responsive"
-                />
+            <Image
+                className="rounded"
+                src="/profile.png"
+                height={40}
+                width={40}
+                alt="profile"
+                quality={100}
+            />
                 <textarea
                     className="w-full outline-none  p-2 resize-none"
                     placeholder="What's happening?"
