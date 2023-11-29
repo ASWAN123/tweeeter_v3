@@ -25,7 +25,7 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={`${inter.className} w-3xl`}>
+            <body className={`${inter.className} w-3xl container mx-auto `}>
                 <SessionProvider session={session}>
                     <TanstackProvider>
                         <EdgeStoreProvider>

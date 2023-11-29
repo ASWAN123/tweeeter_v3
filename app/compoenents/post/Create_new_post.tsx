@@ -4,23 +4,49 @@ import Privacy_menu from "./Privacy_menu";
 import Upload_image from "./Upload_image";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Skeleton_post from "../skeletons/skeleton_post";
 
-const Create_new_post = () => {
-    const [url, setUrl] = useState<string>();
+const Create_new_post = ({setLoading  }) => {
+    const [url, setUrl] = useState<string>('');
     const [isPublic, setIsPublic] = useState(true);
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState<string>('');
+    
+
+    const queryClient = useQueryClient();
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
+        if (content.trim() === '' && url.trim() === '') return
+
+
         const data = {
             content: content,
             media_url: url,
             everyone_can_reply: isPublic,
         };
-        console.log('data' ,  data)
+
+        const response  =  await  axios.post('/api/createPost' ,  {
+            ...data
+        })
+
+        if(response){
+            setContent('')
+            setUrl('')
+            setIsPublic(true)
+            queryClient.invalidateQueries('posts');
+            setLoading(false)
+            return
+        }
+        
+
     };
 
     return (
+        <>
         <form
             action=""
             className=" bg-[#FFFFFF] p-4 rounded-md  flex flex-col gap-2 shadow-md "
@@ -48,7 +74,7 @@ const Create_new_post = () => {
                     rows={1}
                 ></textarea>
             </div>
-            { url && (
+            {url && (
                 <div className="w-full h-[200px] md:h-[250px] md:w-[350px] mx-auto my-8 relative">
                     <Image
                         fill
@@ -72,6 +98,8 @@ const Create_new_post = () => {
                 />
             </div>
         </form>
+        
+        </>
     );
 };
 

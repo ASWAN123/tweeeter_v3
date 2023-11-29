@@ -15,7 +15,7 @@ const Page = () => {
 
     async function getUser() {
         try {
-            const response = await axios.get("/api/user");
+            const response = await axios.get("/api/user/profile");
             console.log(response.data);
             return response.data;
         } catch (error) {

@@ -4,7 +4,7 @@ import Create_new_comment from "../comments/Create_new_comment";
 import Comment from "../comments/Comment";
 
 
-const Post = ({ image }) => {
+const Post = ({ post }) => {
 
     return (
         <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
@@ -27,19 +27,20 @@ const Post = ({ image }) => {
                 </div>
             </div>
             <p className="text-[16px] md:text-[12px]">
-                Traveling – it leaves you speechless, then turns you into a
-                storyteller.
+                {post.content}
             </p>
+            { post.media_url && 
             <div className="w-full h-[200px] md:h-[400px] relative">
                 <Image
                     fill
-                    src={image}
+                    src={post.media_url }
                     alt="Picture of the author"
                     className="rounded-md shadow-sm  -z-0"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
                      />
             </div>
+            }
 
             {/* stat information */}
             <div className="flex justify-end  space-x-3  text-neutral-400 -mb-2 md:mb-auto md:-mt-1 ">

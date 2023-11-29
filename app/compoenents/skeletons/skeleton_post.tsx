@@ -1,5 +1,3 @@
-
-
 const Skeleton_post = () => {
     return (
         <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
