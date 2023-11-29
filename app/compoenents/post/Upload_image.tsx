@@ -3,30 +3,32 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { BiImageAlt, BiWorld } from "react-icons/bi";
 import { ImageIcon } from "../icons/Icons";
-
 import { useEdgeStore } from "..//../lib/edgestore";
 
 const HandleUploadFile = () => {
     const HandleClick = document.getElementById("dropzone-file")?.click();
 };
 
-const Upload_image = ({ urls, setUrls }) => {
-    const [file, setFile] = useState<File>();
+const Upload_image = ({  setUrl }) => {
     const { edgestore } = useEdgeStore();
+    
+    type UploadImageFunction = (file: File | undefined) => void;
 
-    const uploadImage = async () => {
-        if (file) {
-            const res = await edgestore.publicFiles.upload({
-                file,
-                onProgressChange: (progress) => {
-                    console.log(progress);
-                },
-            });
-
-            console.log(res.url)
-            setUrls((prevUrls) => [...prevUrls, res.url]);
+    const uploadImage: UploadImageFunction = async (file) => {
+        if (!file) {
+            console.error('No file selected');
+            return;
         }
+    
+        const res = await edgestore.publicFiles.upload({
+            file,
+        });
+        setUrl(res.url);
     };
+
+
+
+
 
     return (
         <div>
@@ -45,8 +47,7 @@ const Upload_image = ({ urls, setUrls }) => {
                     className="hidden"
                     onChange={(e) => {
                       console.log(e.target.files)
-                        setFile(e.target.files?.[0]);
-                        uploadImage();
+                        uploadImage( e.target.files?.[0] ) ;
                     }}
                 />
             </label>

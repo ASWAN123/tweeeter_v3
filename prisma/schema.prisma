@@ -29,7 +29,7 @@ model Post {
   everyone_can_reply Boolean
   author             User     @relation(fields: [authorId], references: [id])
   authorId           Int
-  media_id           Int
+  media_url          String
 }
 
 

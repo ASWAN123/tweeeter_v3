@@ -9,15 +9,6 @@ import { useQuery} from "@tanstack/react-query"
 
 export default function Home() {
     const  {data : session } = useSession()
-    
-    // const { isPending, error, data } = useQuery({
-    //     queryFn : async () => {
-            
-            
-    //     },
-    //     queryKey: ['hi']
-
-    // })
 
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">

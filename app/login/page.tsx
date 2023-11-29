@@ -5,28 +5,23 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { redirect , useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
-
-
 type Inputs = {
-    email: string ;
-    password: string ; 
-    save: boolean ;
-} ;
-
-
+    email: string;
+    password: string;
+    save: boolean;
+};
 
 const SignInSchema = z.object({
     email: z
         .string()
         .min(1, { message: "This field has to be filled." })
         .email("This is not a valid email."),
-    password: z
-        .string()
-        // .min(6, "Password must be at least 6 characters length"),
+    password: z.string(),
+    // .min(6, "Password must be at least 6 characters length"),
 });
 
 type SignInSchemaType = z.infer<typeof SignInSchema>;
@@ -34,16 +29,10 @@ type SignInSchemaType = z.infer<typeof SignInSchema>;
 const Page = () => {
     const { data: session } = useSession();
     let route = useRouter();
-    const [userLogedIn ,  setUserLogedIn] = useState(false)
-    console.log(session ,  'from the  login comp')
+    const [userLogedIn, setUserLogedIn] = useState(false);
+    console.log(session, "from the  login comp");
 
-
-
-
-
-
-
-    const [loading , setLoading ] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -53,21 +42,21 @@ const Page = () => {
     } = useForm<SignInSchemaType>({ resolver: zodResolver(SignInSchema) });
 
     const onSubmit: SubmitHandler<SignInSchemaType> = async (data) => {
-        setLoading(true)
+        setLoading(true);
         const signWithData = await signIn("credentials", data);
-        setLoading(false)
-     
-
-
+        setLoading(false);
     };
 
     return (
-        <form className="w-[350px] bg-[#ffffff] mx-auto mt-12 md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md "  onSubmit={handleSubmit(onSubmit)} >
+        <form
+            className="w-[350px] bg-[#ffffff] mx-auto mt-12 md:mt-[5%] p-4 flex flex-col gap-4 rounded-md shadow-md "
+            onSubmit={handleSubmit(onSubmit)}
+        >
             <p className="text-semibold text-[20px] leading-3 mb-8 mt-2">
                 Login Form
             </p>
             <div className="flex flex-col gap-2">
-                <label htmlFor="" className="font-semibold text-neutral-500" >
+                <label htmlFor="" className="font-semibold text-neutral-500">
                     Email
                 </label>
                 <input
@@ -97,28 +86,30 @@ const Page = () => {
                     placeholder="********"
                 />
                 {errors.password && (
-                <p className="text-red-400 my-1 pl-2">
-                    {errors.password?.message}
-                </p>
-            )}
+                    <p className="text-red-400 my-1 pl-2">
+                        {errors.password?.message}
+                    </p>
+                )}
             </div>
             <button
-                
                 className="mt-4 px-6 py-2 hover:cursor-pointer rounded-md text-white bg-blue-500 "
                 type="submit"
-                
-                >{ loading === true ?  "processing..." : "Login" }</button>
+            >
+                {loading === true ? "processing..." : "Login"}
+            </button>
 
             <p>
                 Create a new account{" "}
                 <Link
                     href="/register"
                     className="text-blue-500 underline font-semibold"
-                    >
+                >
                     Register
                 </Link>
             </p>
-        { userLogedIn && <p className=" text-emerald-500">your are already  logged  in </p> }
+            {userLogedIn && (
+                <p className=" text-emerald-500">your are already logged in </p>
+            )}
         </form>
     );
 };

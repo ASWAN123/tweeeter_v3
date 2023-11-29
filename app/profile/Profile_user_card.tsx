@@ -3,12 +3,12 @@ import Image from "next/image";
 
 const Profile_user_card = ({ user }) => {
     return (
-        <div className="min-h-[163px]  flex flex-col  md:flex-row items-center gap-4 md:items-start bg-white rounded-md w-full p-4 -mt-24 col-span-3 shadow-md ">
-            <div className="min-w-[160px] rounded-md bg-white min-h-[160px] md:min-w-[150px] md:min-h-[150px] w-[100px] h-[100px] relative  shadow-sm -z-0 -mt-32 md:-mt-20">
+        <div className="min-h-[163px]  flex flex-col  md:flex-row items-center gap-4 md:items-start bg-white rounded-md w-full py-4 px-6 -mt-24 col-span-3 shadow-md ">
+            <div className="min-w-[160px]  rounded bg-white min-h-[160px] md:min-w-[150px] md:min-h-[150px] w-[100px] h-[100px] relative  shadow-sm -z-0  -mt-32 md:-mt-20">
                 <Image
                     src="/profile.jpeg"
                     alt="Picture of the author"
-                    className="rounded-md p-1"
+                    className="rounded p-1"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />

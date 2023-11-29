@@ -6,6 +6,7 @@ import Profile_user_card from "./Profile_user_card";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton_User_Card from "../compoenents/skeletons/Skeleton_user_card";
+import Skeleton_post from "../compoenents/skeletons/skeleton_post";
 
 
 
@@ -49,9 +50,11 @@ const Page = () => {
                 {!isPending && <Profile_user_card user={user} />}
                 <Filter_card options={options} defaultvalue="Tweets" />
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
+                    <Skeleton_post />
                     <Post image="/post_image.jpg" />
                     <Post image="/post_image1.jpg" />
                     <Post image="/post_image2.jpg" />
+
                 </div>
             </div>
         </main>
