@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Engagement_actions from "./Engagement_actions";
-import Create_new_comment from "../comments/Create_new_comment";
-import Comment from "../comments/Comment";
+import Create_new_comment from "../comment/Comment_form";
+import Comment from "../comment/Comment";
 import Skeleton_comment from "../skeletons/Skeleton_comment";
 
 
@@ -44,7 +44,7 @@ const Post = ({ post }) => {
             </div>
             }
 
-            {/* stat information */}
+            {/* stat information note :  // export  this  into  a  component  later */}
             <div className="flex justify-end  space-x-3  text-neutral-400 -mb-2 md:mb-auto md:-mt-1 ">
                 <span>449 Comments</span>
                 <span>59k Retweets</span>
@@ -58,7 +58,7 @@ const Post = ({ post }) => {
                 <hr />
                 <Create_new_comment  postId = {post.id}/>
                 <div>
-                    < Skeleton_comment />
+                    {/* < Skeleton_comment /> */}
                     <Comment />
                     <Comment />
                     <Comment />

@@ -16,22 +16,21 @@ const Create_new_comment = ({postId}) => {
 
     // submit the  comment 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (content.trim() === "" && url.trim() === "") return;
+        e.preventDefault() ;
+        if (content.trim() === "" && url.trim() === "") return ;
 
         const data = {
             content: content,
-            media_url: url,
+            media_url: url ,
             postId : postId ,
         };
+        console.log(data)
 
-        const response = await axios.post("/api/createComment", {
+        const response = await axios.post("/api/comment/add", {
             ...data ,
         });
 
-        console.log(response ,  'this  is  coming  form  the  comment  compo')
-
-
+        console.log( response ,  'this  is  coming  form  the  comment  compo')
     };
 
     return (
@@ -47,12 +46,12 @@ const Create_new_comment = ({postId}) => {
             <div className="flex w-full flex-col text-[14px] relative">
                 <input
                     type="text"
-                    
                     value={content}
                     onChange={(e) => {setContent(e.target.value)}}
                     className=" bg-neutral-100 border outline-none text-gray-900 text-sm rounded-md w-full p-2.5 "
                     placeholder="tweet your reply"
                 />
+
                 <Upload_image formtype="comment" setUrl = {setUrl} />
 
             </div>

@@ -1,5 +1,5 @@
 "use client";
-import Create_new_post from "./compoenents/post/Create_new_post";
+import Create_new_post from "./compoenents/post/Post_form";
 import Post from "./compoenents/post/Post";
 import Hashtags from "./compoenents/trends/Hashtags";
 import Pepole_to_follow from "./compoenents/trends/Pepole_to_follow";

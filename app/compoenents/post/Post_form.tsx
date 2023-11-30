@@ -29,7 +29,7 @@ const Create_new_post = ({ setLoading  }) => {
             everyone_can_reply: isPublic,
         };
 
-        const response  =  await  axios.post('/api/createPost' ,  {
+        const response  =  await  axios.post('/api/post/add' ,  {
             ...data
         })
 

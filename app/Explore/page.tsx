@@ -1,5 +1,5 @@
 import Post from '../compoenents/post/Post'
-import Create_new_post from '../compoenents/post/Create_new_post'
+import Create_new_post from '../compoenents/post/Post_form'
 import Filter_card from '../compoenents/Filter_card'
 import Search_input from './Search_input'
 

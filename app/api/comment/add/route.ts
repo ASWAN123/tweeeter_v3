@@ -18,19 +18,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const authorId = session.sub;
     let body = await req.json();
+    console.log(body  ,  ' this is the body that you got from the response ')
+    const post_Id = body.postId ;
 
 
-    const createPost = await prisma.comment.create({
+    const createComment = await prisma.comment.create({
         data: {
             ...body,
-            authorId: Number(authorId),
-            postId : Number(body.postId),
+            userId: Number(authorId),
+            // postId : Number(post_Id),
         },
     });
+    console.log(createComment)
 
-    if(createPost) {
+    if(createComment) {
         return NextResponse.json(
-            { data: "Post has been created" },
+            { data: "Comment has been created" },
             { status: 201  }
         );
     }
