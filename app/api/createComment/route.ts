@@ -10,20 +10,21 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if(!session){
         return NextResponse.json(
-            { Error: "You are not allowed to post" },
+            { Error: "You are not allowed to Comment" },
             { status: 401  }
         );
     }
 
-    
+
     const authorId = session.sub;
     let body = await req.json();
 
 
-    const createPost = await prisma.post.create({
+    const createPost = await prisma.comment.create({
         data: {
             ...body,
             authorId: Number(authorId),
+            postId : Number(body.postId),
         },
     });
 

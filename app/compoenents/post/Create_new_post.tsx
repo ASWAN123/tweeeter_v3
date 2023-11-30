@@ -2,15 +2,15 @@
 import Image from "next/image";
 import Privacy_menu from "./Privacy_menu";
 import Upload_image from "./Upload_image";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Skeleton_post from "../skeletons/skeleton_post";
 
-const Create_new_post = ({setLoading  }) => {
+const Create_new_post = ({ setLoading  }) => {
     const [url, setUrl] = useState<string>('');
     const [isPublic, setIsPublic] = useState(true);
-    const [content, setContent] = useState<string>('');
+    const [content, setContent] = useState<string>('') ;
     
 
     const queryClient = useQueryClient();
@@ -87,7 +87,7 @@ const Create_new_post = ({setLoading  }) => {
             )}
             {/* buttons  for  post comment form */}
             <div className="mt-4 flex items-center justify-between  gap-2 md:pl-6">
-                <Upload_image setUrl={setUrl} />
+                <Upload_image setUrl={setUrl}  formtype="post"/>
 
                 <Privacy_menu isPublic={isPublic} setIsPublic={setIsPublic} />
 

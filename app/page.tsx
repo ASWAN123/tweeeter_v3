@@ -13,13 +13,12 @@ export default function Home() {
 
 
 
-    const getUserPosts  = async () =>{
+    const getUserPosts  = async () =>{ 
         try {
             const response = await axios.get("/api/user/posts");
             return response.data;
         } catch (error) {
             console.error(error);
-            
         }
     }
 
@@ -32,6 +31,8 @@ export default function Home() {
         queryFn: getUserPosts ,
     });
 
+    console.log( 'posts' ,  posts )
+
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">
 
@@ -41,13 +42,15 @@ export default function Home() {
                 {/* posts */}
                 <div className="flex flex-col gap-4 mt-8" >
                     {
-                       isPending  &&   <Skeleton_post  /> 
+                       isPending  &&   <Skeleton_post  />
                     }
+
                     {
-                       loading  &&   <Skeleton_post  /> 
+                       loading &&   <Skeleton_post  />
                     }
+
                     {
-                        !isPending && posts?.map((post ,  index) => {
+                        !isPending && posts?.map(( post ,  index) => {
                             return <Post key={index}  post = {post} />  
                         })
                     }

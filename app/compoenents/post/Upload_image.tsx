@@ -1,7 +1,5 @@
 "use client";
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { BiImageAlt, BiWorld } from "react-icons/bi";
+
 import { ImageIcon } from "../icons/Icons";
 import { useEdgeStore } from "..//../lib/edgestore";
 
@@ -9,7 +7,7 @@ const HandleUploadFile = () => {
     const HandleClick = document.getElementById("dropzone-file")?.click();
 };
 
-const Upload_image = ({  setUrl }) => {
+const Upload_image = ({  setUrl ,  formtype }) => {
     const { edgestore } = useEdgeStore();
     
     type UploadImageFunction = (file: File | undefined) => void;
@@ -31,15 +29,15 @@ const Upload_image = ({  setUrl }) => {
 
 
     return (
-        <div>
+        <>
             {/* Icon */}
-            <div onClick={HandleUploadFile}>
                 <ImageIcon
                     width={24}
                     height={24}
-                    className=" text-blue-500 md:w-6 md:h-6 "
+                    onClick={HandleUploadFile}
+                    className={  formtype == 'post' ? ' text-blue-500 md:w-6 md:h-6 ' : ' text-gray-300 absolute right-2 top-2 '  }
                 />
-            </div>
+
             <label htmlFor="dropzone-file">
                 <input
                     id="dropzone-file"
@@ -51,7 +49,7 @@ const Upload_image = ({  setUrl }) => {
                     }}
                 />
             </label>
-        </div>
+        </>
     );
 };
 

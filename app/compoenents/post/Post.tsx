@@ -2,9 +2,11 @@ import Image from "next/image";
 import Engagement_actions from "./Engagement_actions";
 import Create_new_comment from "../comments/Create_new_comment";
 import Comment from "../comments/Comment";
+import Skeleton_comment from "../skeletons/Skeleton_comment";
 
 
 const Post = ({ post }) => {
+
 
     return (
         <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
@@ -54,9 +56,9 @@ const Post = ({ post }) => {
                 <hr />
                 < Engagement_actions   />
                 <hr />
-                <Create_new_comment />
+                <Create_new_comment  postId = {post.id}/>
                 <div>
-                    
+                    < Skeleton_comment />
                     <Comment />
                     <Comment />
                     <Comment />
