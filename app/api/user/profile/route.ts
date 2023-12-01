@@ -6,7 +6,7 @@ import { getToken } from "next-auth/jwt";
 
 
 export async function GET(req: NextRequest, res: NextResponse) {
-    try {
+    // try {
 
         const session = await getToken({
             req,
@@ -25,11 +25,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 
         let id = session.sub
-
+        console.log(id ,  'this  is  user id')
         const user = await db.user.findUnique({
-            where: { id : id } ,
+            where: { id : Number(id) } ,
             select: { email: true, username: true , name:true , bio: true, avatar: true }
         });
+        console.log(user)
+        console.log({...user} ,  'userrrrr')
 
         return NextResponse.json({ ...user });
 
@@ -38,10 +40,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 
 
-    } catch (error) {
-        return NextResponse.json(
-            { Error: "Internal Serverorororor Erorr" },
-            { status: 500 }
-        );
-    }
+    // } catch (error) {
+    //     return NextResponse.json(
+    //         { Error: "Internal Serverorororor Erorr" },
+    //         { status: 500 }
+    //     );
+    // }
 }

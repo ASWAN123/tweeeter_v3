@@ -22,6 +22,16 @@ export async function GET(req: NextRequest, res: NextResponse) {
         const posts = await db.post.findMany({
             orderBy:{
                 created_at:'desc'
+            },
+            select:{
+                content : true , 
+                media_url : true , 
+                id: true  ,
+                everyone_can_reply:true ,
+                authorId : true ,
+                created_at :true ,
+                comments :true ,
+
             }
         });
 

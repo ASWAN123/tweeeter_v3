@@ -2,7 +2,9 @@ import Image from "next/image"
 import { HeartIcon } from "../icons/Icons"
 
 
-const Comment = () => {
+const Comment = ({comment}) => {
+
+
   return (
       <div className="w-full flex gap-2 items-start mb-2">
               
@@ -22,8 +24,7 @@ const Comment = () => {
               </div>
               <div>
                   <p>
-                      I’ve seen awe-inspiring things that I thought I’d never
-                      be able to explain to another person.
+                     {comment.content}
                   </p>
               </div>
           </div>

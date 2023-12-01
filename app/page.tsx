@@ -3,14 +3,14 @@ import Create_new_post from "./compoenents/post/Post_form";
 import Post from "./compoenents/post/Post";
 import Hashtags from "./compoenents/trends/Hashtags";
 import Pepole_to_follow from "./compoenents/trends/Pepole_to_follow";
-import { useQuery} from "@tanstack/react-query"
+import { useQuery, useQueryClient} from "@tanstack/react-query"
 import axios from "axios";
 import Skeleton_post from "./compoenents/skeletons/skeleton_post";
 import { useState } from "react";
 
 export default function Home() {
-    const [loading  ,  setLoading] = useState(false)
-
+    // const [loading  ,  setLoading] = useState(false)
+    const queryClient = useQueryClient();
 
 
     const getUserPosts  = async () =>{ 
@@ -26,6 +26,7 @@ export default function Home() {
         data: posts,
         isPending,
         error,
+        isLoading ,
     } = useQuery({
         queryKey: ["posts"] ,
         queryFn: getUserPosts ,
@@ -38,20 +39,20 @@ export default function Home() {
 
             <section className="w-full md:w-[70%] h-[50px] ">
                 {/* <div>{session?.user?.email}</div> */}
-                <Create_new_post setLoading ={ setLoading }  />
+                <Create_new_post queryClient ={ queryClient }  />
                 {/* posts */}
                 <div className="flex flex-col gap-4 mt-8" >
                     {
-                       isPending  &&   <Skeleton_post  />
+                       isLoading   &&   <Skeleton_post  />
                     }
 
-                    {
+                    {/* {
                        loading &&   <Skeleton_post  />
-                    }
+                    } */}
 
                     {
                         !isPending && posts?.map(( post ,  index) => {
-                            return <Post key={index}  post = {post} />  
+                            return <Post key={index}  post = {post} />
                         })
                     }
                 </div>

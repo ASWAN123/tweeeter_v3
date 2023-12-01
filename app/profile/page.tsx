@@ -16,7 +16,7 @@ const Page = () => {
     async function getUser() {
         try {
             const response = await axios.get("/api/user/profile");
-            console.log(response.data);
+            console.log(response.data ,  'user');
             return response.data;
         } catch (error) {
             console.error(error);
@@ -25,12 +25,35 @@ const Page = () => {
 
     const {
         data: user,
-        isPending,
-        error,
+        isPending :isUserPending,
+        error : isUserError,
     } = useQuery({
         queryKey: ["user"],
         queryFn: getUser,
     });
+
+
+
+    const getUserPosts  = async () =>{ 
+        try {
+            const response = await axios.get("/api/user/posts");
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const {
+        data: posts,
+        isPending : isPostsPending,
+        error : isPostsError,
+        isLoading :isPostsLoading ,
+    } = useQuery({
+        queryKey: ["posts"] ,
+        queryFn: getUserPosts ,
+    });
+
+
 
     return (
         <main className=" w-full  mx-auto  ">
@@ -46,14 +69,21 @@ const Page = () => {
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
                 {/* { user && <Profile_user_card user ={user}/> } */}
-                {isPending && <Skeleton_User_Card />}
-                {!isPending && <Profile_user_card user={user} />}
+                { isUserPending  && <Skeleton_User_Card   /> }
+                { user && <Profile_user_card user={user} /> }
                 <Filter_card options={options} defaultvalue="Tweets" />
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
-                    <Skeleton_post />
-                    <Post image="/post_image.jpg" />
+                    { isPostsLoading && <Skeleton_post />}
+                    {
+                        posts?.map((post , index) => {
+                            return (
+                            <Post post={post} key={index} />
+                            )
+                        })
+                    }
+                    {/* <Post image="/post_image.jpg" />
                     <Post image="/post_image1.jpg" />
-                    <Post image="/post_image2.jpg" />
+                    <Post image="/post_image2.jpg" /> */}
 
                 </div>
             </div>

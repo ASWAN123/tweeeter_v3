@@ -30,6 +30,12 @@ const Create_new_comment = ({postId}) => {
             ...data ,
         });
 
+        if(response.status == 201){
+            setContent('')
+            setUrl('')
+            queryClient.invalidateQueries({ queryKey: ['posts'] });
+        }
+
         console.log( response ,  'this  is  coming  form  the  comment  compo')
     };
 

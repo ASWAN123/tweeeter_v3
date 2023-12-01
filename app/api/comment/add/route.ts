@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if(!session){
         return NextResponse.json(
-            { Error: "You are not allowed to Comment" },
+            { Error: "You are not allowed to Comment" } ,
             { status: 401  }
         );
     }

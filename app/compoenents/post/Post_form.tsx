@@ -7,19 +7,18 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Skeleton_post from "../skeletons/skeleton_post";
 
-const Create_new_post = ({ setLoading  }) => {
+const Create_new_post = ({ queryClient }) => {
     const [url, setUrl] = useState<string>('');
     const [isPublic, setIsPublic] = useState(true);
     const [content, setContent] = useState<string>('') ;
     
 
-    const queryClient = useQueryClient();
+    
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setLoading(true)
         if (content.trim() === '' && url.trim() === '') return
 
 
@@ -33,12 +32,11 @@ const Create_new_post = ({ setLoading  }) => {
             ...data
         })
 
-        if(response){
+        if(response.status == 201){
             setContent('')
             setUrl('')
-            setIsPublic(true)
-            queryClient.invalidateQueries('posts');
-            setLoading(false)
+            // todo  : ask rachid for  this  part or come  back  later
+            queryClient.invalidateQueries({ queryKey: ['posts'] });
             return
         }
         

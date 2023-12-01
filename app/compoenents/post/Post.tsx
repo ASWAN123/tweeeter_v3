@@ -6,6 +6,7 @@ import Skeleton_comment from "../skeletons/Skeleton_comment";
 
 
 const Post = ({ post }) => {
+    console.log(post)
 
 
     return (
@@ -59,9 +60,21 @@ const Post = ({ post }) => {
                 <Create_new_comment  postId = {post.id}/>
                 <div>
                     {/* < Skeleton_comment /> */}
+                    {
+                        post.comments.map((comment  ,  index) => {
+                            return  (
+                                <Comment  comment={comment} key={index}/>
+                            )
+                        })
+                    }
+                    {
+                        [...post.comments].length === 0 && <div className="w-full flex items-center justify-center my-4">
+                            <p>No comments for this post</p>
+                        </div>
+                    }
+                    {/* <Comment />
                     <Comment />
-                    <Comment />
-                    <Comment />
+                    <Comment /> */}
                 </div>
                 
             </div>
