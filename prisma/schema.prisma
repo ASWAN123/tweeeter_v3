@@ -15,6 +15,7 @@ model User {
   password   String
   bio        String?
   avatar     String?
+  media_url  String?
   created_at DateTime  @default(now())
   update_at  DateTime  @updatedAt
   posts      Post[]
@@ -30,7 +31,7 @@ model Post {
   author             User      @relation(fields: [authorId], references: [id])
   authorId           Int
   media_url          String
-  comments            Comment[]
+  comments           Comment[]
 }
 
 model Comment {

@@ -6,11 +6,13 @@ import { MdOutlineExplore } from "react-icons/md";
 import { MdOutlineBookmark } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession ,  signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
+import DropDownMenu from "./compoenents/DropDownMenu";
 
 const Navbar = () => {
     const pathname = usePathname();
-    const  {data  : session} = useSession()
+    const { data: session } = useSession();
 
     const pages = [
         { path: "/", name: "Home" },
@@ -20,7 +22,7 @@ const Navbar = () => {
 
     return (
         <nav>
-            <header className="h-[60px] shadow-sm flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF] ">
+            <header className="h-[60px] w-full shadow-sm flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF] ">
                 <a
                     href="/"
                     className="flex items-center gap-2 font-semibold md:text-black text-transparent "
@@ -36,28 +38,38 @@ const Navbar = () => {
                                 key={index}
                                 className="h-[60px]  flex flex-col w-full  items-center justify-center  gap-4  "
                             >
-                                
-                                <Link className="pt-4  hover:cursor-pointer font-medium text-[14px] text-neutral-500  " href={elem.path}>{elem.name}</Link>
-                                <span className={`-mb-[5px] w-full h-1 rounded-t-md ${elem.path === pathname ? "bg-blue-500" : "bg-transparent"}`}></span>
+                                <Link
+                                    className="pt-4  hover:cursor-pointer font-medium text-[14px] text-neutral-500  "
+                                    href={elem.path}
+                                >
+                                    {elem.name}
+                                </Link>
+                                <span
+                                    className={`-mb-[5px] w-full h-1 rounded-t-md ${
+                                        elem.path === pathname
+                                            ? "bg-blue-500"
+                                            : "bg-transparent"
+                                    }`}
+                                ></span>
                             </li>
                         );
                     })}
                 </ul>
 
-                { !session && <div className="font-medium  flex items-center  space-x-6  ">
-                    <Link className="hover:text-blue-500 " href="/login">
-                        Login
-                    </Link>
-                    <Link className="hover:text-blue-500 " href="/register">
-                        Join us!
-                    </Link>
-                </div> }
+                {!session && (
+                    <div className="font-medium  flex items-center  space-x-6  ">
+                        <Link className="hover:text-blue-500 " href="/login">
+                            Login
+                        </Link>
+                        <Link className="hover:text-blue-500 " href="/register">
+                            Join us!
+                        </Link>
+                    </div>
+                )}
 
-                {
-                    session &&                     <button  onClick={() => {signOut()}} className=" text-red-400 " >
-                    log out
-                </button>
-                }
+                {session && (
+                    <DropDownMenu />
+                )}
             </header>
             {/* list for mobile  version */}
             <ul className="flex md:hidden justify-between items-center px-8 h-[60px] w-full space-x-6 fixed bottom-0 bg-[#FFFFFF]  z-[1000] shadow-md border-t-1 ">

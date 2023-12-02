@@ -1,4 +1,4 @@
-const Skeleton_User_Card = () => {
+const SkeletonUserCard = () => {
     return (
         <div className=" min-h-[163px]  flex flex-col  md:flex-row items-center gap-4 md:items-start bg-white rounded-md w-full py-4 px-6  -mt-24 col-span-3 shadow-md ">
             <div className="min-w-[160px]  rounded-md p-2 bg-white min-h-[160px] md:min-w-[150px] md:min-h-[150px] w-[100px] h-[100px] relative  shadow-sm -z-0 -mt-32 md:-mt-20">
@@ -36,4 +36,4 @@ const Skeleton_User_Card = () => {
     );
 };
 
-export default Skeleton_User_Card;
+export default SkeletonUserCard;

@@ -1,20 +1,16 @@
 "use client";
 import Image from "next/image";
-import Privacy_menu from "./Privacy_menu";
-import Upload_image from "./Upload_image";
+import PrivacyMenu from "./PrivacyMenu";
+import UploadImage from "./UploadImage";
 import {  useState } from "react";
 import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Skeleton_post from "../skeletons/skeleton_post";
+import { ImageIcon } from "../icons/Icons";
+
 
 const Create_new_post = ({ queryClient }) => {
     const [url, setUrl] = useState<string>('');
     const [isPublic, setIsPublic] = useState(true);
     const [content, setContent] = useState<string>('') ;
-    
-
-    
-
 
 
     const handleSubmit = async (e) => {
@@ -35,7 +31,6 @@ const Create_new_post = ({ queryClient }) => {
         if(response.status == 201){
             setContent('')
             setUrl('')
-            // todo  : ask rachid for  this  part or come  back  later
             queryClient.invalidateQueries({ queryKey: ['posts'] });
             return
         }
@@ -85,14 +80,20 @@ const Create_new_post = ({ queryClient }) => {
             )}
             {/* buttons  for  post comment form */}
             <div className="mt-4 flex items-center justify-between  gap-2 md:pl-6">
-                <Upload_image setUrl={setUrl}  formtype="post"/>
+                <UploadImage setUrl={setUrl}  Icon = {
+                                 <ImageIcon
+                    width={24}
+                    height={24}
+                    className=  ' text-blue-500 md:w-6 md:h-6 '
+                /> 
+                }/>
 
-                <Privacy_menu isPublic={isPublic} setIsPublic={setIsPublic} />
+                <PrivacyMenu isPublic={isPublic} setIsPublic={setIsPublic} />
 
                 <input
                     type="submit"
                     value="Tweet"
-                    className="w-fit px-4 py-[0.3rem] text-[14px] bg-blue-400 text-white rounded-sm"
+                    className=" cursor-pointer  w-fit px-4 py-[0.3rem] text-[14px] bg-blue-400 text-white rounded-sm"
                 />
             </div>
         </form>

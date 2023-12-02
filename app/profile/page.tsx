@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import Filter_card from "../compoenents/Filter_card";
+import FilterCard from "../compoenents/FilterCard";
 import Post from "../compoenents/post/Post";
-import Profile_user_card from "./Profile_user_card";
+import ProfileUserCard from "./ProfileUserCard";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton_User_Card from "../compoenents/skeletons/Skeleton_user_card";
-import Skeleton_post from "../compoenents/skeletons/skeleton_post";
+import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
+import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 
 
 
@@ -27,6 +27,7 @@ const Page = () => {
         data: user,
         isPending :isUserPending,
         error : isUserError,
+        isFetching : isUserFetching
     } = useQuery({
         queryKey: ["user"],
         queryFn: getUser,
@@ -48,6 +49,7 @@ const Page = () => {
         isPending : isPostsPending,
         error : isPostsError,
         isLoading :isPostsLoading ,
+        isFetching : isPostFetching
     } = useQuery({
         queryKey: ["posts"] ,
         queryFn: getUserPosts ,
@@ -68,12 +70,12 @@ const Page = () => {
                 />
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
-                {/* { user && <Profile_user_card user ={user}/> } */}
-                { isUserPending  && <Skeleton_User_Card   /> }
-                { user && <Profile_user_card user={user} /> }
-                <Filter_card options={options} defaultvalue="Tweets" />
+
+                { isUserFetching  && <SkeletonUserCard   /> }
+                { user && <ProfileUserCard user={user} /> }
+                <FilterCard options={options} defaultvalue="Tweets" />
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
-                    { isPostsLoading && <Skeleton_post />}
+                    { isPostFetching && <SkeletonPost />}
                     {
                         posts?.map((post , index) => {
                             return (

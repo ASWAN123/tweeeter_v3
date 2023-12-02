@@ -1,15 +1,14 @@
 "use client";
-import Create_new_post from "./compoenents/post/Post_form";
+import Create_new_post from "./compoenents/post/PostForm";
 import Post from "./compoenents/post/Post";
 import Hashtags from "./compoenents/trends/Hashtags";
-import Pepole_to_follow from "./compoenents/trends/Pepole_to_follow";
+import PepoleToFollow from "./compoenents/trends/PepoleToFollow";
 import { useQuery, useQueryClient} from "@tanstack/react-query"
 import axios from "axios";
-import Skeleton_post from "./compoenents/skeletons/skeleton_post";
-import { useState } from "react";
+import SkeletonPost from "./compoenents/skeletons/skeletonPost";
+
 
 export default function Home() {
-    // const [loading  ,  setLoading] = useState(false)
     const queryClient = useQueryClient();
 
 
@@ -27,6 +26,7 @@ export default function Home() {
         isPending,
         error,
         isLoading ,
+        isFetching
     } = useQuery({
         queryKey: ["posts"] ,
         queryFn: getUserPosts ,
@@ -43,12 +43,8 @@ export default function Home() {
                 {/* posts */}
                 <div className="flex flex-col gap-4 mt-8" >
                     {
-                       isLoading   &&   <Skeleton_post  />
+                       isFetching   &&   <SkeletonPost  />
                     }
-
-                    {/* {
-                       loading &&   <Skeleton_post  />
-                    } */}
 
                     {
                         !isPending && posts?.map(( post ,  index) => {
@@ -60,7 +56,7 @@ export default function Home() {
             <section className=" min-w-[30%] max-w-[30%]  hidden md:block space-y-4 " >
                 
                 <Hashtags />
-                <Pepole_to_follow />
+                <PepoleToFollow />
                 
 
             </section>

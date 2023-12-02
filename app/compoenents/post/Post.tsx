@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Engagement_actions from "./Engagement_actions";
-import Create_new_comment from "../comment/Comment_form";
+import EngagementActions from "./EngagementActions";
+import CreateNewComment from "../comment/CommentForm";
 import Comment from "../comment/Comment";
-import Skeleton_comment from "../skeletons/Skeleton_comment";
+import SkeletonComment from "../skeletons/SkeletonComment";
 
 
 const Post = ({ post }) => {
@@ -55,11 +55,11 @@ const Post = ({ post }) => {
             {/* comment  engagement  and  comments */}
             <div className="flex flex-col gap-1">
                 <hr />
-                < Engagement_actions   />
+                < EngagementActions   />
                 <hr />
-                <Create_new_comment  postId = {post.id}/>
+                <CreateNewComment  postId = {post.id}/>
                 <div>
-                    {/* < Skeleton_comment /> */}
+                    {/* < SkeletonComment /> */}
                     {
                         post.comments.map((comment  ,  index) => {
                             return  (

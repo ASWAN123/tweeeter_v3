@@ -1,7 +1,7 @@
 import React from "react";
 import { SearchIcon } from "../compoenents/icons/Icons";
 
-const Search_input = () => {
+const SearchInput = () => {
     return (
         <div className=" bg-[#FFFFFF] p-2 rounded-md h-[50px] mt-4 flex gap-2 shadow-md items-center ">
             <SearchIcon
@@ -23,4 +23,4 @@ const Search_input = () => {
 };
 
 
-export default Search_input;
+export default SearchInput;

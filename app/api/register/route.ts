@@ -39,6 +39,7 @@ export async function POST(req : NextRequest , res : NextResponse) {
     console.log(addNewUser)
     
   } catch (error) {
+    console.error(error)
      return NextResponse.json(  {"Error" : 'Internal Serverorororor Erorr' } ,  {status:500} )
   }
 

@@ -5,7 +5,7 @@ import { BiImageAlt, BiWorld } from "react-icons/bi";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { WorldIcon } from "../icons/Icons";
 
-const Privacy_menu = ({ isPublic, setIsPublic }) => {
+const PrivacyMenu = ({ isPublic, setIsPublic }) => {
     return (
         <>
             <Menu as="div" className="relative mr-auto">
@@ -58,4 +58,4 @@ const Privacy_menu = ({ isPublic, setIsPublic }) => {
     );
 };
 
-export default Privacy_menu;
+export default PrivacyMenu ;

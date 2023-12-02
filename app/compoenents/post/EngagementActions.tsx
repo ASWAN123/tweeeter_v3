@@ -1,7 +1,7 @@
 import React from "react";
 import { CommentIcon, HeartIcon, RetweetIcon, SaveIcon } from "../icons/Icons";
 
-const Engagement_actions = () => {
+const EngagementActions = () => {
     return (
         <div className="flex justify-between ">
             <button className="flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]">
@@ -40,4 +40,4 @@ const Engagement_actions = () => {
     );
 };
 
-export default Engagement_actions;
+export default EngagementActions;

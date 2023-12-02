@@ -1,7 +1,7 @@
 import React from "react";
 import { HeartIcon } from "../icons/Icons";
 
-const Skeleton_comment = () => {
+const SkeletonComment = () => {
     return (
         <div className="w-full flex gap-2 items-start mb-2">
             <div className="w-12 h-12 bg-gray-300 skeleton  "></div>
@@ -33,4 +33,4 @@ const Skeleton_comment = () => {
     );
 };
 
-export default Skeleton_comment;
+export default SkeletonComment;

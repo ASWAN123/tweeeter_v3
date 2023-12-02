@@ -1,4 +1,4 @@
-const Skeleton_post = () => {
+const SkeletonPost = () => {
     return (
         <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
             <div className="flex items-center gap-4 ">
@@ -37,4 +37,4 @@ const Skeleton_post = () => {
     );
 };
 
-export default Skeleton_post;
+export default SkeletonPost ;
