@@ -55,7 +55,7 @@ const Post = ({ post }) => {
             {/* comment  engagement  and  comments */}
             <div className="flex flex-col gap-1">
                 <hr />
-                < EngagementActions   />
+                < EngagementActions postID  = {post.id}  />
                 <hr />
                 <CreateNewComment  postId = {post.id}/>
                 <div>

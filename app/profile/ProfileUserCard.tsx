@@ -16,8 +16,6 @@ const ProfileUserCard = ({ user }) => {
             media_url : url
         })
         console.log(response.data)
-        // setUrl(null)
-
 
     }
 

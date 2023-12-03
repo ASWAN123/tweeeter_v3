@@ -20,6 +20,7 @@ model User {
   update_at  DateTime  @updatedAt
   posts      Post[]
   commets    Comment[]
+  likes      Like[]
 }
 
 model Post {
@@ -32,6 +33,7 @@ model Post {
   authorId           Int
   media_url          String
   comments           Comment[]
+  likes              Like[]
 }
 
 model Comment {
@@ -40,8 +42,19 @@ model Comment {
   update_at  DateTime @updatedAt
   content    String
   media_url  String
-  User       User?    @relation(fields: [userId], references: [id])
-  userId     Int?
-  Post       Post?    @relation(fields: [postId], references: [id])
-  postId     Int?
+  User       User    @relation(fields: [userId], references: [id])
+  userId     Int
+  Post       Post    @relation(fields: [postId], references: [id])
+  postId     Int
+  likes      Like[]
+}
+
+model Like {
+  id     Int   @id @default(autoincrement())
+  Post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId Int?
 }

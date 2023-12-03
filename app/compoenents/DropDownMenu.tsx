@@ -3,8 +3,9 @@ import React from "react";
 import { Menu } from "@headlessui/react";
 import { DropdownIcon, FriendIcon, LogoutIcon, ProfileIcon, SettingIcon } from "./icons/Icons";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
 
-import { useSession, signOut } from "next-auth/react";
 
 const DropDownMenu = () => {
     return  (
@@ -29,28 +30,28 @@ const DropDownMenu = () => {
         </Menu.Button>
         <Menu.Items className="flex flex-col gap-2 absolute z-30 bg-white p-4  rounded-md  -ml-8 md:ml-2 w-[280px] md:w-[192px] top-[60px] shadow-lg  border ">
             <Menu.Item>
-                <button className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
+                <Link href="/profile" className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
                     <ProfileIcon width={24} height={24} className="text-gray-500" />
                     Profile
-                </button>
+                </Link >
             </Menu.Item>
             <Menu.Item>
-                <button className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
+                < Link href="" className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
                     <FriendIcon width={24} height={24} className="text-gray-500" />
                     Group Chat
-                </button>
+                </ Link >
             </Menu.Item>
             <Menu.Item>
-                <button className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
+                < Link href="/settings" className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
                     <SettingIcon width={24} height={24} className="text-gray-500" />
                     Setting
-                </button>
+                </Link>
             </Menu.Item>
             <Menu.Item disabled>
                 <hr />
             </Menu.Item>
             <Menu.Item>
-            <button onClick={signOut} className="flex gap-2 items-center p-2 rounded hover:bg-gray-200 text-red-500">
+            <button onClick={() => {signOut()}} className="flex gap-2 items-center p-2 rounded hover:bg-gray-200 text-red-500">
                     <LogoutIcon width={24} height={24}  />
                     Logout
                 </button>
