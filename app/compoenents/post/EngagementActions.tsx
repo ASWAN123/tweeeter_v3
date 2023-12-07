@@ -5,11 +5,15 @@ import { CommentIcon, HeartIcon, RetweetIcon, SaveIcon } from "../icons/Icons";
 import classNames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
 
 
-const EngagementActions = ({ postID, likes }) => {
-    const liked = likes?.find((x:number) => x.postId  == postID);
-    let id = liked?.id;
+const EngagementActions = ({ postID , likes }) => {
+    const [liked ,  notLiked ] = useState({
+
+    })
+    const alreadyliked = likes?.find((x) => x.postId  == postID);
+    let id = alreadyliked?.id;
     const queryClient = useQueryClient();
     
     
@@ -18,10 +22,11 @@ const EngagementActions = ({ postID, likes }) => {
 
 
     const handleToggleLike = async() => {
-        if (liked) {
+
+        if (alreadyliked) {
 
             const resposne  = await axios.post('/api/userIntraction/unlike' ,  {
-                postID 
+                id 
             })
             queryClient.invalidateQueries({ queryKey: ['post' , postID] });
             return 
@@ -42,8 +47,8 @@ const EngagementActions = ({ postID, likes }) => {
     const LikeClass = classNames({
         "flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
-        "text-red-500": liked ? true : false,
-        "text-neutral-500": liked ? false : true,
+        "text-red-500": alreadyliked ? true : false,
+        "text-neutral-500": alreadyliked ? false : true,
     });
 
     return (

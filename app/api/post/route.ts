@@ -39,7 +39,11 @@ export async function GET(req: NextRequest    ) {
                 everyone_can_reply:true ,
                 authorId : true ,
                 created_at :true ,
-                comments :true ,
+                comments : {
+                    orderBy :{
+                        created_at:'desc',
+                    }
+                } ,
                 likes: {
                     select : {
                         id:true ,

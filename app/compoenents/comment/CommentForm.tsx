@@ -28,9 +28,10 @@ const CreateNewComment = ({ postId }) => {
         });
 
         if (response.status == 201) {
+            // check  this later make sure to remove input text to avoid delete on submit because it  looks ugly
             setContent("");
             setUrl("");
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
+            queryClient.invalidateQueries({ queryKey: ["post" , postId ] });
         }
 
         console.log(response, "this  is  coming  form  the  comment  compo");

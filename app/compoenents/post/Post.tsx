@@ -14,7 +14,7 @@ import axios from "axios";
 const Post =  ({ postid }) => {
     // console.log('wald  lkalba  ' ,  postid)
 
-    const { data : post , isFetched , isFetching , error  } = useQuery({
+    const { data : post , isFetched , isLoading  , error  } = useQuery({
         queryKey : ['post' ,  postid ] ,
         queryFn : async () => {
             const params = {
@@ -28,7 +28,7 @@ const Post =  ({ postid }) => {
     })
 
 
-    if(isFetching){
+    if(isLoading ){
         return <SkeletonPost />
     }
 
