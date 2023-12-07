@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-
+import { db } from "@/app/lib/db";
 export async function POST(req: NextRequest, res: NextResponse) {
     
     const session = await getToken({
@@ -17,10 +17,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
     let body = await req.json();
-    console.log(body  ,  '*****************************************')
+
 
     // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
-    const like = await  prisma.like.delete({
+    const like = await  db.like.delete({
         where :{
             id : Number(body.id) ,
         }

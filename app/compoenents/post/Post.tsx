@@ -32,6 +32,8 @@ const Post =  ({ postid }) => {
         return <SkeletonPost />
     }
 
+    
+
 
 
 
@@ -83,7 +85,7 @@ const Post =  ({ postid }) => {
             {/* comment  engagement  and  comments */}
             <div className="flex flex-col gap-1">
                 <hr />
-                < EngagementActions postID  = {post.id}  likes = {post.likes} />
+                < EngagementActions post  = {post}   />
                 <hr />
                 <CreateNewComment  postId = {post.id}/>
                 <div>
@@ -91,7 +93,7 @@ const Post =  ({ postid }) => {
                     {
                         post.comments.map((comment  ,  index) => {
                             return  (
-                                <Comment  comment={comment} key={index}/>
+                                <Comment  comment={comment} key={index}  />
                             )
                         })
                     }

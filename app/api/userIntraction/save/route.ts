@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const post_Id = body.postId ;
 
     // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
-    const like = await  db.like.create({
+    const like = await  db.save.create({
         data :{
             userId : Number(authorId) , 
             postId : Number(post_Id) ,
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json(
         {
-            message: 'like',
+            message: 'saved',
             Liked: like, // Include information from the deleted like if needed
             status: 201
         }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { db } from "@/app/lib/db";
+import {db} from "@/app/lib/db"
 
 export async function POST(req: NextRequest, res: NextResponse) {
     
@@ -18,23 +18,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
     let body = await req.json();
-    const authorId = session.sub ;
-    const post_Id = body.postId ;
+
 
     // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
-    const like = await  db.like.create({
-        data :{
-            userId : Number(authorId) , 
-            postId : Number(post_Id) ,
+    const save = await  db.save.delete({
+        where :{
+            id : Number(body.saveID) ,
         }
-
     })
-
 
     return NextResponse.json(
         {
-            message: 'like',
-            Liked: like, // Include information from the deleted like if needed
+            message: 'unsaved',
+            deletedLike: save, // Include information from the deleted like if needed
             status: 201
         }
     );

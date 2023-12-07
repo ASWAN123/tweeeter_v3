@@ -4,12 +4,9 @@ import { getToken } from "next-auth/jwt";
 import { useRouter } from "next/router";
 
 export async function GET(req: NextRequest    ) {
-    // const router = useRouter();
-    console.log( req.url ,  'this  is  my  req  ')
-    // console.log(slugValue ,  'slug')
     const url = new URL(req.url);
     let id = url.searchParams.get('id');
-    console.log(id , 'id')
+    
 
     try {
         const session = await getToken({
@@ -44,16 +41,18 @@ export async function GET(req: NextRequest    ) {
                         created_at:'desc',
                     }
                 } ,
-                likes: {
-                    select : {
-                        id:true ,
-                        postId : true 
+                likes: { 
+                    select : { 
+                        id:true , 
+                        postId : true ,
+                        userId : true ,
                     }
-                }
+                },
+                saves:true ,
             }
         }) ;
 
-        return NextResponse.json( posts ,  { status: 200 } );
+        return NextResponse.json( {...posts , 'sub': session?.sub } ,  { status: 200 } );
 
     } catch (error) {
         return NextResponse.json(
