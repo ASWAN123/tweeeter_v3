@@ -3,10 +3,38 @@ import EngagementActions from "./EngagementActions";
 import CreateNewComment from "../comment/CommentForm";
 import Comment from "../comment/Comment";
 import SkeletonComment from "../skeletons/SkeletonComment";
+import SkeletonPost from "../skeletons/skeletonPost";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 
-const Post = ({ post }) => {
-    console.log(post)
+
+
+
+const Post =  ({ postid }) => {
+    // console.log('wald  lkalba  ' ,  postid)
+
+    const { data : post , isFetched , isFetching , error  } = useQuery({
+        queryKey : ['post' ,  postid ] ,
+        queryFn : async () => {
+            const params = {
+                id: postid ,
+            };
+            const queryString = new URLSearchParams(params).toString();
+            const requestURL = `/api/post?${queryString}`;
+            const response  = await axios.get(  requestURL )
+            return response.data
+        }
+    })
+
+
+    if(isFetching){
+        return <SkeletonPost />
+    }
+
+
+
+
 
 
     return (
@@ -55,7 +83,7 @@ const Post = ({ post }) => {
             {/* comment  engagement  and  comments */}
             <div className="flex flex-col gap-1">
                 <hr />
-                < EngagementActions postID  = {post.id}  />
+                < EngagementActions postID  = {post.id}  likes = {post.likes} />
                 <hr />
                 <CreateNewComment  postId = {post.id}/>
                 <div>
@@ -72,9 +100,7 @@ const Post = ({ post }) => {
                             <p>No comments for this post</p>
                         </div>
                     }
-                    {/* <Comment />
-                    <Comment />
-                    <Comment /> */}
+
                 </div>
                 
             </div>

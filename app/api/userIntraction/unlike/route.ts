@@ -17,23 +17,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
     let body = await req.json();
-    const authorId = session.sub ;
-    const post_Id = body.postID ;
+    console.log(body  ,  '*****************************************')
 
     // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
-    const like = await  prisma.like.create({
-        data :{
-            userId : Number(authorId) , 
-            postId : Number(post_Id) ,
+    const like = await  prisma.like.delete({
+        where :{
+            id : Number(body.id) ,
         }
-
     })
-
 
     return NextResponse.json(
         {
-            message: 'like',
-            Liked: like, // Include information from the deleted like if needed
+            message: 'unlike',
+            deletedLike: like, // Include information from the deleted like if needed
             status: 201
         }
     );

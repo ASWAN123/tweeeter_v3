@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
+import { useGetPosts } from "../hooks/useGetPosts";
 
 
 
@@ -16,7 +17,7 @@ const Page = () => {
     async function getUser() {
         try {
             const response = await axios.get("/api/user/profile");
-            console.log(response.data ,  'user');
+            // console.log(response.data ,  'user');
             return response.data;
         } catch (error) {
             console.error(error);
@@ -35,25 +36,38 @@ const Page = () => {
 
 
 
-    const getUserPosts  = async () =>{ 
-        try {
-            const response = await axios.get("/api/user/posts");
-            return response.data;
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    // const getUserPosts  = async () =>{ 
+    //     try {
+    //         const response = await axios.get("/api/user/posts");
+    //         return response.data;
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
+    // const {
+    //     data: posts,
+    //     isPending : isPostsPending,
+    //     error : isPostsError,
+    //     isLoading :isPostsLoading ,
+    //     isFetching : isPostFetching
+    // } = useQuery({
+    //     queryKey: ["posts"] ,
+    //     queryFn: getUserPosts ,
+    // });
+
+
 
     const {
-        data: posts,
+        data: userPosts ,
         isPending : isPostsPending,
         error : isPostsError,
         isLoading :isPostsLoading ,
         isFetching : isPostFetching
-    } = useQuery({
-        queryKey: ["posts"] ,
-        queryFn: getUserPosts ,
-    });
+    } = useGetPosts('userPosts');
+
+
+    console.log(userPosts)
 
 
 
@@ -77,9 +91,9 @@ const Page = () => {
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     { isPostFetching && <SkeletonPost />}
                     {
-                        posts?.map((post , index) => {
+                        userPosts?.map((post:any ) => {
                             return (
-                            <Post post={post} key={index} />
+                            <Post id = {post.id}  key={post.id} />
                             )
                         })
                     }

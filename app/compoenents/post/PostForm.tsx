@@ -5,12 +5,14 @@ import UploadImage from "./UploadImage";
 import {  useState } from "react";
 import axios from "axios";
 import { ImageIcon } from "../icons/Icons";
+import { useQueryClient } from "@tanstack/react-query";
 
 
-const Create_new_post = ({ queryClient }) => {
+const Create_new_post = () => {
     const [url, setUrl] = useState<string>('');
     const [isPublic, setIsPublic] = useState(true);
     const [content, setContent] = useState<string>('') ;
+    const queryClient = useQueryClient();
 
 
     const handleSubmit = async (e) => {

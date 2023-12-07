@@ -16,17 +16,26 @@ export async function GET(req: NextRequest, res: NextResponse) {
             );
         }
 
-        let id = session.sub;
+        // let id = session.sub;
 
-        const posts = await db.post.findMany({
+        const posts = await db.post.findUnique({
             where :{
-                authorId : Number(id),
-            },
-            orderBy:{
-                created_at:'desc',
+                id : Number(id),
             },
             select:{
+                content : true , 
+                media_url : true , 
                 id: true  ,
+                everyone_can_reply:true ,
+                authorId : true ,
+                created_at :true ,
+                comments :true ,
+                likes: {
+                    select : { 
+                        id:true ,
+                        postId : true 
+                    }
+                }
             }
         }) ;
 
