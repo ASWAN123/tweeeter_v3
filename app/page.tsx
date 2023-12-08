@@ -14,15 +14,27 @@ const fetchPosts = async () => {
     const response = await axios.get('/api/posts')
     return response.data
 
-}
+    }
+
+
+
+
+
 
 
 export  default  function  Home() {
+
+
+
+
 
     const { data : posts ,  isFetched ,  isFetching , error } = useQuery({
         queryKey:['posts'] ,
         queryFn : fetchPosts 
     })
+
+
+
 
 
 

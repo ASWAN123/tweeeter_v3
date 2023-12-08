@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
     const like = await  db.like.delete({
         where :{
-            id : Number(body.id) ,
+            id : Number(body.likeID) ,
         }
     })
 

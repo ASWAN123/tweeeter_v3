@@ -11,8 +11,7 @@ import axios from "axios";
 
 
 
-const Post =  ({ postid }) => {
-    // console.log('wald  lkalba  ' ,  postid)
+const Post =  ({ postid   }) => {
 
     const { data : post , isFetched , isLoading  , error  } = useQuery({
         queryKey : ['post' ,  postid ] ,
@@ -32,6 +31,8 @@ const Post =  ({ postid }) => {
         return <SkeletonPost />
     }
 
+    console.log(post.author.created_at)
+
     
 
 
@@ -45,7 +46,7 @@ const Post =  ({ postid }) => {
                 <div className="relative w-[40px] h-[40px] ">
                 <Image
                 className="rounded"
-                src="/profile.png"
+                src={ post.author.media_url ?? "/profile.png" }
                 height={40}
                 width={40}
                 alt="cover author"
@@ -53,9 +54,10 @@ const Post =  ({ postid }) => {
                         
                 </div>
                 <div className="flex  flex-col gap-1">
-                    <p className="font-semibold text-[16px]">Mikael Stanley</p>
+                    <p className="font-semibold text-[16px]">{post.author.name}</p>
                     <span className=" text-neutral-300 ">
-                        24 August at 20:43
+                        {/* 24 August at 20:43 */}
+                        {post.author.created_at}
                     </span>
                 </div>
             </div>
@@ -77,9 +79,9 @@ const Post =  ({ postid }) => {
 
             {/* stat information note :  // export  this  into  a  component  later */}
             <div className="flex justify-end  space-x-3  text-neutral-400 -mb-2 md:mb-auto md:-mt-1 ">
-                <span>449 Comments</span>
-                <span>59k Retweets</span>
-                <span>234 Saved</span>
+                <span>{post.comments.length} Comments</span>
+                <span>{post.Retweets.length} Retweets</span>
+                <span>{post.saves.length} Saved</span>
             </div>
 
             {/* comment  engagement  and  comments */}

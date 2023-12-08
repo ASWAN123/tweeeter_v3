@@ -2,11 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getToken } from "next-auth/jwt";
 
-
-export async function GET(req: NextRequest    ) {
+export async function GET(req: NextRequest) {
     const url = new URL(req.url);
-    let id = url.searchParams.get('id');
-    
+    let id = url.searchParams.get("id");
 
     try {
         const session = await getToken({
@@ -24,41 +22,63 @@ export async function GET(req: NextRequest    ) {
         // const id: number = Number(route.params.id)
         // console.log( router   ,  'hada  id  man route')
 
-
-        const posts = await db.post.findUnique({
-            where :{
-                id : Number(id) ,
+        const post = await db.post.findUnique({
+            where: {
+                id: Number(id),
             },
-            select:{
-                content : true , 
-                media_url : true , 
-                id: true  ,
-                everyone_can_reply:true ,
-                authorId : true ,
-                created_at :true ,
-                comments : {
-                    orderBy :{
-                        created_at:'desc',
-                    }
-                } ,
-                likes: { 
-                    select : { 
+            select: {
+                content: true,
+                media_url: true,
+                id: true,
+                everyone_can_reply: true,
+                authorId: true,
+                created_at: true,
+                author: {
+                    select: {
                         id:true , 
-                        postId : true ,
-                        userId : true ,
-                    }
+                        name: true ,
+                        username: true ,
+                        media_url: true ,
+                        created_at: true ,
+                    },
                 },
-                saves:true ,
-                Retweets : {
-                    where :{
-                        postId :Number(id) ,
-                    }
-                } ,
-            }
-        }) ;
+                comments: {
+                    where: {
+                        postId: Number(id),
+                    },
+                    orderBy: {
+                        created_at: "desc",
+                    },
+                },
+                likes: {
+                    where: {
+                        postId: Number(id),
+                    },
+                    select: {
+                        id: true,
+                        postId: true,
+                        userId: true,
+                    },
+                },
+                saves: {
+                    where: {
+                        postId: Number(id),
+                    },
+                },
+                Retweets: {
+                    where: {
+                        postId: Number(id),
+                    },
+                },
+            },
+        });
 
-        return NextResponse.json( {...posts , 'sub': session?.sub } ,  { status: 200 } );
+        console.log(post)
 
+        return NextResponse.json(
+            post,
+            { status: 200 }
+        );
     } catch (error) {
         return NextResponse.json(
             { Error: "Internal Serverorororor Erorr" },

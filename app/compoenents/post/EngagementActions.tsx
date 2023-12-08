@@ -13,20 +13,18 @@ import axios from "axios";
 const EngagementActions = ({ post }) => {
     
     let postId = post.id  // this  is  the  post  id  
-    let loggedInUser = post.sub // user that  is  logged in to get information
+    let loggedInUser = post.author.id // user that  is  logged in to get information
     const alreadyliked = post.likes.find( (x) => x.postId  == postId  && x.userId == loggedInUser  ) ;
     let likeID = alreadyliked?.id ;
 
 
 
     
-    let alreadyCommented = post.comments.find( (x) => x.postId  == postId  && x.userId == loggedInUser  )
-    
-    
-    const alreadySaved = post.saves.find( (x) => x.postId  == postId  && x.userId == loggedInUser  ) ;
+    let alreadyCommented = post.comments.find( (x) => x.userId == loggedInUser  ) 
+    const alreadySaved = post.saves.find( (x) => x.userId == loggedInUser  ) ;
+    const alreadyRetweeted = post.Retweets.find( x => x.userId == loggedInUser )
     let saveID = alreadySaved?.id
 
-    const alreadyRetweeted = post.Retweets.find( x => x.userId == loggedInUser )
 
 
     
