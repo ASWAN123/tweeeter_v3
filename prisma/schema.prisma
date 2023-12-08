@@ -22,6 +22,7 @@ model User {
   commets    Comment[]
   likes      Like[]
   saves      Save[]
+  Retweets   Retweet[]
 }
 
 model Post {
@@ -30,12 +31,13 @@ model Post {
   update_at          DateTime  @updatedAt
   content            String
   everyone_can_reply Boolean
+  media_url          String
   author             User      @relation(fields: [authorId], references: [id])
   authorId           Int
-  media_url          String
   comments           Comment[]
   likes              Like[]
   saves              Save[]
+  Retweets           Retweet[]
 }
 
 model Comment {
@@ -62,6 +64,14 @@ model Like {
 }
 
 model Save {
+  id     Int   @id @default(autoincrement())
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+  Post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+}
+
+model Retweet {
   id     Int   @id @default(autoincrement())
   User   User? @relation(fields: [userId], references: [id])
   userId Int?

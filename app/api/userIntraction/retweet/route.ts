@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server" ;
-import { getToken } from "next-auth/jwt" ;
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 import { db } from "@/app/lib/db";
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -20,17 +20,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const authorId = session.sub;
     let body = await req.json();
 
+    console.log(body , 'this  is  what  we  got')
 
-    const createPost = await db.post.create({
+
+    const createPost = await db.retweet.create({
         data: {
-            ...body,
-            authorId: Number(authorId),
+            postId:Number(body.postId),
+            userId: Number(authorId),
         },
     });
 
     if(createPost) {
         return NextResponse.json(
-            { data: "Post has been created" },
+            { data: "Post has been retweeted" },
             { status: 201  }
         );
     }

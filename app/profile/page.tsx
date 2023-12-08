@@ -7,7 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
-import { useGetPosts } from "../hooks/useGetPosts";
+// import { useGetPosts } from "../hooks/useGetPosts";
 
 
 
@@ -58,16 +58,16 @@ const Page = () => {
 
 
 
-    const {
-        data: userPosts ,
-        isPending : isPostsPending,
-        error : isPostsError,
-        isLoading :isPostsLoading ,
-        isFetching : isPostFetching
-    } = useGetPosts('userPosts');
+    // const {
+    //     data: userPosts ,
+    //     isPending : isPostsPending,
+    //     error : isPostsError,
+    //     isLoading :isPostsLoading ,
+    //     isFetching : isPostFetching
+    // } = useGetPosts('userPosts');
 
 
-    console.log(userPosts)
+    // console.log(userPosts)
 
 
 
@@ -85,18 +85,18 @@ const Page = () => {
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
 
-                { isUserFetching  && <SkeletonUserCard   /> }
-                { user && <ProfileUserCard user={user} /> }
-                <FilterCard options={options} defaultvalue="Tweets" />
+                {/* { isUserFetching  && <SkeletonUserCard   /> } */}
+                {/* { user && <ProfileUserCard user={user} /> } */}
+                {/* <FilterCard options={options} defaultvalue="Tweets" /> */}
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
-                    { isPostFetching && <SkeletonPost />}
+                    {/* { isPostFetching && <SkeletonPost />}
                     {
                         userPosts?.map((post:any ) => {
                             return (
                             <Post id = {post.id}  key={post.id} />
                             )
                         })
-                    }
+                    } */}
                     {/* <Post image="/post_image.jpg" />
                     <Post image="/post_image1.jpg" />
                     <Post image="/post_image2.jpg" /> */}

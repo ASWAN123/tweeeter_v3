@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getToken } from "next-auth/jwt";
-import { useRouter } from "next/router";
+
 
 export async function GET(req: NextRequest    ) {
     const url = new URL(req.url);
@@ -49,6 +49,11 @@ export async function GET(req: NextRequest    ) {
                     }
                 },
                 saves:true ,
+                Retweets : {
+                    where :{
+                        postId :Number(id) ,
+                    }
+                } ,
             }
         }) ;
 
