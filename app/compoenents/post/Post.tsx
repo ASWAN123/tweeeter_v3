@@ -55,9 +55,9 @@ const Post =  ({ postid   }) => {
                 </div>
                 <div className="flex  flex-col gap-1">
                     <p className="font-semibold text-[16px]">{post.author.name}</p>
-                    <span className=" text-neutral-300 ">
+                    <span className=" text-neutral-400 ">
                         {/* 24 August at 20:43 */}
-                        {post.author.created_at}
+                        {new Date(post.created_at).toLocaleString('en-GB' ,  { 'day': 'numeric' , 'month':'long'  ,  'hour':'numeric'  ,  'minute' : 'numeric'})}
                     </span>
                 </div>
             </div>

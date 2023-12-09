@@ -64,8 +64,8 @@ const Page = () => {
                 />
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
-                {isUserFetching && <SkeletonUserCard />}
-                {user && <ProfileUserCard user={user} />}
+                {isUserFetching ? <SkeletonUserCard /> :  <ProfileUserCard user={user} /> }
+                
                 <FilterCard options={options} defaultvalue="Tweets" />
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isPostFetching && <SkeletonPost />}

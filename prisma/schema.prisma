@@ -77,4 +77,5 @@ model Retweet {
   userId Int?
   Post   Post? @relation(fields: [postId], references: [id])
   postId Int?
+  
 }

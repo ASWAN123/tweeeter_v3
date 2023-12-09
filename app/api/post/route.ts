@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
             },
         });
 
-        console.log(post)
+        // console.log(post)
 
         return NextResponse.json(
             post,
