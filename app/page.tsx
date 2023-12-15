@@ -24,10 +24,6 @@ const fetchPosts = async () => {
 
 export  default  function  Home() {
 
-
-
-
-
     const { data : posts ,  isFetched ,  isFetching , error } = useQuery({
         queryKey:['posts'] ,
         queryFn : fetchPosts 

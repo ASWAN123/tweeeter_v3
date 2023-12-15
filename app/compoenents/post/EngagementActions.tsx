@@ -118,14 +118,14 @@ const EngagementActions = ({ post }) => {
 
 
     const LikeClass = classNames({
-        "flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-red-500": alreadyliked ? true : false,
         "text-neutral-500": alreadyliked ? false : true,
     });
 
     const CommentClass = classNames({
-        "flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-gray-900": alreadyCommented ? true : false,
         "text-neutral-500": alreadyCommented ? false : true,
@@ -133,26 +133,26 @@ const EngagementActions = ({ post }) => {
 
 
     const SaveClass = classNames({
-        "flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-blue-500": alreadySaved ? true : false,
         "text-neutral-500": alreadySaved ? false : true,
     });
 
     const RetweetClass = classNames({
-        "flex gap-2 items-center px-2 md:px-8 py-1 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-green-300": alreadyRetweeted ? true : false,
         "text-neutral-500": alreadyRetweeted ? false : true,
     });
 
     return (
-        <div className="flex justify-between ">
+        <div className="flex justify-between  md:gap-6">
             <button className={CommentClass}>
                 <CommentIcon
                     width={16}
                     height={16}
-                    className=" md:w-6 md:h-6"
+                    className=" md:w-[20px] md:h-[20px]"
                 />
                 Comment
             </button>
@@ -160,19 +160,19 @@ const EngagementActions = ({ post }) => {
                 <RetweetIcon
                     width={16}
                     height={16}
-                    className="  md:w-6 md:h-6"
+                    className="  md:w-[20px] md:h-[20px]"
                 />
             { alreadyRetweeted ? "Retweeted" : "Retweet"}
             </button>
             <button onClick={ handleToggleLike} className={LikeClass}>
-                <HeartIcon width={16} height={16} className=" md:w-6 md:h-6 " />
+                <HeartIcon width={16} height={16} className=" md:w-[20px] md:h-[20px] " />
                 { alreadyliked ? "Liked" : "Like"}
             </button>
             <button onClick={handleToggleSave} className={SaveClass}>
                 <SaveIcon
                     width={16}
                     height={16}
-                    className="  md:w-6 md:h-6"
+                    className="  md:w-[20px] md:h-[20px]"
                 />
                { alreadySaved ? "Saved" : "Save"}
             </button>

@@ -65,12 +65,12 @@ const Post =  ({ postid   }) => {
                 {post.content}
             </p>
             { post.media_url && 
-            <div className="w-full h-[200px] md:h-[400px] relative">
+            <div className="w-full h-[200px] md:h-[500px] relative">
                 <Image
-                    fill
                     src={post.media_url }
                     alt="Picture of the author"
-                    className="rounded-md shadow-sm  -z-0"
+                    className="rounded-md shadow-sm  -z-0 "
+                    fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
                      />
@@ -85,7 +85,7 @@ const Post =  ({ postid   }) => {
             </div>
 
             {/* comment  engagement  and  comments */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
                 <hr />
                 < EngagementActions post  = {post}   />
                 <hr />

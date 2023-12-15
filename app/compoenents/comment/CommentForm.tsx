@@ -5,19 +5,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
+import HashtagInput from "../post/HashtagInput";
 
 const CreateNewComment = ({ postId }) => {
     const [url, setUrl] = useState<string>("");
-    const [content, setContent] = useState<string>("");
+    const [value, setValue ] = useState("");
     const queryClient = useQueryClient();
 
     // submit the  comment
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (content.trim() === "" && url.trim() === "") return;
+        if (value.trim() === "" && url.trim() === "") return;
 
         const data = {
-            content: content,
+            content: value,
             media_url: url,
             postId: postId,
         };
@@ -29,7 +30,7 @@ const CreateNewComment = ({ postId }) => {
 
         if (response.status == 201) {
             // check  this later make sure to remove input text to avoid delete on submit because it  looks ugly
-            setContent("");
+            setValue("");
             setUrl("");
             queryClient.invalidateQueries({ queryKey: ["post" , postId ] });
         }
@@ -51,7 +52,7 @@ const CreateNewComment = ({ postId }) => {
                 quality={100}
             />
             <div className="flex w-full flex-col text-[14px] relative">
-                <input
+                {/* <input
                     type="text"
                     value={content}
                     onChange={(e) => {
@@ -59,8 +60,10 @@ const CreateNewComment = ({ postId }) => {
                     }}
                     className=" bg-neutral-100 border outline-none text-gray-900 text-sm rounded-md w-full p-2.5 "
                     placeholder="tweet your reply"
-                />
-
+                /> */}
+                <div className="'bg-neutral-100  border text-gray-900 text-sm rounded-md w-full p-2.5'">
+                <HashtagInput value={value} setValue={setValue}  />
+                </div>
                 <UploadImage
                     Icon={
                         <ImageIcon
