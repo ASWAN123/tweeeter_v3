@@ -2,22 +2,17 @@ import axios from "axios";
 
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
-//  fetch  function
-
-const fetchPosts = async () => {
-    const response = await axios.get("/api/posts");
-    return response.data;
+//  you gonna  mentio  one  thing here is that  home post  only  with folowing  relation
+const getHomePosts = async () => {
+        try {
+            const response = await axios.get("/api/posts");
+            return response.data
+        } catch (error) {
+            console.error(error);
+        }
 };
 
-const postQueryKey = "posts";
-const getPosts = async (context: QueryFunctionContext) => {
-    const { queryKey } = context;
-    return fetchPosts();
-};
 
-const postsQueryConfig = { queryKey: postQueryKey, queryFn: getPosts };
-
-const userDetailsKey = "userDetails";
 const getUser = async () => {
     try {
         const response = await axios.get("/api/user/profile");
@@ -27,6 +22,40 @@ const getUser = async () => {
     }
 };
 
-const userDetailsConfig = { queryKey: userDetailsKey, queryFn: getUser };
 
-export { postsQueryConfig, userDetailsConfig };
+const getSavedPosts = async () => {
+    try {
+        const response = await axios.get("/api/user/bookmarks");
+        return response.data ;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+const getExplorePosts = async () => {
+    try {
+        const response = await axios.get("/api/posts");
+        return response.data ;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+
+
+
+const homePosts = "homePosts" ;
+const homePostsConfig = { queryKey: homePosts, queryFn: getHomePosts } ; 
+
+const savedPosts = "bookmarksPosts" ;
+const savedPostsConfig = { queryKey: savedPosts, queryFn: getSavedPosts } ; 
+
+const explorePosts = "explorePosts" ;
+const explorePostsConfig = { queryKey: explorePosts, queryFn: getExplorePosts } ; 
+
+const userDetailsKey = "userDetails" ;
+const userDetailsConfig = { queryKey: userDetailsKey, queryFn: getUser } ;
+
+export { userDetailsConfig, savedPostsConfig  , homePostsConfig , explorePostsConfig };

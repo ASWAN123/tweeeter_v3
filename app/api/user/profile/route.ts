@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
             req,
             secret: process.env.NEXTAUTH_SECRET,
         });
-        console.log('session' , session  )
+        // console.log('session' , session  )
 
 
         if(!session){
@@ -25,13 +25,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 
         let id = session.sub
-        console.log(id ,  'this  is  user id')
+        // console.log(id ,  'this  is  user id')
         const user = await db.user.findUnique({
             where: { id : Number(id) } ,
             select: { email: true, username: true , name:true , bio: true, avatar: true  ,  media_url:true }
         });
-        console.log(user)
-        console.log({...user} ,  'userrrrr')
+        // console.log(user)
+        // console.log({...user} ,  'userrrrr')
 
         return NextResponse.json({ ...user });
 

@@ -10,7 +10,7 @@ export default async function middleware(req: NextRequest) {
         secret: process.env.NEXTAUTH_SECRET,
     });
 
-    console.log(session)
+    // console.log(session)
 
 
     if ( !session && path !== "/login" && path !== '/register'  ) {

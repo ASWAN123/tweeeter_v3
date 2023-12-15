@@ -74,7 +74,7 @@ const Page = () => {
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isPostFetching && <SkeletonPost />}
                     {userPosts?.map((post: any) => {
-                        return <Post postid={post.id} key={post.id} />;
+                        return <Post postid={post.id} key={post.id} /> ;
                     })}
                 </div>
             </div>

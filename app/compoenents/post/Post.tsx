@@ -12,16 +12,16 @@ import axios from "axios";
 
 
 const Post =  ({ postid   }) => {
-
+    
     const { data : post , isFetched , isLoading  , error  } = useQuery({
         queryKey : ['post' ,  postid ] ,
         queryFn : async () => {
             const params = {
                 id: postid ,
             };
-            const queryString = new URLSearchParams(params).toString();
+            const queryString = new URLSearchParams(params).toString() ;
             const requestURL = `/api/post?${queryString}`;
-            const response  = await axios.get(  requestURL )
+            const response  = await axios.get(  requestURL );
             return response.data
         }
     })
@@ -31,7 +31,7 @@ const Post =  ({ postid   }) => {
         return <SkeletonPost />
     }
 
-    console.log(post.author.created_at)
+    // console.log(post.author.created_at)
 
     
 
@@ -54,15 +54,15 @@ const Post =  ({ postid   }) => {
                         
                 </div>
                 <div className="flex  flex-col gap-1">
-                    <p className="font-semibold text-[16px]">{post.author.name}</p>
+                    <p className="font-semibold text-[16px]">{post?.author.name}</p>
                     <span className=" text-neutral-400 ">
                         {/* 24 August at 20:43 */}
-                        {new Date(post.created_at).toLocaleString('en-GB' ,  { 'day': 'numeric' , 'month':'long'  ,  'hour':'numeric'  ,  'minute' : 'numeric'})}
+                        {new Date(post?.created_at).toLocaleString('en-GB' ,  { 'day': 'numeric' , 'month':'long'  ,  'hour':'numeric'  ,  'minute' : 'numeric'})}
                     </span>
                 </div>
             </div>
             <p className="text-[16px] md:text-[12px]">
-                {post.content}
+                {post?.content}
             </p>
             { post.media_url && 
             <div className="w-full h-[200px] md:h-[500px] relative">
@@ -89,7 +89,7 @@ const Post =  ({ postid   }) => {
                 <hr />
                 < EngagementActions post  = {post}   />
                 <hr />
-                <CreateNewComment  postId = {post.id}/>
+                <CreateNewComment  postId = {post.id}  />
                 
                 <div>
                     {/* < SkeletonComment /> */}

@@ -2,14 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getToken } from "next-auth/jwt";
 
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const session = await getToken({
             req,
             secret: process.env.NEXTAUTH_SECRET,
         });
-        // console.log("session", session);
 
         if (!session) {
             return NextResponse.json(
@@ -20,23 +18,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         let id = session.sub;
 
-        const body = await req.json()
-
-        const updatemedia = await db.user.update({
-            where: {
-                id:Number(id) ,
+        const posts = await db.save.findMany({
+            where :{
+                userId : Number(id),
             },
-            data:{
-                media_url : body.media_url
+            select:{
+                postId: true  ,
             }
-        });
-
-        console.log(updatemedia)
-
-        return NextResponse.json( updatemedia ,  { status: 201 });
+        }) ;
+        console.log(posts ,  'saved  posts')
+        return NextResponse.json( posts ,  { status: 200 } );
 
     } catch (error) {
-        // console.error(error)
         return NextResponse.json(
             { Error: "Internal Serverorororor Erorr" },
             { status: 500 }

@@ -3,17 +3,12 @@ import React from "react";
 import FilterCard from "../compoenents/FilterCard";
 import Post from "../compoenents/post/Post";
 import { useQuery } from "@tanstack/react-query";
-import { postsQueryConfig } from "../queryConfig";
+import { savedPostsConfig } from "../queryConfig";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 
-const page = () => {
+const Page = () => {
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
-    const {
-        data: posts,
-        isFetched,
-        isFetching,
-        error,
-    } = useQuery(postsQueryConfig);
+    const {data: savedPosts ,isFetched,isFetching,error, } = useQuery(savedPostsConfig);
 
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-4 flex gap-4 flex-col md:flex-row ">
@@ -36,8 +31,8 @@ const page = () => {
                     )}
 
                     {isFetched &&
-                        posts?.map((post, index) => {
-                            return <Post key={index} postid={post.id} />;
+                        savedPosts?.map((post, index) => {
+                            return <Post key={index} postid={post.postId} />;
                         })}
                 </div>
             </section>
@@ -45,4 +40,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

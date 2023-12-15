@@ -7,10 +7,11 @@ import { MdOutlineBookmark } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-
 import DropDownMenu from "./compoenents/DropDownMenu";
 import { useQuery } from "@tanstack/react-query";
 import { userDetailsConfig } from "./queryConfig";
+
+
 
 const Navbar = () => {
     const pathname = usePathname();

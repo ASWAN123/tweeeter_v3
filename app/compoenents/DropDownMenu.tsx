@@ -8,20 +8,20 @@ import Link from "next/link";
 
 
 const DropDownMenu = ( { user }) => {
-    // console.log(user)
+    
     return  (
         <Menu as="div" className="">
         <Menu.Button className="flex items-center gap-2 text-gray-500">
             <div className="relative flex gap-2 items-center ">
                 <Image
                     className="rounded"
-                    src={ user.media_url ?? "/profile.png"}
+                    src={ user ?  user.media_url :  "/profile.png"}
                     height={35}
                     width={35}
                     alt="profile"
                     quality={100}
                 />
-                <p className="hidden md:block">{user.name}</p>
+                <p className="hidden md:block">{user?.name}</p>
                 <DropdownIcon
                     width={20}
                     height={20}

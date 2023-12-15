@@ -25,6 +25,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
             }
         }) ;
 
+        console.log(posts ,  'home posts')
+
         return NextResponse.json( posts ,  { status: 200 } );
 
     } catch (error) {
