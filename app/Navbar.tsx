@@ -9,6 +9,8 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import DropDownMenu from "./compoenents/DropDownMenu";
+import { useQuery } from "@tanstack/react-query";
+import { userDetailsConfig } from "./queryConfig";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -19,6 +21,8 @@ const Navbar = () => {
         { path: "/explore", name: "Explore" },
         { path: "/bookmarks", name: "Bookmarks" },
     ];
+
+    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig)
 
     return (
         <nav>
@@ -68,7 +72,7 @@ const Navbar = () => {
                 )}
 
                 {session && (
-                    <DropDownMenu />
+                    <DropDownMenu user = {userDetails} />
                 )}
             </header>
             {/* list for mobile  version */}

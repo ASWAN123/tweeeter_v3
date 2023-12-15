@@ -7,6 +7,7 @@ import axios from "axios";
 import { ImageIcon } from "../icons/Icons";
 import { useQueryClient } from "@tanstack/react-query";
 import HashtagInput from "./HashtagInput";
+import { defaultMentionStylePost, defaultStylePost } from "./inputStyles/inputStyles";
 
 const Create_new_post = () => {
     const [url, setUrl] = useState<string>("");
@@ -59,6 +60,8 @@ const Create_new_post = () => {
                     <div className=" w-full relative">
                         <HashtagInput
                             setContent={setContent}
+                            defaultStyle = {defaultStylePost}
+                            defaultMentionStyle= {defaultMentionStylePost}
                         />
                     </div>
                 </div>

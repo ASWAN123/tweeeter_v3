@@ -7,7 +7,7 @@ const HandleUploadFile = () => {
     const HandleClick = document.getElementById("dropzone-file")?.click();
 };
 
-const UploadImage = ({ setUrl, Icon }) => {
+const UploadImage = ({ setUrl ,  Icon  }) => {
     const { edgestore } = useEdgeStore();
 
     type UploadImageFunction = (file: File | undefined) => void;
@@ -21,7 +21,9 @@ const UploadImage = ({ setUrl, Icon }) => {
         const res = await edgestore.publicFiles.upload({
             file,
         });
+        console.log(res.url)
         setUrl(res.url);
+        console.log('done setting  up the  state')
     };
 
     return (

@@ -9,16 +9,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
             secret: process.env.NEXTAUTH_SECRET,
         });
 
-        // if (!session) {
-        //     return NextResponse.json(
-        //         { Error: " You are not authorized " },
-        //         { status: 401 }
-        //     );
-        // }
-
-        // const id = req.url
-        // console.log(id)
-
+        if (!session) {
+            return NextResponse.json(
+                { Error: " You are not authorized " },
+                { status: 401 }
+            );
+        }
 
         const posts = await db.post.findMany({
             orderBy : {

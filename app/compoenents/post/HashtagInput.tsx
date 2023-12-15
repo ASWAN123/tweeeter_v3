@@ -1,13 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { MentionsInput, Mention } from "react-mentions";
-import { defaultMentionStyle, defaultStyle } from "./inputStyles/inputStyles";
+import { defaultMentionStyle } from "./inputStyles/inputStyles";
 
-
-const HashtagInput = ( { setContent } ) => {
-    const [ contentx, setContentx ] = useState('') 
-
-
+const HashtagInput = ({ setContent , defaultStyle ,  defaultMentionStyle }) => {
+    const [contentx, setContentx] = useState("");
 
     const users = [
         {
@@ -20,29 +17,29 @@ const HashtagInput = ( { setContent } ) => {
         },
     ];
 
-
-
-
-    const handleInputChange = (event:any, newValue:any) => {
+    const handleInputChange = (event: any, newValue: any) => {
         console.log(newValue);
         setContentx(newValue);
-        setContent(newValue)
-      };
+        setContent(newValue);
+    };
 
-
-
-
+  
 
     return (
         <MentionsInput
+            // className="bg-red-300"
             value={contentx}
             onChange={handleInputChange}
-            style={defaultStyle}
+            style={ defaultStyle }
             placeholder="Write something"
         >
-            <Mention trigger="#" data={users} style={defaultMentionStyle} className="text-white" />
+            <Mention
+                trigger="#"
+                data={users}
+                style={ defaultMentionStyle }
+                className="text-white"
+            />
         </MentionsInput>
-        
     );
 };
 

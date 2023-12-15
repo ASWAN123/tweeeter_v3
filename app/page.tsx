@@ -7,14 +7,14 @@ import SkeletonPost from "./compoenents/skeletons/skeletonPost";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
+import { postsQueryConfig } from "./queryConfig";
 
 
 
-const fetchPosts = async () => {
-    const response = await axios.get('/api/posts')
-    return response.data
-
-    }
+// const fetchPosts = async () => {
+    // const response = await axios.get('/api/posts')
+    // return response.data
+    // }
 
 
 
@@ -24,10 +24,7 @@ const fetchPosts = async () => {
 
 export  default  function  Home() {
 
-    const { data : posts ,  isFetched ,  isFetching , error } = useQuery({
-        queryKey:['posts'] ,
-        queryFn : fetchPosts 
-    })
+    const { data : posts ,   isFetched ,  isFetching , error  } = useQuery(postsQueryConfig)
 
 
 

@@ -41,7 +41,7 @@ const Post =  ({ postid   }) => {
 
 
     return (
-        <div className="bg-[#ffffff] flex flex-col gap-3 p-4 shadow-md rounded-md  last:mb-8 ">
+        <div className="bg-[#ffffff] flex flex-col gap-3 p-4  relative shadow-md rounded-md  last:mb-8 ">
             <div className="flex items-center gap-4 ">
                 <div className="relative w-[40px] h-[40px] ">
                 <Image
@@ -85,11 +85,12 @@ const Post =  ({ postid   }) => {
             </div>
 
             {/* comment  engagement  and  comments */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1 ">
                 <hr />
                 < EngagementActions post  = {post}   />
                 <hr />
                 <CreateNewComment  postId = {post.id}/>
+                
                 <div>
                     {/* < SkeletonComment /> */}
                     {
