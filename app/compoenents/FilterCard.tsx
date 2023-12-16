@@ -4,6 +4,13 @@ import { useState } from "react";
 const FilterCard = ({ options  , defaultvalue  }) => {
 
     const [selectOption, setSelectOption] = useState(defaultvalue);
+    
+
+
+
+
+
+
 
     return (
         <div className=" bg-[#FFFFFF]  rounded-md  flex flex-col gap-2 shadow-md   col-span-1 mt-4">

@@ -28,7 +28,7 @@ export  default  function  Home() {
                     }
 
                     {
-                        isFetched && homePosts?.map(( post ,  index) => {
+                        isFetched && homePosts?.map(( post:any ,  index:any) => {
                             return <Post key={index}  postid = {post.id} />
                         })
                     }

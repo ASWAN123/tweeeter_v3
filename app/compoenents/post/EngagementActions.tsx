@@ -118,7 +118,7 @@ const EngagementActions = ({ post }) => {
 
 
     const LikeClass = classNames({
-        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-red-500": alreadyliked ? true : false,
         "text-neutral-500": alreadyliked ? false : true,

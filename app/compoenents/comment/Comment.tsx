@@ -10,7 +10,7 @@ const Comment = ({comment}) => {
               
               <Image
                 className="rounded"
-                src="/profile.png"
+                src={ comment.User.media_url ?? "/profile.png"}
                 height={40}
                 width={40}
                 alt="profile"
@@ -19,8 +19,8 @@ const Comment = ({comment}) => {
       <div className="w-full  flex flex-col gap-2 ">
           <div className="flex  flex-col gap-2 bg-neutral-100 p-2 rounded-md">
               <div className="flex gap-2 items-center">
-                  <p className="text-semibold ">jone mayer</p>
-                  <span className="text-gray-400 text-[12px]">24 August at 20:43</span>
+                  <p className="text-semibold ">{comment.User.name}</p>
+                  <span className="text-gray-400 text-[12px]">{new Date(comment.created_at).toLocaleString('en-GB' ,  { 'day': 'numeric' , 'month':'long'  ,  'hour':'numeric'  ,  'minute' : 'numeric'})}</span>
               </div>
               <div>
                   <p>

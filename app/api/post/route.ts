@@ -25,12 +25,12 @@ export async function GET(req: NextRequest) {
         const post = await db.post.findUnique({
             where: {
                 id: Number(id),
+                everyone_can_reply : true ,
             },
             select: {
                 content: true,
                 media_url: true,
                 id: true,
-                everyone_can_reply: true,
                 authorId: true,
                 created_at: true,
                 author: {
@@ -43,33 +43,33 @@ export async function GET(req: NextRequest) {
                     },
                 },
                 comments: {
-                    where: {
-                        postId: Number(id),
-                    },
                     orderBy: {
                         created_at: "desc",
                     },
+                    select: {
+                        id: true,
+                        content: true,
+                        created_at: true,
+                        media_url: true,
+                        User: {
+                            select:{
+                                media_url: true,
+                                name :true,
+                            }
+                        }
+                    },
+                    
                 },
                 likes: {
-                    where: {
-                        postId: Number(id),
-                    },
                     select: {
                         id: true,
                         postId: true,
                         userId: true,
                     },
                 },
-                saves: {
-                    where: {
-                        postId: Number(id),
-                    },
-                },
-                Retweets: {
-                    where: {
-                        postId: Number(id),
-                    },
-                },
+                saves:true ,
+                Retweets: true , 
+
             },
         });
 

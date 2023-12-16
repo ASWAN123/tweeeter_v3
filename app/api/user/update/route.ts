@@ -21,14 +21,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         let id = session.sub;
 
         const body = await req.json()
-
+        console.log(body , "body of  the  requests")
         const updatemedia = await db.user.update({
             where: {
                 id:Number(id) ,
             },
-            data:{
-                media_url : body.media_url
-            }
+            data:body
         });
 
         console.log(updatemedia)

@@ -18,7 +18,6 @@ const Page = () => {
             <section className="w-full md:w-[70%]  ">
                 {/* <div className="flex flex-col gap-4 mt-4">
                     <p>No posts yet ...</p>
-
                 </div> */}
 
                 <div className="flex flex-col gap-4 mt-4">

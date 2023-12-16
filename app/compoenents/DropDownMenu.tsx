@@ -13,14 +13,17 @@ const DropDownMenu = ( { user }) => {
         <Menu as="div" className="">
         <Menu.Button className="flex items-center gap-2 text-gray-500">
             <div className="relative flex gap-2 items-center ">
-                <Image
+                {
+                    user && <Image
                     className="rounded"
-                    src={ user ?  user.media_url :  "/profile.png"}
+                    src={  user?.media_url ??  "/profile.png"}
                     height={35}
                     width={35}
                     alt="profile"
                     quality={100}
                 />
+                }
+                
                 <p className="hidden md:block">{user?.name}</p>
                 <DropdownIcon
                     width={20}

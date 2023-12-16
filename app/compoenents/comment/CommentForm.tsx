@@ -7,7 +7,7 @@ import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
 import HashtagInput from "../post/HashtagInput";
 
-const CreateNewComment = ({ postId }) => {
+const CreateNewComment = ({ postId , profileimg }) => {
     const [url, setUrl] = useState<string>("");
     const [content, setContent] = useState("");
     const queryClient = useQueryClient();
@@ -38,11 +38,9 @@ const CreateNewComment = ({ postId }) => {
         console.log(response, "this  is  coming  form  the  comment  compo");
     };
 
-    useEffect(() => {
-        console.log(url, "from compo");
-    }, [url]);
 
-    console.log("rendered");
+
+
 
     return (
         <form
@@ -51,7 +49,7 @@ const CreateNewComment = ({ postId }) => {
         >
             <Image
                 className="rounded"
-                src="/profile.png"
+                src= {profileimg}
                 height={40}
                 width={40}
                 alt="profile"

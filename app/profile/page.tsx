@@ -8,39 +8,45 @@ import { useQuery } from "@tanstack/react-query";
 import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 import { userDetailsConfig } from "../queryConfig";
+import UploadImage from "../compoenents/post/UploadImage";
+import { EditIcon } from "../compoenents/icons/Icons";
+import { useEffect, useState } from "react";
 
 
 const Page = () => {
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"] ;
+    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig)
+    const  [ url  , setUrl ] = useState('')
 
-    // async function getUser() {
-    //     try {
-    //         const response = await axios.get("/api/user/profile") ;
-    //         // console.log(response.data ,  'user');
-    //         return response.data ;
-    //     } catch (error) {
-    //         console.error(error) ;
-    //     }
+
+    // const UplaodProfile = async () => {
+
+    //     const  response = await axios.post('/api/user/update' , {
+    //         cover : url
+    //     })
+    //     console.log(response.data)
+
     // }
 
-    // const {
-        // data: user,
-        // isPending: isUserPending,
-        // error: isUserError,
-        // isFetching: isUserFetching,
-    // } = useQuery({
-    //     queryKey: ["user"],
-    //     queryFn: getUser,
-    // });
+    // useEffect( () => {
 
-    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig)
+    //     if(url){
+    //         UplaodProfile(url)
+    //     }
+    // } ,  [url]  )
 
-    const getUserPosts = async () => {
-        try {
-            const response = await axios.get("/api/user/posts");
-            return response.data;
+
+    // ################## start up from here
+
+
+
+
+    const getUserPosts = async () => { 
+        try { 
+            const response = await axios.get("/api/user/posts") ;
+            return response.data ;
         } catch (error) {
-            console.error(error);
+            console.error(error) ;
         }
     };
 
@@ -59,6 +65,16 @@ const Page = () => {
         <main className=" w-full  mx-auto  ">
             <div className="relative min-w-full h-[250px]  bg-gradient-to-r from-blue-300 to-pink-400 block ">
                 {/* add some shit to make the user uplaod his cover  */}
+                <UploadImage
+                    Icon={
+                        <EditIcon
+                            className=" w-8 h-8 absolute  rounded-full top-2 right-2 z-50 p-1  text-white    cursor-pointer "
+                        />
+                    }
+                    setUrl={setUrl}
+                />
+                
+                
                 <Image
                     src="/cover.png"
                     alt="Picture of the author"
@@ -71,6 +87,7 @@ const Page = () => {
                 {isUserFetching ? <SkeletonUserCard /> :  <ProfileUserCard user={userDetails} /> }
                 
                 <FilterCard options={options} defaultvalue="Tweets" />
+
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isPostFetching && <SkeletonPost />}
                     {userPosts?.map((post: any) => {

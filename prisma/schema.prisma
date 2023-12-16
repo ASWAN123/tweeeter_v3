@@ -8,36 +8,40 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  username   String    @unique
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  username   String     @unique
   name       String
   password   String
   bio        String?
   avatar     String?
   media_url  String?
-  created_at DateTime  @default(now())
-  update_at  DateTime  @updatedAt
+  cover      String?
+  created_at DateTime   @default(now())
+  update_at  DateTime   @updatedAt
   posts      Post[]
   commets    Comment[]
   likes      Like[]
   saves      Save[]
   Retweets   Retweet[]
+  hashtags   Hashtags[]
+  followers  Follower[]
 }
 
 model Post {
-  id                 Int       @id @default(autoincrement())
-  created_at         DateTime  @default(now())
-  update_at          DateTime  @updatedAt
+  id                 Int        @id @default(autoincrement())
+  created_at         DateTime   @default(now())
+  update_at          DateTime   @updatedAt
   content            String
   everyone_can_reply Boolean
   media_url          String
-  author             User      @relation(fields: [authorId], references: [id])
+  author             User       @relation(fields: [authorId], references: [id])
   authorId           Int
   comments           Comment[]
   likes              Like[]
   saves              Save[]
   Retweets           Retweet[]
+  hashtags           Hashtags[]
 }
 
 model Comment {
@@ -77,5 +81,18 @@ model Retweet {
   userId Int?
   Post   Post? @relation(fields: [postId], references: [id])
   postId Int?
-  
+}
+
+model Hashtags {
+  id     Int   @id @default(autoincrement())
+  Post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+model Follower {
+  id Int @id @default(autoincrement())
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
 }

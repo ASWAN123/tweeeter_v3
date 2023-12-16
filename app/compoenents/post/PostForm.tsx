@@ -8,6 +8,7 @@ import { ImageIcon } from "../icons/Icons";
 import { useQueryClient } from "@tanstack/react-query";
 import HashtagInput from "./HashtagInput";
 import { defaultMentionStylePost, defaultStylePost } from "./inputStyles/inputStyles";
+import React from "react";
 
 const Create_new_post = () => {
     const [url, setUrl] = useState<string>("");
@@ -15,6 +16,7 @@ const Create_new_post = () => {
     const [content, setContent] = useState("");
     // const inputRef = useRef(null)
     const queryClient = useQueryClient();
+    const forceUpdate = React.useReducer(() => ({}), {})[1];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,10 +33,12 @@ const Create_new_post = () => {
         });
 
         if (response.status == 201) {
-            setContent("");
-            setUrl("");
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
-            return;
+            setContent("") ;
+            setUrl("") ;
+            
+            queryClient.invalidateQueries({ queryKey: ["homePosts"] }) ;
+            forceUpdate();
+            return ;
         }
     };
 
