@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         // console.log(id ,  'this  is  user id')
         const user = await db.user.findUnique({
             where: { id : Number(id) } ,
-            select: { email: true, username: true , name:true , bio: true, avatar: true  ,  media_url:true }
+            select: { email: true, username: true , name:true , bio: true, avatar: true  ,  media_url:true  , cover:true}
         });
         // console.log(user)
         // console.log({...user} ,  'userrrrr')

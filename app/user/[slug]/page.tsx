@@ -7,5 +7,5 @@ import { usePathname, useRouter } from 'next/navigation'
 export default function Page() {
   const  pathname  = usePathname()
  
-  return <p>Post: {pathname}</p>
+  return <p>User: {pathname}</p>
 }

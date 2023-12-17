@@ -38,10 +38,9 @@ const Post = ({ postid }) => {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <Link href={`/user/${postDetails.author.id}`}>
-                        <a className="cursor-pointer font-semibold text-[16px]">
+                    <Link href={`/user/${postDetails.author.id}`} className="cursor-pointer font-semibold text-[16px]">
                             {postDetails?.author?.name}
-                        </a>
+                        
                     </Link>
                     <span className="text-neutral-400">
                         {new Date(postDetails.created_at).toLocaleString(

@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import HashtagInput from "./HashtagInput";
 import { defaultMentionStylePost, defaultStylePost } from "./inputStyles/inputStyles";
 import React from "react";
-
+import { v4 as uuidv4 } from "uuid";
 const Create_new_post = () => {
     const [url, setUrl] = useState<string>("");
     const [isPublic, setIsPublic] = useState(true);
@@ -17,7 +17,7 @@ const Create_new_post = () => {
     // const inputRef = useRef(null)
     const queryClient = useQueryClient();
     const forceUpdate = React.useReducer(() => ({}), {})[1];
-
+    const  id = uuidv4()
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (content.trim() === "" && url.trim() === "") return;
@@ -91,6 +91,7 @@ const Create_new_post = () => {
                                 className=" text-blue-500 md:w-6 md:h-6 "
                             />
                         }
+                        inpuDId = {id}
                     />
 
                     <PrivacyMenu

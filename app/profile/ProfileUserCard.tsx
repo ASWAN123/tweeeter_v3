@@ -6,52 +6,34 @@ import UploadImage from "../compoenents/post/UploadImage";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEdgeStore } from "../lib/edgestore";
+import { v4 as uuidv4 } from "uuid";
+
+
 
 const ProfileUserCard = ({ user }) => {
-    console.log(user) ; 
-    const queryClient = useQueryClient() ;
-    const { edgestore } = useEdgeStore() ;
-    const [ url  , setUrl ] = useState() ;
-    console.log(url , 'original')
-
+    const queryClient = useQueryClient();
+    const { edgestore } = useEdgeStore();
+    const [url, setUrl] = useState();
+    console.log(url, "original");
+    const id = uuidv4();
 
     useEffect(() => {
-        console.log(url , 'useEffect')
-        // const updateUserData = async () => {
-        //    let  file  = useRef.current
-        //   try {
-        //     const res = await edgestore.publicFiles.upload({
-        //         file ,
-        //       });
-        
-        //     const imageUrl = res.url; 
-        //     // const imageUrl = urlRef.current;
-        //     if (imageUrl) {
-        //       const response = await axios.post('/api/user/update', {
-        //         media_url: imageUrl,
-        //       });
-    
-        //       console.log(response);
-        //       console.log('done setting up the state');
-        //       queryClient.invalidateQueries({ queryKey: ['userDetails'] });
-        //     }
-        //   } catch (error) {
-        //     console.error('Error updating user data:', error);
-        //   }
-        // };
-    
-        // updateUserData();
-      }, [url]);
+        console.log("start updating  stuff ");
 
+        const updateUserData = async () => {
+            const response = await axios.post("/api/user/update", {
+                media_url: url,
+            });
 
+            console.log(response);
+            console.log("done setting up the state");
+            queryClient.invalidateQueries({ queryKey: ["userDetails"] });
+        };
 
-
-
-
-
-
-
-
+        if (url) {
+            updateUserData();
+        }
+    }, [queryClient, url]);
 
     return (
         <div className="min-h-[163px]  flex flex-col  md:flex-row items-center gap-4 md:items-start bg-white rounded-md w-full py-4 px-6 -mt-24 col-span-3 shadow-md ">
@@ -61,17 +43,16 @@ const ProfileUserCard = ({ user }) => {
                         <EditIcon className=" w-8 h-8 absolute text-black rounded-full -top-2 -left-2 z-50 p-1  bg-white    cursor-pointer " />
                     }
                     setUrl={setUrl}
+                    inputId={id}
                 />
 
-                {user && (
-                    <Image
-                        src={ user?.media_url ?? "/profile.png" }
-                        alt="Picture of the author"
-                        className=" rounded-md p-[5px] z-10"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                )}
+                <Image
+                    src={url ?? user?.media_url ?? "/profile.png"}
+                    alt="Picture of the author"
+                    className=" rounded-md p-[5px] z-10"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
             </div>
             <div className=" flex flex-col gap-2 md:flex-row md:gap-6 items-center w-[70%]  flex-wrap ">
                 <p className="text-center w-fit text-[24px] font-semibold  ">
@@ -86,8 +67,8 @@ const ProfileUserCard = ({ user }) => {
                     </p>
                 </div>
                 <p className=" w-full col-span-3 text-center text-[18px] text-[#828282]  md:text-start ">
-                    {/* {user?.bio} */} 
-                 </p>
+                    {/* {user?.bio} */}
+                </p>
             </div>
             <button className="bg-blue-500 mx-auto px-4 py-1 rounded-md md:ml-auto text-white text-[16px] flex  shrink-0 items-center  flex-nowrap">
                 + Follow
