@@ -101,4 +101,19 @@ const postDetailsConfig = ( id:any ) => {
     }
 }    
 
-export { userDetailsConfig, savedPostsConfig  , homePostsConfig , explorePostsConfig , postDetailsConfig  };
+
+const  getHashTags = async () => {
+    try {
+        const response = await axios.get("/api/hashtags");
+        return response.data ;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+const hashTags = "hashTags" ;
+const hashTagsConfig = { queryKey: [hashTags], queryFn: getHashTags } ;  
+
+
+export { userDetailsConfig, savedPostsConfig  , homePostsConfig , explorePostsConfig , postDetailsConfig ,  hashTagsConfig ,  };

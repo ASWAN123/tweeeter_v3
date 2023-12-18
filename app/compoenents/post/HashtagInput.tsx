@@ -1,24 +1,26 @@
 "use client";
-import React, { useState } from "react";
-import { MentionsInput, Mention } from "react-mentions";
-import { defaultMentionStyle } from "./inputStyles/inputStyles";
+import React, { useEffect, useState } from "react";
+import { MentionsInput, Mention, DataFunc, SuggestionDataItem } from "react-mentions";
 
-const HashtagInput = ({ setContent , defaultStyle ,  defaultMentionStyle }) => {
+
+
+const HashtagInput = ({ hashtags ,  setContent , defaultStyle ,  defaultMentionStyle }) => {
     const [contentx, setContentx] = useState("");
+    let hashTagsList: SuggestionDataItem[] | DataFunc = []
 
-    const users = [
-        {
-            id: "1",
-            display: "#fun",
-        },
-        {
-            id: "2",
-            display: "#programming",
-        },
-    ];
+    useEffect(() => {
+        if (hashtags) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            hashTagsList = hashtags.map((x:String ,  index:Number) => {
+                return { id : index ,  display : x }
+            })
+            
+        }
+      }, [hashtags]);
+
+
 
     const handleInputChange = (event: any, newValue: any) => {
-        console.log(newValue);
         setContentx(newValue);
         setContent(newValue);
     };
@@ -35,7 +37,7 @@ const HashtagInput = ({ setContent , defaultStyle ,  defaultMentionStyle }) => {
         >
             <Mention
                 trigger="#"
-                data={users}
+                data={hashTagsList}
                 style={ defaultMentionStyle }
                 className="text-white"
             />

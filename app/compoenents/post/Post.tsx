@@ -11,6 +11,17 @@ import SkeletonComment from "../skeletons/SkeletonComment";
 import SkeletonPost from "../skeletons/skeletonPost";
 import { postDetailsConfig } from "../../queryConfig";
 
+
+
+
+    
+
+
+
+  
+
+
+
 const Post = ({ postid }) => {
     const {
         data: postDetails,
@@ -22,6 +33,9 @@ const Post = ({ postid }) => {
     if (isLoading) {
         return <SkeletonPost />;
     }
+
+
+    
 
 
 

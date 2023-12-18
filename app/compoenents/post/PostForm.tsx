@@ -5,12 +5,16 @@ import UploadImage from "./UploadImage";
 import { useState, useRef } from "react";
 import axios from "axios";
 import { ImageIcon } from "../icons/Icons";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import HashtagInput from "./HashtagInput";
 import { defaultMentionStylePost, defaultStylePost } from "./inputStyles/inputStyles";
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import { hashTagsConfig } from "@/app/queryConfig";
 const Create_new_post = () => {
+    const { data : hashTags ,   isFetched ,  isFetching , error  } = useQuery(hashTagsConfig)
+
+    console.log(hashTags ,  'hashtags')
     const [url, setUrl] = useState<string>("");
     const [isPublic, setIsPublic] = useState(true);
     const [content, setContent] = useState("");
@@ -18,9 +22,14 @@ const Create_new_post = () => {
     const queryClient = useQueryClient();
     const forceUpdate = React.useReducer(() => ({}), {})[1];
     const  id = uuidv4()
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (content.trim() === "" && url.trim() === "") return;
+        const hashtagRegex = /(?:#)(\w+)/g;
+        const hashtags = (content.match(hashtagRegex) || []).map((match: string | any[]) => match.slice(1));
+
+
 
         const data = {
             content: content,
@@ -63,6 +72,7 @@ const Create_new_post = () => {
                     {/* input */}
                     <div className=" w-full relative">
                         <HashtagInput
+                            hashtags = {hashTags}
                             setContent={setContent}
                             defaultStyle = {defaultStylePost}
                             defaultMentionStyle= {defaultMentionStylePost}

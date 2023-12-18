@@ -20,8 +20,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const authorId = session.sub;
     let body = await req.json();
 
-
     const createPost = await db.post.create({
+        data: {
+            ...body,
+            authorId: Number(authorId),
+        },
+    });
+
+
+    const addHashTags = await db.hashtags.create({
         data: {
             ...body,
             authorId: Number(authorId),
