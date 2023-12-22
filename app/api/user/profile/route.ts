@@ -4,15 +4,15 @@ import { getToken } from "next-auth/jwt";
 
 
 
-
+// get user info 
 export async function GET(req: NextRequest, res: NextResponse) {
-    // try {
+    try {
 
         const session = await getToken({
             req,
             secret: process.env.NEXTAUTH_SECRET,
         });
-        // console.log('session' , session  )
+
 
 
         if(!session){
@@ -25,13 +25,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 
         let id = session.sub
-        // console.log(id ,  'this  is  user id')
+
         const user = await db.user.findUnique({
             where: { id : Number(id) } ,
             select: { email: true, username: true , name:true , bio: true, avatar: true  ,  media_url:true  , cover:true}
         });
-        // console.log(user)
-        // console.log({...user} ,  'userrrrr')
+
 
         return NextResponse.json({ ...user });
 
@@ -40,10 +39,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 
 
-    // } catch (error) {
-    //     return NextResponse.json(
-    //         { Error: "Internal Serverorororor Erorr" },
-    //         { status: 500 }
-    //     );
-    // }
+    } catch (error) {
+        return NextResponse.json(
+            { Error: "Internal Server Erorr" },
+            { status: 500 }
+        );
+    }
 }

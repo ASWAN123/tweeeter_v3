@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { db } from "@/app/lib/db";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-    
+    try{
     const session = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const authorId = session.sub ;
     const post_Id = body.postId ;
 
-    // todos   : handle  the  stuff  already  likes  ,  or  its a  comment  like  
+ 
     const like = await  db.save.create({
         data :{
             userId : Number(authorId) , 
@@ -34,12 +34,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return NextResponse.json(
         {
             message: 'saved',
-            Liked: like, // Include information from the deleted like if needed
+            Liked: like, 
             status: 201
         }
     );
 
-
+}catch (error) {
+    return NextResponse.json(
+        { Error: "Internal Server Erorr" },
+        { status: 500 }
+    );
+}
 
 
 

@@ -9,16 +9,16 @@ export async function GET(req: NextRequest, res: NextResponse) {
             secret: process.env.NEXTAUTH_SECRET,
         });
 
-        // if (!session) {
-        //     return NextResponse.json(
-        //         { Error: " You are not authorized " },
-        //         { status: 401 }
-        //     );
-        // }
+        if (!session) {
+            return NextResponse.json(
+                { Error: " You are not authorized " },
+                { status: 401 }
+            );
+        }
 
         const hashtags = await db.hashtags.findMany() ;
 
-        console.log(hashtags ,  'Hashtags')
+        
 
         return NextResponse.json( hashtags ,  { status: 200 } );
 

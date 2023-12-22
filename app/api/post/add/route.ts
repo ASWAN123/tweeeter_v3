@@ -19,15 +19,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     const authorId = session.sub;
     let body = await req.json();
-    console.log(body)
+
     const  newHashtags = body['hashtags']
     delete body['hashtags']
+
+
     const createPost = await db.post.create({
         data: {
             ...body,
             authorId: Number(authorId),
             hashtags : {
-                create : newHashtags.map((x) => {
+                create : newHashtags.map((x:any) => {
                     return { ...x ,  userId:Number(authorId)}
                 }) ,
             }

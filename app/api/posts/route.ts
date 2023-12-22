@@ -25,13 +25,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
             }
         }) ;
 
-        console.log(posts ,  'home posts')
+        
 
         return NextResponse.json( posts ,  { status: 200 } );
 
     } catch (error) {
         return NextResponse.json(
-            { Error: "Internal Serverorororor Erorr" },
+            { Error: "Internal Server Erorr" },
             { status: 500 }
         );
     }

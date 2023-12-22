@@ -43,63 +43,19 @@ const getExplorePosts = async () => {
 };
 
 
-
-// const getStrangerPosts = (id) => async (key) => {
-//     try {
-//         const response = await axios.get("/api/posts");
-//         return response.data ;
-//     } catch (error) {
-//         console.error(error);
-//     }
-// };
-
-
-
-
-
-
-
-const homePosts = "homePosts" ;
-const homePostsConfig = { queryKey: [homePosts], queryFn: getHomePosts } ; 
-
-const savedPosts = "bookmarksPosts" ;
-const savedPostsConfig = { queryKey: [savedPosts], queryFn: getSavedPosts } ; 
-
-const explorePosts = "explorePosts" ;
-const explorePostsConfig = { queryKey: [explorePosts], queryFn: getExplorePosts } ; 
-
-const userDetailsKey = "userDetails" ;
-const userDetailsConfig = { queryKey: [userDetailsKey], queryFn: getUser } ;
-
-// const StrangerUserDetails = "StrangerUserDetails" ;
-// const StrangeruserDetailsConfig = ( id:any ) => ({
-//     queryKey: [StrangerUserDetails, id ] ,
-//     queryFn: getStrangerPosts,
-//   });
-
-const getPostDetails = async( id ) => {
+const getPostDetails = async( id:any ) => {
     const params = {
         id: id ,
     };
     const queryString = new URLSearchParams(params).toString() ;
     const requestURL = `/api/post?${queryString}` ;
     const response  = await axios.get(  requestURL ) ;
-    console.log(response.data ,  'post details')
+    
     return response.data
 
 
 };
 
-
-
-const postDetails = "postDetails" ;
-const postDetailsConfig = ( id:any ) => {
-    console.log(id ,  'id form config')
-    return {
-        queryKey: [ postDetails ,  `${id}`  ] ,
-        queryFn: () => getPostDetails(id) ,
-    }
-}    
 
 
 const  getHashTags = async () => {
@@ -111,9 +67,45 @@ const  getHashTags = async () => {
     }
 }
 
+const getUserPosts = async () => {
+    try {
+        const response = await axios.get("/api/user/posts");
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const homePosts = "homePosts" ;
+const homePostsConfig = { queryKey: [homePosts], queryFn: getHomePosts } ; 
+
+const savedPosts = "bookmarksPosts" ;
+const savedPostsConfig = { queryKey: [savedPosts], queryFn: getSavedPosts } ; 
+
+const explorePosts = "explorePosts" ;
+const explorePostsConfig = { queryKey: [explorePosts], queryFn: getExplorePosts } ; 
+
+const userDetailsKey = "userDetails" ;
+const userDetailsConfig = { queryKey: [userDetailsKey], queryFn: getUser } ; 
+
+const postDetails = "postDetails" ; 
+const postDetailsConfig = ( id:any ) => {
+    
+    return {
+        queryKey: [ postDetails ,  `${id}`  ] ,
+        queryFn: () => getPostDetails(id) ,
+    }
+}  
+
+
+
 
 const hashTags = "hashTags" ;
 const hashTagsConfig = { queryKey: [hashTags], queryFn: getHashTags } ;  
 
 
-export { userDetailsConfig, savedPostsConfig  , homePostsConfig , explorePostsConfig , postDetailsConfig ,  hashTagsConfig ,  };
+const userPosts = "userPosts" ;
+const userPostsConfig = { queryKey: [userPosts], queryFn: getUserPosts } ;
+
+
+export { userDetailsConfig, savedPostsConfig  , homePostsConfig , explorePostsConfig , postDetailsConfig ,  hashTagsConfig , userPostsConfig };

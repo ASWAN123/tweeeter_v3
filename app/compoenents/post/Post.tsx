@@ -14,13 +14,6 @@ import { postDetailsConfig } from "../../queryConfig";
 
 
 
-    
-
-
-
-  
-
-
 
 const Post = ({ postid }) => {
     const {

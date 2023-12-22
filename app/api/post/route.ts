@@ -12,15 +12,14 @@ export async function GET(req: NextRequest) {
             secret: process.env.NEXTAUTH_SECRET,
         });
 
-        // if (!session) {
-        //     return NextResponse.json(
-        //         { Error: " You are not authorized " },
-        //         { status: 401 }
-        //     );
-        // }
+        if (!session) {
+            return NextResponse.json(
+                { Error: " You are not authorized " },
+                { status: 401 }
+            );
+        }
 
-        // const id: number = Number(route.params.id)
-        // console.log( router   ,  'hada  id  man route')
+
 
         const post = await db.post.findUnique({
             where: {
@@ -73,7 +72,7 @@ export async function GET(req: NextRequest) {
             },
         });
 
-        // console.log(post)
+        
 
         return NextResponse.json(
             post,
@@ -81,7 +80,7 @@ export async function GET(req: NextRequest) {
         );
     } catch (error) {
         return NextResponse.json(
-            { Error: "Internal Serverorororor Erorr" },
+            { Error: "Internal Server Erorr" },
             { status: 500 }
         );
     }

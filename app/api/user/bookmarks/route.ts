@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getToken } from "next-auth/jwt";
 
+// get all the  saved posts
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const session = await getToken({
@@ -26,12 +27,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 postId: true  ,
             }
         }) ;
-        console.log(posts ,  'saved  posts')
+        
+        
         return NextResponse.json( posts ,  { status: 200 } );
 
     } catch (error) {
         return NextResponse.json(
-            { Error: "Internal Serverorororor Erorr" },
+            { Error: "Internal Server Erorr" },
             { status: 500 }
         );
     }

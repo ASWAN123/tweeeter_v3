@@ -36,7 +36,7 @@ export async function POST(req : NextRequest , res : NextResponse) {
       data : {...body , password: hashPassword ,  "bio": "" ,  "avatar" : ""}
     })
     return NextResponse.json(  {"user" : addNewUser  } ,  {status:201} )
-    console.log(addNewUser)
+
     
   } catch (error) {
     console.error(error)

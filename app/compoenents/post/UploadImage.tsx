@@ -1,8 +1,7 @@
 "use client";
-import { ImageIcon } from "../icons/Icons";
+
 import { useEdgeStore } from "../../lib/edgestore";
-import axios from "axios";
-import { useRef } from "react";
+
 
 const UploadImage = ({ setUrl, Icon , inputId }) => {
   const { edgestore } = useEdgeStore();
@@ -40,13 +39,12 @@ const UploadImage = ({ setUrl, Icon , inputId }) => {
 
   const handleFileChange = async (e:any) => {
     const imageUrl = await uploadImage(e.target.files?.[0]);
-    console.log(imageUrl , ' imageUrl')
     setUrl(imageUrl)
   };
 
   return (
     <>
-      {/* Icon */}
+      
       <div onClick={handleUploadFile}>{Icon}</div>
       <label htmlFor="dropzone-file">
         <input

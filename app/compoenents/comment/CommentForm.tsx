@@ -6,41 +6,39 @@ import axios from "axios";
 import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
 import HashtagInput from "../post/HashtagInput";
+import { v4 as uuidv4 } from "uuid";
 
-const CreateNewComment = ({ postId , profileimg }) => {
-    const [url, setUrl] = useState<string>("");
+const CreateNewComment = ({ postId, profileimg }) => {
+    const [url, setUrl] = useState<string>();
     const [content, setContent] = useState("");
     const queryClient = useQueryClient();
+    const id = uuidv4();
 
-    // submit the  comment
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (content.trim() === "" && url.trim() === "") return;
+        if (content.trim() === "" && url?.trim() === "") return;
 
         const data = {
             content: content,
             media_url: url,
             postId: postId,
         };
-        console.log(data);
 
         const response = await axios.post("/api/comment/add", {
             ...data,
         });
 
         if (response.status == 201) {
-            // check  this later make sure to remove input text to avoid delete on submit because it  looks ugly
-            setContent("");
-            setUrl("");
-            queryClient.invalidateQueries({ queryKey: ["post", postId] });
+            setContent("") ;
+            setUrl("") ;
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            }) ;
+            
         }
 
-        console.log(response, "this  is  coming  form  the  comment  compo");
+        
     };
-
-
-
-
 
     return (
         <form
@@ -49,7 +47,7 @@ const CreateNewComment = ({ postId , profileimg }) => {
         >
             <Image
                 className="rounded"
-                src= {profileimg}
+                src={profileimg}
                 height={40}
                 width={40}
                 alt="profile"
@@ -75,9 +73,9 @@ const CreateNewComment = ({ postId , profileimg }) => {
                             className=" text-gray-400  cursor-pointer absolute right-2 top-2 "
                         />
                     }
+                    inputId={id}
                 />
             </div>
-
         </form>
     );
 };

@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import PrivacyMenu from "./PrivacyMenu";
 import UploadImage from "./UploadImage";
@@ -6,8 +7,6 @@ import { useState } from "react";
 import axios from "axios";
 import { ImageIcon } from "../icons/Icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-
-import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const PostForm = () => {
@@ -40,16 +39,16 @@ const PostForm = () => {
             ...data,
         });
 
-        if (response.status == 201) {
-            setContent("");
-            setUrl("");
+        if (response.status == 201 ) {
+            setContent("") ;
+            setUrl("") ;
 
             queryClient.invalidateQueries({ queryKey: ["homePosts"] }) ;
             queryClient.invalidateQueries({ queryKey: ["hashTags"] }) ;
             forceUpdate();
             return;
         }
-        console.log(data)
+        
     };
 
     return (

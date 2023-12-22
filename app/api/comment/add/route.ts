@@ -18,7 +18,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const authorId = session.sub;
     let body = await req.json();
-    console.log(body  ,  ' this is the body that you got from the response ')
     const post_Id = body.postId ;
 
 
@@ -26,10 +25,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
         data: {
             ...body,
             userId: Number(authorId),
-            // postId : Number(post_Id),
+            postId : Number(post_Id),
         },
     });
-    console.log(createComment)
+    
+
 
     if(createComment) {
         return NextResponse.json(

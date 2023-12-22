@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             req,
             secret: process.env.NEXTAUTH_SECRET,
         });
-        // console.log("session", session);
+
 
         if (!session) {
             return NextResponse.json(
@@ -18,10 +18,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
             );
         }
 
+
         let id = session.sub;
 
         const body = await req.json()
-        console.log(body , "body of  the  requests")
+
         const updatemedia = await db.user.update({
             where: {
                 id:Number(id) ,
@@ -29,14 +30,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
             data:body
         });
 
-        console.log(updatemedia)
-
+     
         return NextResponse.json( updatemedia ,  { status: 201 });
 
     } catch (error) {
-        // console.error(error)
         return NextResponse.json(
-            { Error: "Internal Serverorororor Erorr" },
+            { Error: "Internal Server Erorr" },
             { status: 500 }
         );
     }

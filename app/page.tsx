@@ -10,22 +10,17 @@ import SkeletonHashtags from "./compoenents/skeletons/SkeletonHashtags";
 import PostForm from "./compoenents/post/PostForm";
 
 export default function Home() {
-    const {
-        data: homePosts,
-        isLoading,
-        isFetching,
-        isFetched,
-    } = useQuery(homePostsConfig);
+    const { data: homePosts, isLoading, isFetched } = useQuery(homePostsConfig);
+
     const { data: hashTags, isLoading: isHashtagsLoading } =
         useQuery(hashTagsConfig);
-
 
     return (
         <main className=" w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">
             <section className="w-full md:w-[70%] h-[50px] ">
-                <PostForm  />
+                <PostForm />
                 <div className="flex flex-col gap-4 mt-8">
-                    {isFetching && (
+                    {isLoading && (
                         <>
                             <SkeletonPost />
                             <SkeletonPost />

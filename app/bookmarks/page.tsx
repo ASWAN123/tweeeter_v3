@@ -16,12 +16,10 @@ const Page = () => {
                 <FilterCard options={options} defaultvalue="Tweets" />
             </section>
             <section className="w-full md:w-[70%]  ">
-                {/* <div className="flex flex-col gap-4 mt-4">
-                    <p>No posts yet ...</p>
-                </div> */}
 
                 <div className="flex flex-col gap-4 mt-4">
-                    {isFetching && (
+                    
+                    {isFetching  && (
                         <>
                             <SkeletonPost />
                             <SkeletonPost />
@@ -29,10 +27,21 @@ const Page = () => {
                         </>
                     )}
 
+
                     {isFetched &&
                         savedPosts?.map((post, index) => {
                             return <Post key={index} postid={post.postId} />;
                         })}
+                    
+
+                    {/* no posts  has been  saved yet */}
+                    {
+                        !savedPostsConfig  && <div>
+                            No post saved yet!
+                        </div>
+                    }
+                    
+
                 </div>
             </section>
         </main>

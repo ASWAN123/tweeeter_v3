@@ -3,6 +3,7 @@ import { HeartIcon } from "../icons/Icons"
 
 
 const Comment = ({comment}) => {
+    // create  like  function  for  a  comment
 
 
   return (

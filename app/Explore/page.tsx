@@ -24,10 +24,9 @@ const Page = () => {
     <section className="w-full md:w-[70%]  ">
         <SearchInput />
         
-        {/* <div className="flex flex-col gap-4 mt-4" >
-        <p>No posts yet ...</p>
 
-        </div> */}
+
+
         <div className="flex flex-col gap-4 mt-4">
                     {isFetching && (
                         <>
@@ -41,6 +40,12 @@ const Page = () => {
                         explorePosts?.map((post, index) => {
                             return <Post key={index} postid={post.id} />;
                         })}
+
+                    {
+                        !explorePosts == true && <div>
+                            failed to fetch  data no post  found ,  please  refresh  the  page
+                        </div>
+                    }
                 </div>
     </section>
 
