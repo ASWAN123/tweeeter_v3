@@ -12,7 +12,7 @@ const HashtagInput = ({ hashtags ,  setContent , defaultStyle ,  defaultMentionS
         if (hashtags) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             hashTagsList = hashtags.map((x:String ,  index:Number) => {
-                return { id : index ,  display : x }
+                return { id : index ,  display : "#"+x }
             })
             
         }

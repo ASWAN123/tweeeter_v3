@@ -2,39 +2,38 @@
 import Image from "next/image";
 import PrivacyMenu from "./PrivacyMenu";
 import UploadImage from "./UploadImage";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { ImageIcon } from "../icons/Icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import HashtagInput from "./HashtagInput";
-import { defaultMentionStylePost, defaultStylePost } from "./inputStyles/inputStyles";
+
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import { hashTagsConfig } from "@/app/queryConfig";
-const Create_new_post = () => {
-    const { data : hashTags ,   isFetched ,  isFetching , error  } = useQuery(hashTagsConfig)
 
-    console.log(hashTags ,  'hashtags')
+const PostForm = () => {
+    // const { data : hashTags ,   isFetched ,  isFetching , error  } = useQuery(hashTagsConfig)
+
     const [url, setUrl] = useState<string>("");
     const [isPublic, setIsPublic] = useState(true);
     const [content, setContent] = useState("");
-    // const inputRef = useRef(null)
     const queryClient = useQueryClient();
     const forceUpdate = React.useReducer(() => ({}), {})[1];
-    const  id = uuidv4()
+    const id = uuidv4();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (content.trim() === "" && url.trim() === "") return;
-        const hashtagRegex = /(?:#)(\w+)/g;
-        const hashtags = (content.match(hashtagRegex) || []).map((match: string | any[]) => match.slice(1));
-
+        const  hashtags   = content.match(/#\w+/g)
+        let newHashtags  = hashtags?.map(( x ,  index ) => {
+            return {'name' :  x }
+        })
 
 
         const data = {
-            content: content,
-            media_url: url,
-            everyone_can_reply: isPublic,
+            content: content ,
+            media_url: url ,
+            everyone_can_reply: isPublic ,
+            hashtags : newHashtags ,
         };
 
         const response = await axios.post("/api/post/add", {
@@ -42,13 +41,15 @@ const Create_new_post = () => {
         });
 
         if (response.status == 201) {
-            setContent("") ;
-            setUrl("") ;
-            
+            setContent("");
+            setUrl("");
+
             queryClient.invalidateQueries({ queryKey: ["homePosts"] }) ;
+            queryClient.invalidateQueries({ queryKey: ["hashTags"] }) ;
             forceUpdate();
-            return ;
+            return;
         }
+        console.log(data)
     };
 
     return (
@@ -70,14 +71,15 @@ const Create_new_post = () => {
                         quality={100}
                     />
                     {/* input */}
-                    <div className=" w-full relative">
-                        <HashtagInput
-                            hashtags = {hashTags}
-                            setContent={setContent}
-                            defaultStyle = {defaultStylePost}
-                            defaultMentionStyle= {defaultMentionStylePost}
-                        />
-                    </div>
+                    <textarea
+                        className=" outline-none w-full p-2 test-gray-200  resize-none overflow-hidden"
+                        value={content}
+                        onChange={(e) => {
+                            setContent(e.target.value);
+                        }}
+                        name=""
+                        id=""
+                    ></textarea>
                 </div>
                 {url && (
                     <div className="w-full h-[200px] md:h-[250px] md:w-[350px] mx-auto my-8 relative">
@@ -101,7 +103,7 @@ const Create_new_post = () => {
                                 className=" text-blue-500 md:w-6 md:h-6 "
                             />
                         }
-                        inpuDId = {id}
+                        inpuDId={id}
                     />
 
                     <PrivacyMenu
@@ -120,4 +122,4 @@ const Create_new_post = () => {
     );
 };
 
-export default Create_new_post;
+export default PostForm;

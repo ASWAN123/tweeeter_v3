@@ -84,15 +84,16 @@ model Retweet {
 }
 
 model Hashtags {
-  id     Int   @id @default(autoincrement())
-  Post   Post? @relation(fields: [postId], references: [id])
+  id     Int    @id @default(autoincrement())
+  name   String
+  Post   Post?  @relation(fields: [postId], references: [id])
   postId Int?
-  User   User? @relation(fields: [userId], references: [id])
+  User   User?  @relation(fields: [userId], references: [id])
   userId Int?
 }
 
 model Follower {
-  id Int @id @default(autoincrement())
+  id     Int   @id @default(autoincrement())
   User   User? @relation(fields: [userId], references: [id])
   userId Int?
 }
