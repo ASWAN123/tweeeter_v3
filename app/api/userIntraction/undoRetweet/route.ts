@@ -11,27 +11,26 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         if (!session) {
             return NextResponse.json(
-                { Error: "You are not allowed to Like" },
+                { Error: "You are not allowed to post" },
                 { status: 401 }
             );
         }
 
-        let body = await req.json();
         const authorId = session.sub;
-        const post_Id = body.postId;
+        let body = await req.json();
 
-        const save = await db.save.create({
-            data: {
-                userId: Number(authorId),
-                postId: Number(post_Id),
-            },
+        const underretweet = await db.retweet.delete({
+            where : {
+                ...body
+            }
         });
 
-        return NextResponse.json({
-            message: "saved",
-            saved: save,
-            status: 201,
-        });
+        if (underretweet) {
+            return NextResponse.json(
+                { data: "Post has been undo retweeted " },
+                { status: 201 }
+            );
+        }
     } catch (error) {
         return NextResponse.json(
             { Error: "Internal Server Erorr" },

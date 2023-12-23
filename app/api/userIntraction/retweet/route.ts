@@ -19,18 +19,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const authorId = session.sub;
         let body = await req.json();
 
-        const createPost = await db.retweet.create({
+        const retweet = await db.retweet.create({
             data: {
                 postId: Number(body.postId),
                 userId: Number(authorId),
             },
         });
 
-        if (createPost) {
-            return NextResponse.json(
-                { data: "Post has been retweeted" },
-                { status: 201 }
-            );
+        if (retweet) {
+            return NextResponse.json({
+                message: "retweet",
+                retweeted: retweet,
+                status: 201,
+            });
         }
     } catch (error) {
         return NextResponse.json(

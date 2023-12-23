@@ -84,7 +84,7 @@ const Post = ({ postid }) => {
 
             <div className="flex flex-col gap-2">
                 <hr />
-                <EngagementActions post={postDetails} />
+                { postDetails && <EngagementActions post={postDetails} /> }
                 <hr />
                 <CreateNewComment
                     postId={postDetails?.id}

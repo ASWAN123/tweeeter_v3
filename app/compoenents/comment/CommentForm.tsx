@@ -5,10 +5,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
-import HashtagInput from "../post/HashtagInput";
 import { v4 as uuidv4 } from "uuid";
 
 const CreateNewComment = ({ postId, profileimg }) => {
+
+
     const [url, setUrl] = useState<string>();
     const [content, setContent] = useState("");
     const queryClient = useQueryClient();
@@ -16,7 +17,8 @@ const CreateNewComment = ({ postId, profileimg }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (content.trim() === "" && url?.trim() === "") return;
+        if ( content.trim() === "" && url?.trim() === "" ) return ;
+
 
         const data = {
             content: content,

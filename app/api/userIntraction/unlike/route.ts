@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         const like = await db.like.delete({
             where: {
-                id: Number(body.likeID),
+               ...body
             },
         });
 

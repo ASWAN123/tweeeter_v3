@@ -21,7 +21,6 @@ const UploadImage = ({ setUrl, Icon , inputId }) => {
       });
 
       const imageUrl = res.url ; 
-      console.log(imageUrl) ; 
       return imageUrl ; 
     } catch (error) { 
       console.error("Error uploading image:", error); 
@@ -38,6 +37,7 @@ const UploadImage = ({ setUrl, Icon , inputId }) => {
   };
 
   const handleFileChange = async (e:any) => {
+    
     const imageUrl = await uploadImage(e.target.files?.[0]);
     setUrl(imageUrl)
   };

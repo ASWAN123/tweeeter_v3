@@ -14,7 +14,7 @@ const ProfileUserCard = ({ user }) => {
     const queryClient = useQueryClient();
     const { edgestore } = useEdgeStore();
     const [url, setUrl] = useState();
-    console.log(url, "original");
+
     const id = uuidv4();
 
     useEffect(() => {
@@ -24,9 +24,6 @@ const ProfileUserCard = ({ user }) => {
             const response = await axios.post("/api/user/update", {
                 media_url: url,
             });
-
-            console.log(response);
-            console.log("done setting up the state");
             queryClient.invalidateQueries({ queryKey: ["userDetails"] });
         };
 

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         const save = await db.save.delete({
             where: {
-                id: Number(body.saveID),
+                ...body
             },
         });
 
@@ -29,9 +29,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             deletedLike: save,
             status: 201,
         });
-
-        
     } catch (error) {
+        console.log(error)
         return NextResponse.json(
             { Error: "Internal Server Erorr" },
             { status: 500 }

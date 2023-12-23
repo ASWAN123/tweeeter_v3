@@ -23,7 +23,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const  newHashtags = body['hashtags']
     delete body['hashtags']
 
-
     const createPost = await db.post.create({
         data: {
             ...body,

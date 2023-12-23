@@ -11,7 +11,7 @@ const Hashtags = ({hashTags}) => {
                 {
                     hashTags.map((elem  ,  index ) => {
                         return                  <li key={index} className="flex flex-col gap-2" >
-                        <p className="text-[16px] font-semibold ">{elem.name}</p>
+                        <p className="text-[16px] font-semibold ">#{elem.name}</p>
                         <span className=" text-neutral-400 "> 100k tweets</span>
                     </li>
                     })

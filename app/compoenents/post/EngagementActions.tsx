@@ -1,115 +1,144 @@
-'use client'
-
+"use client";
 import { CommentIcon, HeartIcon, RetweetIcon, SaveIcon } from "../icons/Icons";
-
 import classNames from "classnames";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-
-
-/// you need  big  update  make  sure  to return  only  important  data  from the  api no need  to  return  all saves  stuff 
-
+import { useState } from "react";
 
 const EngagementActions = ({ post }) => {
-    
-    let postId = post.id  // this  is  the  post  id  
-    let loggedInUser = post.author.id // user that  is  logged in to get information
-    const alreadyliked = post.likes.find( (x) => x.postId  == postId  && x.userId == loggedInUser  ) ;
-    let likeID = alreadyliked?.id ;
-
-
-
-    
-    let alreadyCommented = post.comments.find( (x) => x.userId == loggedInUser  ) 
-    const alreadySaved = post.saves.find( (x) => x.userId == loggedInUser  ) ;
-    const alreadyRetweeted = post.Retweets.find( x => x.userId == loggedInUser )
-    let saveID = alreadySaved?.id
-
-
-
-    
-    
     const queryClient = useQueryClient();
 
-    const handleToggleLike = async() => {
+    let postId = post.id;
+    let author = post.author.id;
 
-        if (alreadyliked) {
 
-            const resposne  = await axios.post('/api/userIntraction/unlike' ,  {
-                likeID 
-            })
-            // console.log(resposne.data)
-            queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-            return 
 
-        }else{
-                        
-            const resposne  = await axios.post('/api/userIntraction/like' ,  {
-                postId
-            })
-            // console.log(resposne.data)
-            queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-            return  
 
+    // like
+    const alreadyliked = post.likes.find(
+        (x: any) => x.postId == postId && x.userId == author
+    );
+    let likeID = alreadyliked?.id;
+    const [like, setLike] = useState(alreadyliked);
+    const [likeId, setLikeId] = useState(likeID);
+
+
+
+
+
+
+
+    // comment
+    let alreadyCommented = post.comments.find(
+        (x: any) => x.postId == postId && x.userId == author
+    );
+    let commentID = alreadyCommented?.id;
+    const [comment, setComment] = useState(alreadyCommented);
+    
+
+
+
+
+
+    // saved
+    const alreadySaved = post.saves.find(
+        (x: any) => x.postId == postId && x.userId == author
+    );
+    let saveID = alreadySaved?.id;
+    const [save, setSave] = useState(alreadySaved);
+    const [saveId, setSaveId ] = useState(saveID);
+
+
+
+
+    // retweet
+    const alreadyRetweeted = post.Retweets.find(
+        (x: any) => x.postId == postId && x.userId == author
+    );
+    let retweetID = alreadyRetweeted?.id
+    const [retweet, setRetweet] = useState(retweetID);
+    const [retweetId, setRetweetId ] = useState(retweetID);
+
+
+
+
+
+
+    const handleToggleLike = async () => {
+        if (like) {
+            setLike(false);
+            const resposne = await axios.post("/api/userIntraction/unlike", {
+                id : likeId ,
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
+        } else {
+            setLike(true);
+            const resposne = await axios.post("/api/userIntraction/like", {
+                postId ,
+            });
+            setLikeId(resposne.data.Liked.id)
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
         }
-
-        
     };
 
+    const handleToggleSave = async () => {
+        if (save) {
+            setSave(false);
+            console.log(saveId ,  'saved  id  ')
+            const resposne = await axios.post("/api/userIntraction/unsave", {
+                id:saveId,
+            });
 
-    const handleToggleSave = async() => {
-
-        if (alreadySaved) {
-
-            const resposne  = await axios.post('/api/userIntraction/unsave' ,  {
-                 saveID
-            })
-            console.log(resposne.data)
-            queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-            return 
-
-        }else{
-                        
-            const resposne  = await axios.post('/api/userIntraction/save' ,  {
-                postId
-            })
-            console.log(resposne.data)
-            queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-            return  
-
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
+        } else {
+            setSave(true);
+            const resposne = await axios.post("/api/userIntraction/save", {
+                postId,
+            });
+            setSaveId(resposne.data.saved.id)
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
         }
-
-        
     };
 
+    const handleToggleRetweet = async () => {
+        if (retweet) {
+            setRetweet(false);
+            const resposne = await axios.post(
+                "/api/userIntraction/undoRetweet",
+                {
+                    id: retweetId ,
+                }
+            );
 
-    const handleToggleRetweet = async() => {
-        
-        const resposne  = await axios.post('/api/userIntraction/retweet' ,  {
-            postId
-        })
-        console.log(resposne.data)
-        queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-        return 
-        // if (alreadyRetweeted) {
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
+        } else {
+            setRetweet(true);
+            const resposne = await axios.post("/api/userIntraction/retweet", {
+                postId,
+            });
+            setRetweetId(resposne.data.retweeted.id)
 
-
-        // }else{
-                        
-        //     const resposne  = await axios.post('/api/userIntraction/save' ,  {
-        //         postId
-        //     })
-        //     console.log(resposne.data)
-        //     queryClient.invalidateQueries({ queryKey: ['post' , postId ] });
-        //     return  
-
-        // }
-
-        
+            queryClient.invalidateQueries({
+                queryKey: ["postDetails", postId],
+            });
+            return;
+        }
     };
-
-
-
 
 
 
@@ -120,30 +149,29 @@ const EngagementActions = ({ post }) => {
     const LikeClass = classNames({
         "flex gap-2  items-center  px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
-        "text-red-500": alreadyliked ? true : false,
-        "text-neutral-500": alreadyliked ? false : true,
+        "text-red-500": like ? true : false,
+        "text-neutral-500": like ? false : true,
     });
 
     const CommentClass = classNames({
         "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
-        "text-gray-900": alreadyCommented ? true : false,
-        "text-neutral-500": alreadyCommented ? false : true,
+        "text-gray-900": comment ? true : false,
+        "text-neutral-500": comment ? false : true,
     });
-
 
     const SaveClass = classNames({
         "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
-        "text-blue-500": alreadySaved ? true : false,
-        "text-neutral-500": alreadySaved ? false : true,
+        "text-blue-500": save ? true : false,
+        "text-neutral-500": save ? false : true,
     });
 
     const RetweetClass = classNames({
         "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
-        "text-green-300": alreadyRetweeted ? true : false,
-        "text-neutral-500": alreadyRetweeted ? false : true,
+        "text-green-300": retweet ? true : false,
+        "text-neutral-500": retweet ? false : true,
     });
 
     return (
@@ -162,11 +190,15 @@ const EngagementActions = ({ post }) => {
                     height={16}
                     className="  md:w-[20px] md:h-[20px]"
                 />
-            { alreadyRetweeted ? "Retweeted" : "Retweet"}
+                {retweet ? "Retweeted" : "Retweet"}
             </button>
-            <button onClick={ handleToggleLike} className={LikeClass}>
-                <HeartIcon width={16} height={16} className=" md:w-[20px] md:h-[20px] " />
-                { alreadyliked ? "Liked" : "Like"}
+            <button onClick={handleToggleLike} className={LikeClass}>
+                <HeartIcon
+                    width={16}
+                    height={16}
+                    className=" md:w-[20px] md:h-[20px] "
+                />
+                {like ? "Liked" : "Like"}
             </button>
             <button onClick={handleToggleSave} className={SaveClass}>
                 <SaveIcon
@@ -174,7 +206,7 @@ const EngagementActions = ({ post }) => {
                     height={16}
                     className="  md:w-[20px] md:h-[20px]"
                 />
-               { alreadySaved ? "Saved" : "Save"}
+                {save ? "Saved" : "Save"}
             </button>
         </div>
     );
