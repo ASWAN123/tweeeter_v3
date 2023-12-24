@@ -1,18 +1,20 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
 import { v4 as uuidv4 } from "uuid";
+import  { postDetailsConfig } from "@/app/queryConfig"
+ 
 
 const CreateNewComment = ({ postId, profileimg }) => {
+    const queryClient = useQueryClient();
 
 
     const [url, setUrl] = useState<string>();
     const [content, setContent] = useState("");
-    const queryClient = useQueryClient();
     const id = uuidv4();
 
     const handleSubmit = async (e) => {
@@ -30,19 +32,21 @@ const CreateNewComment = ({ postId, profileimg }) => {
             ...data,
         });
 
+        // queryClient.invalidateQueries({
+        //     queryKey: ["postDetails", postId],
+        // });
+        queryClient.invalidateQueries(postDetailsConfig(postId));
+
         if (response.status == 201) {
             setContent("") ;
-            setUrl("") ;
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            }) ;
-            
+            setUrl("") ; 
         }
 
         
     };
 
     return (
+        <>
         <form
             onSubmit={handleSubmit}
             className="flex items-center w-full gap-2  "
@@ -79,7 +83,23 @@ const CreateNewComment = ({ postId, profileimg }) => {
                 />
             </div>
         </form>
+            {url && (
+                    <div className="w-full h-[100px] md:h-[100px] md:w-[200px] mx-auto my-8 relative">
+                        <Image
+                            fill
+                            src={url}
+                            alt="Picture of the author"
+                            className="rounded-md shadow-sm  -z-0"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                    </div>
+                )}
+        </>
     );
 };
 
 export default CreateNewComment;
+function postDetailsQueryKey(postId: any) {
+    throw new Error("Function not implemented.");
+}
+

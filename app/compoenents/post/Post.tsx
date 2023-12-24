@@ -18,8 +18,8 @@ import { postDetailsConfig } from "../../queryConfig";
 const Post = ({ postid }) => {
     const {
         data: postDetails,
-        isFetched,
         isLoading,
+        isFetching,
         error,
     } = useQuery(postDetailsConfig(postid));
 
@@ -45,9 +45,9 @@ const Post = ({ postid }) => {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <Link href={`/user/${postDetails.author.id}`} className="cursor-pointer font-semibold text-[16px]">
+                
+                    <Link href={`/user?${new URLSearchParams({id: postDetails.author.id}).toString()}`} className="cursor-pointer font-semibold text-[16px]">
                             {postDetails?.author?.name}
-                        
                     </Link>
                     <span className="text-neutral-400">
                         {new Date(postDetails.created_at).toLocaleString(
@@ -65,7 +65,7 @@ const Post = ({ postid }) => {
 
             <p className="text-[16px] md:text-[12px]">{postDetails.content}</p>
             {postDetails.media_url && (
-                <div className="w-full h-[200px] md:h-[500px] relative">
+                <div className="w-full h-[350px] md:h-[500px] relative">
                     <Image
                         src={postDetails.media_url}
                         alt="Picture of the author"
@@ -93,10 +93,11 @@ const Post = ({ postid }) => {
                 {postDetails?.comments.length > 0 && <hr />}
 
                 <div className="mt-2">
-                    {postDetails.comments.map((comment: any, index: any) => (
+                    { !isLoading && postDetails.comments.map((comment: any, index: any) => (
                         <Comment comment={comment} key={index} />
                     ))}
-                    {postDetails.comments.length === 0 && (
+
+                    { !!postDetails.comments.length && (
                         <div className="w-full flex items-center justify-center my-4">
                             <p>No comments for this post</p>
                         </div>

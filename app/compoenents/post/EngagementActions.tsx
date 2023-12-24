@@ -61,18 +61,13 @@ const EngagementActions = ({ post }) => {
 
 
 
-
-
-
     const handleToggleLike = async () => {
         if (like) {
             setLike(false);
             const resposne = await axios.post("/api/userIntraction/unlike", {
                 id : likeId ,
             });
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
+
             return;
         } else {
             setLike(true);
@@ -80,9 +75,7 @@ const EngagementActions = ({ post }) => {
                 postId ,
             });
             setLikeId(resposne.data.Liked.id)
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
+
             return;
         }
     };
@@ -95,9 +88,7 @@ const EngagementActions = ({ post }) => {
                 id:saveId,
             });
 
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
+
             return;
         } else {
             setSave(true);
@@ -105,9 +96,6 @@ const EngagementActions = ({ post }) => {
                 postId,
             });
             setSaveId(resposne.data.saved.id)
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
             return;
         }
     };
@@ -122,9 +110,6 @@ const EngagementActions = ({ post }) => {
                 }
             );
 
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
             return;
         } else {
             setRetweet(true);
@@ -133,9 +118,6 @@ const EngagementActions = ({ post }) => {
             });
             setRetweetId(resposne.data.retweeted.id)
 
-            queryClient.invalidateQueries({
-                queryKey: ["postDetails", postId],
-            });
             return;
         }
     };
@@ -147,35 +129,35 @@ const EngagementActions = ({ post }) => {
 
 
     const LikeClass = classNames({
-        "flex gap-2  items-center  px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center mx-2  px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-red-500": like ? true : false,
         "text-neutral-500": like ? false : true,
     });
 
     const CommentClass = classNames({
-        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center md:mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-gray-900": comment ? true : false,
         "text-neutral-500": comment ? false : true,
     });
 
     const SaveClass = classNames({
-        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-blue-500": save ? true : false,
         "text-neutral-500": save ? false : true,
     });
 
     const RetweetClass = classNames({
-        "flex gap-2  items-center  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-green-300": retweet ? true : false,
         "text-neutral-500": retweet ? false : true,
     });
 
     return (
-        <div className="flex justify-between  md:gap-6">
+        <div className="flex justify-between   lg:md:6 ">
             <button className={CommentClass}>
                 <CommentIcon
                     width={16}
