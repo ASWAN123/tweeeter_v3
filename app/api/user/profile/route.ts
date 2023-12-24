@@ -1,23 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
-// import { getToken } from "next-auth/jwt";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+
+
 
 // get user info
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const url = new URL(req.url);
     const id = url.searchParams.get("id");
-
-    // const session = await getToken({
-    //   req,
-    //   secret: process.env.NEXTAUTH_SECRET,
-    // });
-
     const session = await getServerSession(authOptions);
 
-    console.log(session);
+
 
     if (!session) {
       return NextResponse.json(
@@ -26,12 +22,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
       );
     }
 
-    // let id = session.sub;
+
+    const user_id = id || session?.user?.sub;
 
     const user = await db.user.findUnique({
-      where: { id: Number(id ?? session?.user?.sub) },
-      //   where: { id: Number(id) },
+      where: { id: Number(user_id) },
       select: {
+        id:true ,
         email: true,
         username: true,
         name: true,
@@ -41,7 +38,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         cover: true,
       },
     });
-    console.log(user)
+
 
     return NextResponse.json({ ...user });
   } catch (error) {

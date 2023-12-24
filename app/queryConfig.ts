@@ -42,14 +42,10 @@ const getExplorePosts = async () => {
 };
 
 const getPostDetails = async (id: any) => {
-  const params = {
-    id: id,
-  };
-  const queryString = new URLSearchParams(params).toString();
-  const requestURL = `/api/post?${queryString}`;
+  console.log()
+  const requestURL = `/api/post?id=${id}`;
   const response = await axios.get(requestURL);
-
-  return response.data;
+  return response.data ;
 };
 
 const getHashTags = async () => {
@@ -61,14 +57,28 @@ const getHashTags = async () => {
   }
 };
 
-const getUserPosts = async () => {
-  try {
-    const response = await axios.get("/api/user/posts");
+
+
+const getUserPosts = async (id:any | undefined) => {
+    const response = await axios.get("/api/user/posts?" + (id ?  `id=${id}` :  "" ) );
     return response.data;
-  } catch (error) {
-    console.error(error);
-  }
 };
+
+const userPosts = "userPosts";
+const userPostsConfig = (id) => {
+  return {
+    queryKey: [userPosts, id ],
+    queryFn: async () => await getUserPosts(id),
+  };
+};
+
+
+
+
+
+
+
+
 
 const homePosts = "homePosts";
 const homePostsConfig = { queryKey: [homePosts], queryFn: getHomePosts };
@@ -92,15 +102,15 @@ const postDetails = "postDetails";
 const postDetailsConfig = (id: any) => {
   return {
     queryKey: [postDetails, `${id}`],
-    queryFn: () => getPostDetails(id),
+    queryFn: async () =>  await getPostDetails(id) ,
   };
 };
 
 const hashTags = "hashTags";
 const hashTagsConfig = { queryKey: [hashTags], queryFn: getHashTags };
 
-const userPosts = "userPosts";
-const userPostsConfig = { queryKey: [userPosts], queryFn: getUserPosts };
+
+
 
 export {
   userDetailsConfig,

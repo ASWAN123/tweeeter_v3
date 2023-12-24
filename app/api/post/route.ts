@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
-import { getToken } from "next-auth/jwt";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(req: NextRequest) {
+    
     const url = new URL(req.url);
     let id = url.searchParams.get("id");
 
     try {
-        const session = await getToken({
-            req,
-            secret: process.env.NEXTAUTH_SECRET,
-        });
+        const session = await getServerSession(authOptions);
 
         if (!session) {
             return NextResponse.json(

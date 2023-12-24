@@ -9,9 +9,6 @@ const FilterCard = ({ options  , defaultvalue  }) => {
 
 
 
-
-
-
     return (
         <div className=" bg-[#FFFFFF]  rounded-md  flex flex-col gap-2 shadow-md   col-span-1 mt-4">
             <ul className="  py-4 mt-2 font-semibold text-neutral-500 text-[14px] px-0  ">

@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
-import { getToken } from "next-auth/jwt";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
+
+// get user info
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
-        const session = await getToken({
-            req,
-            secret: process.env.NEXTAUTH_SECRET,
-        });
+        const url = new URL(req.url);
+        const id = url.searchParams.get("id");
+
+
+        const session = await getServerSession(authOptions);
 
         if (!session) {
             return NextResponse.json(
@@ -16,23 +20,32 @@ export async function GET(req: NextRequest, res: NextResponse) {
             );
         }
 
-        let id = session.sub;
 
-        const posts = await db.post.findMany({
-            where :{
-                authorId : Number(id),
+        const user_id = id || session?.user?.sub;
+  
+
+        const posts = await db.user.findMany({
+            where: {
+                id: Number(user_id),
             },
-            orderBy:{
-                created_at:'desc',
+            select: {
+                posts: {
+                    select: {
+                        id: true,
+                    },
+                    orderBy: {
+                        created_at: "desc",
+                    },
+                },
             },
-            select:{
-                id: true  ,
-            }
-        }) ;
+        });
 
-        return NextResponse.json( posts ,  { status: 200 } );
 
+
+
+        return NextResponse.json( posts[0]['posts'] , { status: 200 });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { Error: "Internal Server Erorr" },
             { status: 500 }

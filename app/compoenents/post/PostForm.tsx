@@ -12,7 +12,7 @@ import { userDetailsConfig } from "@/app/queryConfig";
 
 const PostForm = () => {
 
-    const { data: userDetails, isLoading: isUserLoading } = useQuery(userDetailsConfig);
+    const { data: userDetails, isLoading: isUserLoading } = useQuery(userDetailsConfig(undefined));
     
 
     const [url, setUrl] = useState<string>();

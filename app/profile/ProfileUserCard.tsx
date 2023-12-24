@@ -7,10 +7,12 @@ import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEdgeStore } from "../lib/edgestore";
 import { v4 as uuidv4 } from "uuid";
+import { useSession } from "next-auth/react";
 
 
 
 const ProfileUserCard = ({ user }) => {
+    const { data  : session } = useSession()
     const queryClient = useQueryClient();
     const { edgestore } = useEdgeStore();
     const [url, setUrl] = useState();
@@ -18,7 +20,6 @@ const ProfileUserCard = ({ user }) => {
     const id = uuidv4();
 
     useEffect(() => {
-        // console.log("start updating  stuff ");
 
         const updateUserData = async () => {
             const response = await axios.post("/api/user/update", {
@@ -35,7 +36,7 @@ const ProfileUserCard = ({ user }) => {
     return (
         <div className="min-h-[163px]  flex flex-col  md:flex-row items-center gap-4 md:items-start bg-white rounded-md w-full py-4 px-6 -mt-24 col-span-3 shadow-md ">
             <div className="min-w-[160px]   rounded-md bg-white min-h-[160px] md:min-w-[150px] md:min-h-[150px] w-[100px] h-[100px] relative  shadow-sm -z-0  -mt-32 md:-mt-20">
-                {  <UploadImage
+                { session?.user?.sub  ==  user?.id &&  <UploadImage
                     Icon={
                         <EditIcon className=" w-8 h-8 absolute text-black rounded-full -top-2 -left-2 z-50 p-1  bg-white    cursor-pointer " />
                     }
@@ -67,9 +68,9 @@ const ProfileUserCard = ({ user }) => {
                     {user?.bio}
                 </p>
             </div>
-            <button className="bg-blue-500 mx-auto px-4 py-1 rounded-md md:ml-auto text-white text-[16px] flex  shrink-0 items-center  flex-nowrap">
+            { session?.user?.sub  !=  user?.id &&  <button className="bg-blue-500 mx-auto px-4 py-1 rounded-md md:ml-auto text-white text-[16px] flex  shrink-0 items-center  flex-nowrap">
                 + Follow
-            </button>
+            </button> }
         </div>
     );
 };

@@ -17,21 +17,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
 
         let body = await req.json();
-        const authorId = session?.user?.sub;
-        const post_Id = body.postId;
+        
 
-        const save = await db.save.create({
-            data: {
-                userId: Number(authorId),
-                postId: Number(post_Id),
-            },
-        });
 
-        return NextResponse.json({
-            message: "saved",
-            saved: save,
-            status: 200,
-        });
+
+
+
+
+
+
+
+
+
     } catch (error) {
         return NextResponse.json(
             { Error: "Internal Server Erorr" },

@@ -23,7 +23,7 @@ const Navbar = () => {
         { path: "/bookmarks", name: "Bookmarks" },
     ];
 
-    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig())
+    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig(undefined))
 
     return (
         <nav>

@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
-import { getToken } from "next-auth/jwt";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
-        const session = await getToken({
-            req,
-            secret: process.env.NEXTAUTH_SECRET,
-        });
+        const session = await getServerSession(authOptions);
 
 
         if (!session) {
