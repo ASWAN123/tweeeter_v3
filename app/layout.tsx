@@ -11,31 +11,30 @@ import { EdgeStoreProvider } from "@/app/lib/edgestore";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Tweeter",
-    description: "Tweeter social app",
+  title: "Tweeter",
+  description: "Tweeter social app",
 };
 
 export default async function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const session = await getServerSession(authOptions) ;
-    // console.log(session ,  'session ')
-    
+  const session = await getServerSession(authOptions);
+  // console.log(session ,  'session ')
 
-    return (
-        <html lang="en">
-            <body className={`${inter.className}  `}>
-                <SessionProvider session={session}>
-                    <TanstackProvider>
-                        <EdgeStoreProvider>
-                            <Navbar />
-                            {children}
-                        </EdgeStoreProvider>
-                    </TanstackProvider>
-                </SessionProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body className={`${inter.className}  `}>
+        <SessionProvider session={session}>
+          <TanstackProvider>
+            <EdgeStoreProvider>
+              {/* <Navbar /> */}
+              {children}
+            </EdgeStoreProvider>
+          </TanstackProvider>
+        </SessionProvider>
+      </body>
+    </html>
+  );
 }
