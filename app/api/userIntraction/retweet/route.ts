@@ -15,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             );
         }
 
-        const authorId = session.sub;
+        const authorId = session?.user?.sub;
         let body = await req.json();
 
         const retweet = await db.retweet.create({

@@ -24,6 +24,8 @@ const EngagementActions = ({ post }) => {
     let alreadyCommented = post.comments.find(
         (x: any) => x.postId == postId && x.userId == author
     );
+    console.log("comment ==> " ,  alreadyCommented)
+    console.log("comments ===>" ,  post.comments)
     let commentID = alreadyCommented?.id;
     const [comment, setComment] = useState(alreadyCommented);
 
@@ -66,9 +68,6 @@ const EngagementActions = ({ post }) => {
         }
     };
 
-
-
-
     const handleToggleSave = async () => {
         if (save) {
             setSave(false);
@@ -77,9 +76,7 @@ const EngagementActions = ({ post }) => {
                 id: saveId,
             });
 
-
             queryClient.invalidateQueries(postDetailsConfig(postId));
-            
 
             return;
         } else {
@@ -89,24 +86,13 @@ const EngagementActions = ({ post }) => {
                 postId,
             });
 
-            
-            
             setSaveId(resposne.data.saved.id);
 
-            
-
             queryClient.invalidateQueries(postDetailsConfig(postId));
-
-            
 
             return;
         }
     };
-
-
-
-
-
 
     const handleToggleRetweet = async () => {
         if (retweet) {
@@ -143,7 +129,7 @@ const EngagementActions = ({ post }) => {
         "flex gap-2  items-center md:mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-gray-900": comment ? true : false,
-        "text-neutral-500": comment ? false : true,
+        "text-gray-200": comment ? false : true,
     });
 
     const SaveClass = classNames({

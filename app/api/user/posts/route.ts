@@ -32,6 +32,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 posts: {
                     select: {
                         id: true,
+                        likes : {
+                            select:{
+                                id: true,
+                            }
+                        },
+                        media_url:true ,
+                        
                     },
                     orderBy: {
                         created_at: "desc",

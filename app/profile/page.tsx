@@ -18,6 +18,8 @@ const Page = ({ searchParams: { id: userId } }) => {
     const { data: session } = useSession();
 
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
+    const [filter , setFilter ] = useState( "Tweets" )
+
     const id = uuidv4();
 
     const queryClient = useQueryClient();
@@ -29,16 +31,13 @@ const Page = ({ searchParams: { id: userId } }) => {
     );
 
 
-    // follow  you need  logged in user ,  and  user  to add  
-    const  doFollow = async () => {
-      return 
-    }
-
 
 
     const { data: userPosts, isLoading: isUserPostsLoading } = useQuery(
         userPostsConfig(userId)
     );
+    console.log('Posts ===>' ,  userPosts)
+
 
     useEffect(() => {
         const updateUserData = async () => {
@@ -53,6 +52,29 @@ const Page = ({ searchParams: { id: userId } }) => {
             updateUserData();
         }
     }, [queryClient, url]);
+
+
+    let AllPosts;
+
+    switch (filter) {
+        case 'Tweets & replies':
+            AllPosts = userPosts;
+            break ;
+        case 'Media':
+            AllPosts = userPosts.filter((x:any) => x.media_url != null )
+            break;
+        case 'Likes':
+            // console.log(userPosts)
+            AllPosts = userPosts.filter((x:any) => x.likes.length > 0 )
+            break;
+        default:
+            AllPosts = userPosts;
+            break;
+    }
+      
+
+
+
 
     return (
         <main className=" w-full  mx-auto  ">
@@ -83,11 +105,11 @@ const Page = ({ searchParams: { id: userId } }) => {
                     <ProfileUserCard user={userDetails} />
                 )}
 
-                <FilterCard options={options} defaultvalue="Tweets" />
+                <FilterCard options={options}  filter={filter} setFilter ={setFilter} />
 
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isUserPostsLoading && <SkeletonPost />}
-                    {userPosts?.map((post: any) => {
+                    {AllPosts?.map((post: any) => {
                         return <Post postid={post.id} key={post.id} />;
                     })}
                 </div>

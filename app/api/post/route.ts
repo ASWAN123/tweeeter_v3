@@ -46,10 +46,12 @@ export async function GET(req: NextRequest) {
                         created_at: "desc",
                     },
                     select: {
-                        id: true,
-                        content: true,
-                        created_at: true,
-                        media_url: true,
+                        id: true ,
+                        content: true ,
+                        created_at: true ,
+                        media_url: true ,
+                        userId : true ,
+                        postId : true ,
                         User: {
                             select:{
                                 media_url: true,

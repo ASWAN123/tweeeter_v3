@@ -16,7 +16,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
 
         let body = await req.json();
-        const authorId = session.sub;
+        const authorId = session?.user?.sub;
         const post_Id = body.postId;
 
         const like = await db.like.create({

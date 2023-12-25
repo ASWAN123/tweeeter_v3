@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 
-const FilterCard = ({ options  , defaultvalue  }) => {
+const FilterCard = ({ options   , filter ,  setFilter }) => {
 
-    const [selectOption, setSelectOption] = useState(defaultvalue);
+
     
 
 
@@ -16,10 +16,11 @@ const FilterCard = ({ options  , defaultvalue  }) => {
                     return (
                         <li
                             key={index}
-                            className={` py-1 items-center   flex flex-row     hover:cursor-pointer ${ selectOption === option ? "text-blue-500" : " text-neutral-500" }`}
+                            onClick={() => {setFilter(option)}}
+                            className={` py-1 items-center   flex flex-row     hover:cursor-pointer ${ filter === option ? "text-blue-500" : " text-neutral-500" }`}
                         >
                             
-                            <span className={`${ selectOption === option ? "bg-blue-500" : " bg-transparent " } h-12 w-1 mr-6 rounded-r-md`}></span>
+                            <span className={`${ filter === option ? "bg-blue-500" : " bg-transparent " } h-12 w-1 mr-6 rounded-r-md`}></span>
                             {option}
                         </li>
                     );
