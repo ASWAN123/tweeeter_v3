@@ -43,8 +43,7 @@ const EngagementActions = ({ post }) => {
     const [retweet, setRetweet] = useState(retweetID);
     const [retweetId, setRetweetId] = useState(retweetID);
 
-
-    //  end  count stuf 
+    //  end  count stuf
 
     const handleToggleLike = async () => {
         if (like) {
@@ -52,7 +51,7 @@ const EngagementActions = ({ post }) => {
             const resposne = await axios.post("/api/userIntraction/unlike", {
                 id: likeId,
             });
- 
+            queryClient.invalidateQueries(postDetailsConfig(postId));
 
             return;
         } else {
@@ -61,39 +60,53 @@ const EngagementActions = ({ post }) => {
                 postId,
             });
             setLikeId(resposne.data.Liked.id);
-
+            queryClient.invalidateQueries(postDetailsConfig(postId));
 
             return;
         }
     };
 
+
+
+
     const handleToggleSave = async () => {
         if (save) {
-            console.log(saveId, "saved  id  ");
+            setSave(false);
+
             const resposne = await axios.post("/api/userIntraction/unsave", {
                 id: saveId,
             });
-            
-            if(resposne.status == 201){
-                
-            queryClient.invalidateQueries(postDetailsConfig(postId)); 
-                           setSave(false);
-            }
+
+
+            queryClient.invalidateQueries(postDetailsConfig(postId));
             
 
             return;
         } else {
+            setSave(true);
+
             const resposne = await axios.post("/api/userIntraction/save", {
                 postId,
             });
+
+            
+            
             setSaveId(resposne.data.saved.id);
-            if(resposne.status == 201){
-                queryClient.invalidateQueries(postDetailsConfig(postId));                
-                setSave(true);
-            }
+
+            
+
+            queryClient.invalidateQueries(postDetailsConfig(postId));
+
+            
+
             return;
         }
     };
+
+
+
+
+
 
     const handleToggleRetweet = async () => {
         if (retweet) {
@@ -104,6 +117,7 @@ const EngagementActions = ({ post }) => {
                     id: retweetId,
                 }
             );
+            queryClient.invalidateQueries(postDetailsConfig(postId));
 
             return;
         } else {
@@ -112,6 +126,7 @@ const EngagementActions = ({ post }) => {
                 postId,
             });
             setRetweetId(resposne.data.retweeted.id);
+            queryClient.invalidateQueries(postDetailsConfig(postId));
 
             return;
         }

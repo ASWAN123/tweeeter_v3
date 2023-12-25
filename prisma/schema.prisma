@@ -34,7 +34,7 @@ model Post {
   update_at          DateTime   @updatedAt
   content            String
   everyone_can_reply Boolean
-  media_url          String
+  media_url          String?
   author             User       @relation(fields: [authorId], references: [id])
   authorId           Int
   comments           Comment[]

@@ -70,7 +70,7 @@ const PostForm = () => {
                     userDetails &&
                     <Image
                         className="rounded"
-                        src= { url ?? userDetails?.media_url  ?? "/profile.png" } 
+                        src= { userDetails?.media_url  ?? "/profile.png" } 
                         height={40}
                         width={40}
                         alt="profile"
