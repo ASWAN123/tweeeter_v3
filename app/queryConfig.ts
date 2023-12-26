@@ -3,9 +3,18 @@ import axios from "axios";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
 //  you gonna  mentio  one  thing here is that  home post  only  with folowing  relation
+const getExplorePosts = async () => {
+  try {
+    const response = await axios.get("/api/posts/explore");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getHomePosts = async () => {
   try {
-    const response = await axios.get("/api/posts");
+    const response = await axios.get("/api/posts/home");
     return response.data;
   } catch (error) {
     console.error(error);
@@ -32,14 +41,6 @@ const getSavedPosts = async () => {
   }
 };
 
-const getExplorePosts = async () => {
-  try {
-    const response = await axios.get("/api/posts");
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const getPostDetails = async (id: any) => {
   console.log()

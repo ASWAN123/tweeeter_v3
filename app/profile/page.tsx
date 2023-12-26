@@ -36,7 +36,7 @@ const Page = ({ searchParams: { id: userId } }) => {
     const { data: userPosts, isLoading: isUserPostsLoading } = useQuery(
         userPostsConfig(userId)
     );
-    console.log('Posts ===>' ,  userPosts)
+    // console.log('Posts ===>' ,  userPosts)
 
 
     useEffect(() => {

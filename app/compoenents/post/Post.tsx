@@ -21,12 +21,16 @@ const Post = ({ postid }) => {
         data: postDetails,
         isLoading,
         isFetching,
+        isFetched,
         error,
     } = useQuery(postDetailsConfig(postid));
 
-    if (isLoading) {
-        return <SkeletonPost />;
-    }
+
+
+    console.log(postDetails)
+
+
+    
 
 
     
@@ -34,17 +38,21 @@ const Post = ({ postid }) => {
 
 
     return (
-        <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
+
+
+        <>
+        { postDetails && <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
             <div className="flex items-center gap-4">
-                <div className="relative w-[40px] h-[40px]">
-                    <Image
+                 <div className="relative w-[40px] h-[40px]">
+                     <Image
                         className="rounded"
                         src={postDetails.author.media_url ?? "/profile.png"}
                         height={40}
                         width={40}
                         alt="cover author"
-                    />
-                </div>
+                    /> 
+                </div> 
+                
                 <div className="flex flex-col gap-1">
                 
                     <Link href={`/profile?id=${ postDetails.author.id}`} className="cursor-pointer font-semibold text-[16px]">
@@ -61,7 +69,7 @@ const Post = ({ postid }) => {
                             }
                         )}
                     </span>
-                </div>
+                </div> 
             </div>
 
             <p className="text-[16px] md:text-[12px]">{postDetails.content}</p>
@@ -77,14 +85,10 @@ const Post = ({ postid }) => {
                 </div>
             )}
 
-            {/* <div className="flex justify-end space-x-3 text-neutral-400 -mb-2 md:mb-auto md:-mt-1">
-                <span>{postDetails.comments.length} Comments</span>
-                <span>{postDetails.Retweets.length} Retweets</span>
-                <span>{postDetails.saves.length} Saved</span>
-            </div> */}
+
 
             <div className="flex flex-col gap-2">
-                <hr />
+                {/* <hr /> */}
                 { postDetails && <EngagementActions post={postDetails} /> }
                 <hr />
                 <CreateNewComment
@@ -105,7 +109,12 @@ const Post = ({ postid }) => {
                     )}
                 </div>
             </div>
-        </div>
+        </div> }
+
+        {
+            isLoading && <SkeletonPost />
+        }
+        </>
     );
 };
 

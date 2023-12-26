@@ -154,6 +154,8 @@ const EngagementActions = ({ post }) => {
                 <span>{post.saves.length} Saved</span>
             </div>
 
+            <hr />
+
             <div className="flex justify-between   lg:md:6 ">
                 <button className={CommentClass}>
                     <CommentIcon

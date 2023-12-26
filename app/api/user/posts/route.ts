@@ -4,7 +4,7 @@ import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
-// get user info
+
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const url = new URL(req.url);
@@ -21,7 +21,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
         }
 
 
-        const user_id = id || session?.user?.sub;
+        const user_id = id || session?.user?.sub || '2' ;
+        // const user_id = 2
   
 
         const posts = await db.user.findMany({
@@ -32,12 +33,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 posts: {
                     select: {
                         id: true,
+                        media_url: true,
                         likes : {
                             select:{
                                 id: true,
                             }
-                        },
-                        media_url:true ,
+                        }
                         
                     },
                     orderBy: {
