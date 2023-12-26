@@ -12,12 +12,25 @@ import { useSession } from "next-auth/react";
 
 
 const ProfileUserCard = ({ user }) => {
+    console.log(user)
     const { data  : session } = useSession()
-    const queryClient = useQueryClient();
-    const { edgestore } = useEdgeStore();
-    const [url, setUrl] = useState();
+    const queryClient = useQueryClient() ;
+    const { edgestore } = useEdgeStore() ;
+    const [url, setUrl] = useState() ;
+
+    // update  this  to  work with  the  user  objects 
+    const  afollower  = user.followers.find((x) => x.userId == session?.user?.sub ) ;
+    
+
+    const [ follow  ,  setFollow ] = useState( afollower ? true : false )
+
+
+    console.log("follow  ====> " , follow )
+
 
     const id = uuidv4();
+
+
 
     useEffect(() => {
 
@@ -32,6 +45,48 @@ const ProfileUserCard = ({ user }) => {
             updateUserData();
         }
     }, [queryClient, url]);
+
+
+
+
+    const doFolllow = async () => { 
+        setFollow(true) 
+        const userId = user.id 
+
+        const  response = await  axios.post("/api/userIntraction/dofollow" ,  {
+            userId 
+        })
+
+        console.log(response)
+
+    }
+
+    
+    const undoFollow = async () => {
+        setFollow(false)
+        const  id = afollower.id
+        const  response = await  axios.post("/api/userIntraction/unfollow" ,  {
+            id ,
+        })
+
+        console.log(response)
+
+    }
+
+
+
+    const  handleToggle = () => {
+        console.log('clicked')
+        if ( follow ){
+            
+            undoFollow() 
+
+        }else{
+
+            doFolllow() 
+        
+        }
+    }
 
     
 
@@ -60,18 +115,18 @@ const ProfileUserCard = ({ user }) => {
                 </p>
                 <div className="flex flex-row  items-center gap-6">
                     <p className="text-[12px]  font-bold text-neutral-400">
-                        <span className="  text-black ">33k</span> Following
+                        <span className="  text-black ">{user.following.length}</span> Following
                     </p>
                     <p className="text-[12px]  font-semibold text-neutral-400">
-                        <span className="  text-black ">23k</span> Follower
+                        <span className="  text-black ">{user.followers.length}</span> Follower
                     </p>
                 </div>
                 <p className=" w-full col-span-3 text-center text-[18px] text-[#828282]  md:text-start ">
                     {user?.bio}
                 </p>
             </div>
-            { session?.user?.sub  !=  user?.id &&  <button className="bg-blue-500 mx-auto px-4 py-1 rounded-md md:ml-auto text-white text-[16px] flex  shrink-0 items-center  flex-nowrap">
-                + Follow
+            { session?.user?.sub  !=  user?.id &&  <button onClick={handleToggle} className="bg-blue-500 mx-auto px-4 py-1 rounded-md md:ml-auto text-white text-[16px] flex  shrink-0 items-center  flex-nowrap">
+                { follow  ?  "Following" : "+ Follow"   }
             </button> }
         </div>
     );

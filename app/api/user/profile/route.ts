@@ -27,6 +27,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     const user = await db.user.findUnique({
       where: { id: Number(user_id) },
+
       select: {
         id:true ,
         email: true,
@@ -36,11 +37,31 @@ export async function GET(req: NextRequest, res: NextResponse) {
         avatar: true,
         media_url: true,
         cover: true,
+        following : true 
+
+
       },
     });
 
 
-    return NextResponse.json({ ...user });
+   const  followers = await  db.follower.findMany({
+        where :{
+          followerId:Number(user_id) ,
+        },
+    })
+
+
+ 
+
+
+
+
+
+
+    const reformaData  = {...user  , followers:followers };
+
+
+    return NextResponse.json(reformaData);
   } catch (error) {
     // console.log(error);
     return NextResponse.json(

@@ -19,20 +19,31 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         let body = await req.json();
         
+        let follower_id  = body.userId ;
+
+        const  follower   = await db.follower.create({
+            data : {
+                followerId: Number(follower_id),
+                userId : Number(session?.user?.sub) 
+            }
+        })
 
 
 
-
-
-
+        return NextResponse.json({
+            message: "follow",
+            addedfollower: follower ,
+            status: 201 ,
+        });
 
 
 
 
 
     } catch (error) {
+        console.log(error) 
         return NextResponse.json(
-            { Error: "Internal Server Erorr" },
+            { Error: "Internal Server Erorr" } ,
             { status: 500 }
         );
     }

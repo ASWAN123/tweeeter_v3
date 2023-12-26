@@ -30,7 +30,7 @@ const Page = () => {
     const { data: session } = useSession();
     let route = useRouter();
     const [userLogedIn, setUserLogedIn] = useState(false);
-    console.log(session, "from the  login comp");
+    
 
     const [loading, setLoading] = useState(false);
 
