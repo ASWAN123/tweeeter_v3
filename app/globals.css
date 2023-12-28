@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +13,6 @@
 body{
   background-color: #f2f2f2 ;
   font-size: 12px; 
-  /* overflow: hidden; */
 }
 
 

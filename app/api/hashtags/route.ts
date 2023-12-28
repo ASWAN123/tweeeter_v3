@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+
 
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
@@ -15,10 +15,42 @@ export async function GET(req: NextRequest, res: NextResponse) {
             );
         }
 
-        const hashtags = await db.hashtags.findMany() ;
+        let hashtags = await db.hashtags.findMany({
+            where:{
+                name:{
+                    contains:"#",
+                }
+            },
+            select:{
+                id:true ,
+                name: true ,
+                userId:true
+            }
 
 
-        return NextResponse.json( hashtags ,  { status: 200 } );
+
+
+        }) ;
+
+
+        let hashtagCounts = {};
+
+   
+        hashtags.forEach(post => {
+
+          let hashtag = post.name;
+        
+
+          hashtagCounts[hashtag] = (hashtagCounts[hashtag] || 0) + 1;
+        });
+        
+
+        let hashtagList = Object.keys(hashtagCounts).map(name => ({
+          name: name,
+          count: hashtagCounts[name]
+        }));
+
+        return NextResponse.json( hashtagList ,  { status: 200 } );
 
     } catch (error) {
         return NextResponse.json(

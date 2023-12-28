@@ -37,7 +37,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
         avatar: true,
         media_url: true,
         cover: true,
-        following : true 
+        following : true ,
+        posts:{
+          select:{
+            id: true,
+            media_url: true,
+            content:true ,
+          },
+          take:1
+        }
 
 
       },

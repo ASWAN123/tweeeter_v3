@@ -11,8 +11,6 @@ import DropDownMenu from "./compoenents/DropDownMenu";
 import { useQuery } from "@tanstack/react-query";
 import { userDetailsConfig } from "./queryConfig";
 
-
-
 const Navbar = () => {
     const pathname = usePathname();
     const { data: session } = useSession();
@@ -23,20 +21,25 @@ const Navbar = () => {
         { path: "/bookmarks", name: "Bookmarks" },
     ];
 
-    const {  data: userDetails,isPending: isUserPending,error: isUserError,isFetching: isUserFetching, } = useQuery(userDetailsConfig(undefined))
+    const {
+        data: userDetails,
+        isPending: isUserPending,
+        error: isUserError,
+        isFetching: isUserFetching,
+    } = useQuery(userDetailsConfig(undefined));
 
     return (
-        <nav>
-            <header className="h-[60px] w-full shadow-sm flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF] ">
+        <nav className="bg-white">
+            <header className=" container mx-auto h-[60px] w-full  flex items-center px-2 md:px-20 justify-between bg-[#FFFFFF] ">
                 <a
                     href="/"
-                    className="flex items-center gap-2 font-semibold md:text-black text-transparent "
+                    className=" font-poppins text-[18px] flex items-center gap-2 font-semibold md:text-black text-transparent "
                 >
                     <AiFillCodeSandboxCircle size={24} color="blue" /> Tweeter
                 </a>
                 {/* list  for desktop version */}
 
-                <ul className="hidden md:flex items-center min-h-full w-[300px] gap-4 ">
+                <ul className="hidden md:flex items-center min-h-full w-[300px] gap-4  font-poppins ">
                     {pages.map((elem, index) => {
                         return (
                             <li
@@ -62,7 +65,7 @@ const Navbar = () => {
                 </ul>
 
                 {!session && (
-                    <div className="font-medium  flex items-center  space-x-6  ">
+                    <div className="font-medium  font-poppins flex items-center  space-x-6  ">
                         <Link className="hover:text-blue-500 " href="/login">
                             Login
                         </Link>
@@ -72,9 +75,7 @@ const Navbar = () => {
                     </div>
                 )}
 
-                {session && (
-                    <DropDownMenu user = {userDetails} />
-                )}
+                {session && <DropDownMenu user={userDetails} />}
             </header>
             {/* list for mobile  version */}
             <ul className="flex md:hidden justify-between items-center px-8 h-[60px] w-full space-x-6 fixed bottom-0 bg-[#FFFFFF]  z-[1000] shadow-md border-t-1 ">

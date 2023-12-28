@@ -45,17 +45,26 @@ model Post {
 }
 
 model Comment {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
-  content    String?
-  media_url  String?
-  User       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  Post       Post     @relation(fields: [postId], references: [id])
-  postId     Int
-  likes      Like[]
+  id           Int           @id @default(autoincrement())
+  created_at   DateTime      @default(now())
+  update_at    DateTime      @updatedAt
+  content      String?
+  media_url    String?
+  User         User          @relation(fields: [userId], references: [id])
+  userId       Int
+  Post         Post          @relation(fields: [postId], references: [id])
+  postId       Int
+  likes        Like[]
+  commentLikes CommentLike[]
 }
+
+
+model CommentLike {
+  id Int @id @default(autoincrement())
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId Int?
+}
+
 
 model Like {
   id        Int      @id @default(autoincrement())

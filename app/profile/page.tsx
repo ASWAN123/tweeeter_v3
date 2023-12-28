@@ -13,6 +13,12 @@ import { EditIcon } from "../compoenents/icons/Icons";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
+import UploadImage2 from "../compoenents/post/UplaodImage2";
+
+
+
+
+
 
 const Page = ({ searchParams: { id: userId } }) => {
     const { data: session } = useSession();
@@ -20,29 +26,29 @@ const Page = ({ searchParams: { id: userId } }) => {
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
     const [filter , setFilter ] = useState( "Tweets" )
 
+
     const id = uuidv4();
 
     const queryClient = useQueryClient();
 
     const [url, setUrl] = useState();
 
-    const { data: userDetails, isLoading: isUserLoading } = useQuery(
+    const { data: userDetails, isLoading: isUserLoading ,  isFetched } = useQuery(
         userDetailsConfig(userId)
     );
-
 
 
 
     const { data: userPosts, isLoading: isUserPostsLoading } = useQuery(
         userPostsConfig(userId)
     );
-    // console.log('Posts ===>' ,  userPosts)
+    
 
 
     useEffect(() => {
         const updateUserData = async () => {
             const response = await axios.post("/api/user/update", {
-                cover: url,
+                cover : url ,
             });
 
             queryClient.invalidateQueries({ queryKey: ["userDetails"] });
@@ -51,7 +57,7 @@ const Page = ({ searchParams: { id: userId } }) => {
         if (url) {
             updateUserData();
         }
-    }, [queryClient, url]);
+    }, [ url , queryClient]);
 
 
     let AllPosts;
@@ -77,12 +83,12 @@ const Page = ({ searchParams: { id: userId } }) => {
 
 
     return (
-        <main className=" w-full  mx-auto  ">
+        <main className=" w-full    ">
             <div className="relative min-w-full h-[250px]  bg-gradient-to-r from-blue-300 to-pink-400 block ">
                 {session?.user?.sub == userDetails?.id && (
-                    <UploadImage
+                    <UploadImage2
                         Icon={
-                            <EditIcon className=" w-8 h-8 absolute  rounded-full top-2 right-2 z-50 p-1  text-white    cursor-pointer " />
+                            <EditIcon className=" w-8 h-8 absolute  rounded-full top-2 right-2 z-30 p-1  text-white    cursor-pointer " />
                         }
                         setUrl={setUrl}
                         inputId={id}
@@ -99,11 +105,15 @@ const Page = ({ searchParams: { id: userId } }) => {
                 )}
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
-                {isUserLoading ? (
+                {/* { ( ( isUserLoading && userDetails ) || isFetched ) ? (
                     <SkeletonUserCard />
                 ) : (
-                    <ProfileUserCard user={userDetails} />
-                )}
+                    < ProfileUserCard user={userDetails} />
+                )} */}
+
+                {
+                    userDetails ? <ProfileUserCard user={userDetails} /> : < SkeletonUserCard  />
+                }
 
                 <FilterCard options={options}  filter={filter} setFilter ={setFilter} />
 

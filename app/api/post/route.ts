@@ -54,21 +54,23 @@ export async function GET(req: NextRequest) {
                         postId : true ,
                         User: {
                             select:{
+                                id:true ,
                                 media_url: true,
                                 name :true,
-                            }
-                        }
+                            } 
+                        }, 
+                        commentLikes:true 
                     },
                     
                 },
-                likes: {
-                    select: {
-                        id: true,
-                        postId: true,
-                        userId: true,
+                likes: { 
+                    select: { 
+                        id: true, 
+                        postId: true, 
+                        userId: true, 
                     },
                 },
-                saves:true ,
+                saves:true , 
                 Retweets: true , 
 
             },

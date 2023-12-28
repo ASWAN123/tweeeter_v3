@@ -24,8 +24,7 @@ const EngagementActions = ({ post }) => {
     let alreadyCommented = post.comments.find(
         (x: any) => x.postId == postId && x.userId == author
     );
-    console.log("comment ==> " ,  alreadyCommented)
-    console.log("comments ===>" ,  post.comments)
+    
     let commentID = alreadyCommented?.id;
     const [comment, setComment] = useState(alreadyCommented);
 
@@ -119,28 +118,28 @@ const EngagementActions = ({ post }) => {
     };
 
     const LikeClass = classNames({
-        "flex gap-2  items-center mx-2  px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center lg:mx-2   lg:px-2 md:px-6 md:py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-red-500": like ? true : false,
         "text-neutral-500": like ? false : true,
     });
 
     const CommentClass = classNames({
-        "flex gap-2  items-center md:mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  lg:mx-2   lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-gray-900": comment ? true : false,
         "text-gray-200": comment ? false : true,
     });
 
     const SaveClass = classNames({
-        "flex gap-2  items-center mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  lg:mx-2   lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-blue-500": save ? true : false,
         "text-neutral-500": save ? false : true,
     });
 
     const RetweetClass = classNames({
-        "flex gap-2  items-center mx-2  px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-2  items-center  lg:mx-2   lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-green-300": retweet ? true : false,
         "text-neutral-500": retweet ? false : true,
@@ -148,7 +147,7 @@ const EngagementActions = ({ post }) => {
 
     return (
         <>
-            <div className="flex justify-end space-x-3 text-neutral-400 -mb-2 md:mb-auto md:-mt-1">
+            <div className=" font-notoSans text-[12px] flex justify-end space-x-3 text-[#BDBDBD] -mb-2 md:mb-auto md:-mt-1">
                 <span>{post.comments.length} Comments</span>
                 <span>{post.Retweets.length} Retweets</span>
                 <span>{post.saves.length} Saved</span>
@@ -156,7 +155,7 @@ const EngagementActions = ({ post }) => {
 
             <hr />
 
-            <div className="flex justify-between   lg:md:6 ">
+            <div className="flex justify-between  font-notoSans  font-medium ">
                 <button className={CommentClass}>
                     <CommentIcon
                         width={16}

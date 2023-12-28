@@ -26,10 +26,6 @@ const Post = ({ postid }) => {
     } = useQuery(postDetailsConfig(postid));
 
 
-
-    console.log(postDetails)
-
-
     
 
 
@@ -55,10 +51,10 @@ const Post = ({ postid }) => {
                 
                 <div className="flex flex-col gap-1">
                 
-                    <Link href={`/profile?id=${ postDetails.author.id}`} className="cursor-pointer font-semibold text-[16px]">
+                    <Link href={`/profile?id=${ postDetails.author.id}`} className=" font-poppins  font-medium cursor-pointer  text-[16px]">
                             {postDetails?.author?.name}
                     </Link>
-                    <span className="text-neutral-400">
+                    <span className="text-neutral-400 font-notoSans font-medium">
                         {new Date(postDetails.created_at).toLocaleString(
                             "en-GB",
                             {
@@ -72,7 +68,7 @@ const Post = ({ postid }) => {
                 </div> 
             </div>
 
-            <p className="text-[16px] md:text-[12px]">{postDetails.content}</p>
+            <p className="text-[16px] md:text-[16px] font-notoSans font-normal text-[#4F4F4F] ">{postDetails.content}</p>
             {postDetails.media_url && (
                 <div className="w-full h-[350px] md:h-[500px] relative">
                     <Image

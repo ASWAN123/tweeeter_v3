@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import UploadImage from "../post/UploadImage";
 import { ImageIcon } from "../icons/Icons";
 import { v4 as uuidv4 } from "uuid";
 import { postDetailsConfig } from "@/app/queryConfig";
+import UploadImage2 from "../post/UplaodImage2";
 
 const CreateNewComment = ({ postId, profileimg }) => {
     const queryClient = useQueryClient();
@@ -36,9 +37,20 @@ const CreateNewComment = ({ postId, profileimg }) => {
 
         if (response.status == 201) {
             setContent("");
-            setUrl("");
+            setUrl(undefined);
         }
     };
+
+
+    useEffect(() => {
+        if(url) {
+            let commentInput  = document.getElementById(`comment${id}`) ;
+            if (commentInput) {
+                commentInput.focus() ;
+            }
+        }
+
+    } , [url])
 
     return (
         <>
@@ -58,14 +70,15 @@ const CreateNewComment = ({ postId, profileimg }) => {
                     <input
                         type="text"
                         value={content}
+                        id = {`comment${id}`}
                         onChange={(e) => {
                             setContent(e.target.value);
                         }}
                         className=" bg-neutral-100  bg-transparent outline-none text-[#BDBDBD] text-sm rounded-md w-full p-2.5 "
-                        placeholder="tweet your reply"
+                        placeholder="Tweet your reply"
                     />
 
-                    <UploadImage
+                    <UploadImage2
                         setUrl={setUrl}
                         Icon={
                             <ImageIcon
@@ -79,7 +92,7 @@ const CreateNewComment = ({ postId, profileimg }) => {
                 </div>
             </form>
             {url && (
-                <div className="w-full h-[100px] md:h-[100px] md:w-[200px] mx-auto my-8 relative">
+                <div className="w-full h-[100px] md:h-[150px] md:w-[200px] mx-auto my-8 relative">
                     <Image
                         fill
                         src={url}
