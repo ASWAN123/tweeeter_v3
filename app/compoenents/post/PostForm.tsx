@@ -28,7 +28,7 @@ const PostForm = () => {
         if (content.trim() === "" && url?.trim() === "") return;
         const hashtags = content.match(/#\w+/g);
         let newHashtags = hashtags?.map((x, index) => {
-            return { name: x };
+            return { name: x.toLowerCase() };
         });
 
         const data = {

@@ -39,9 +39,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
         hashtags.forEach(post => {
 
           let hashtag = post.name;
-        
-
           hashtagCounts[hashtag] = (hashtagCounts[hashtag] || 0) + 1;
+
         });
         
 
@@ -50,7 +49,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
           count: hashtagCounts[name]
         }));
 
-        return NextResponse.json( hashtagList ,  { status: 200 } );
+        hashtagList = hashtagList.sort((a, b) => b.count - a.count)
+
+        const top10 = hashtagList.slice(0, 10);
+
+
+        return NextResponse.json( top10 ,  { status: 200 } );
 
     } catch (error) {
         return NextResponse.json(
