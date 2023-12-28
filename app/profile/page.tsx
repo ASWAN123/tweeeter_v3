@@ -111,6 +111,8 @@ const Page = ({ searchParams: { id: userId } }) => {
                     < ProfileUserCard user={userDetails} />
                 )} */}
 
+                {/* pay attention to  this  part  update  later */}
+
                 {
                     userDetails ? <ProfileUserCard user={userDetails} /> : < SkeletonUserCard  />
                 }
@@ -122,6 +124,12 @@ const Page = ({ searchParams: { id: userId } }) => {
                     {AllPosts?.map((post: any) => {
                         return <Post postid={post.id} key={post.id} />;
                     })}
+
+                    {
+                        AllPosts?.length == 0 && <div className=" mx-auto ">
+                             <p className=" font-notoSans "> No post to display </p>
+                        </div>
+                    }
                 </div>
             </div>
         </main>

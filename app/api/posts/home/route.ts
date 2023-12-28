@@ -21,6 +21,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
             orderBy : {
                 created_at:'desc',
             } ,
+            where : {
+                everyone_can_reply:true ,
+            },
             select: {
                 id: true  ,
             }

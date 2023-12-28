@@ -89,7 +89,7 @@ const PostForm = () => {
                 </div>
                 {url && (
                     <>
-                        <div className="w-full h-[200px] md:h-[250px] md:w-[350px] mx-auto my-8 relative">
+                        <div className="w-[70%] h-[200px] md:h-[250px] md:w-[350px] mx-auto my-8 relative">
                             <Image
                                 fill
                                 src={url}

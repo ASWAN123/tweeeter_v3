@@ -11,12 +11,7 @@ import SkeletonComment from "../skeletons/SkeletonComment";
 import SkeletonPost from "../skeletons/skeletonPost";
 import { postDetailsConfig } from "../../queryConfig";
 
-
-
-
-
 const Post = ({ postid }) => {
-
     const {
         data: postDetails,
         isLoading,
@@ -25,91 +20,97 @@ const Post = ({ postid }) => {
         error,
     } = useQuery(postDetailsConfig(postid));
 
-
-    
-
-
-    
-
-
-
     return (
-
-
         <>
-        { postDetails && <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
-            <div className="flex items-center gap-4">
-                 <div className="relative w-[40px] h-[40px]">
-                     <Image
-                        className="rounded"
-                        src={postDetails.author.media_url ?? "/profile.png"}
-                        height={40}
-                        width={40}
-                        alt="cover author"
-                    /> 
-                </div> 
-                
-                <div className="flex flex-col gap-1">
-                
-                    <Link href={`/profile?id=${ postDetails.author.id}`} className=" font-poppins  font-medium cursor-pointer  text-[16px]">
-                            {postDetails?.author?.name}
-                    </Link>
-                    <span className="text-neutral-400 font-notoSans font-medium">
-                        {new Date(postDetails.created_at).toLocaleString(
-                            "en-GB",
-                            {
-                                day: "numeric",
-                                month: "long",
-                                hour: "numeric",
-                                minute: "numeric",
-                            }
-                        )}
-                    </span>
-                </div> 
-            </div>
+            {postDetails && (
+                <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
+                    <div className="flex items-center gap-4">
+                        <div className="relative w-[40px] h-[40px]">
+                            <Image
+                                className="rounded"
+                                src={
+                                    postDetails.author.media_url ??
+                                    "/profile.png"
+                                }
+                                height={40}
+                                width={40}
+                                alt="cover author"
+                            />
+                        </div>
 
-            <p className="text-[16px] md:text-[16px] font-notoSans font-normal text-[#4F4F4F] ">{postDetails.content}</p>
-            {postDetails.media_url && (
-                <div className="w-full h-[350px] md:h-[500px] relative">
-                    <Image
-                        src={postDetails.media_url}
-                        alt="Picture of the author"
-                        className="rounded-md shadow-sm -z-0"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
+                        <div className="flex flex-col gap-1">
+                            <Link
+                                href={`/profile?id=${postDetails.author.id}`}
+                                className=" font-poppins  font-medium cursor-pointer  text-[16px]"
+                            >
+                                {postDetails?.author?.name}
+                            </Link>
+                            <span className="text-neutral-400 font-notoSans font-medium">
+                                {new Date(
+                                    postDetails.created_at
+                                ).toLocaleString("en-GB", {
+                                    day: "numeric",
+                                    month: "long",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                })}
+                            </span>
+                        </div>
+                    </div>
+
+                    <p className="text-[16px] md:text-[16px] font-notoSans font-normal text-[#4F4F4F] ">
+                        {postDetails.content}
+                    </p>
+                    {postDetails.media_url && (
+                        <div className=" h-[320px] md:h-[500px] w-full relative">
+                            
+                            <Image
+                                src={postDetails.media_url}
+                                alt="Picture of the author"
+                                className="rounded-md shadow-sm -z-0"
+                                layout="fill"
+                                objectFit="cover"
+                            />
+
+                        </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                        {/* <hr /> */}
+                        {postDetails && (
+                            <EngagementActions post={postDetails} />
+                        )}
+                        <hr />
+                        <CreateNewComment
+                            postId={postDetails?.id}
+                            profileimg={
+                                postDetails.author.media_url ?? "/profile.png"
+                            }
+                        />
+                        {postDetails?.comments.length > 0 && <hr />}
+
+                        <div className="mt-2">
+                            {!isLoading &&
+                                postDetails.comments.map(
+                                    (comment: any, index: any) => (
+                                        <Comment
+                                            comment={comment}
+                                            key={index}
+                                        />
+                                    )
+                                )}
+
+                            {!!postDetails.comments.length && (
+                                <div className="w-full flex items-center justify-center my-4">
+                                    <p>No comments for this post</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
 
-
-
-            <div className="flex flex-col gap-2">
-                {/* <hr /> */}
-                { postDetails && <EngagementActions post={postDetails} /> }
-                <hr />
-                <CreateNewComment
-                    postId={postDetails?.id}
-                    profileimg={postDetails.author.media_url ?? "/profile.png"}
-                />
-                {postDetails?.comments.length > 0 && <hr />}
-
-                <div className="mt-2">
-                    { !isLoading && postDetails.comments.map((comment: any, index: any) => (
-                        <Comment comment={comment} key={index} />
-                    ))}
-
-                    { !!postDetails.comments.length && (
-                        <div className="w-full flex items-center justify-center my-4">
-                            <p>No comments for this post</p>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div> }
-
-        {
-            isLoading && <SkeletonPost />
-        }
+            {isLoading && <SkeletonPost />}
         </>
     );
 };

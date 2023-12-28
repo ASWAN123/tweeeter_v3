@@ -56,6 +56,13 @@ const Page = () => {
                         AllPosts?.map((post, index) => {
                             return <Post key={index} postid={post.saves[0].postId} />;
                         })}
+
+                    
+                    {
+                        isFetched &&  AllPosts?.length == 0 && <div className="mx-auto">
+                            <p>No post has been saved</p>
+                        </div>
+                    }
                     
 
 

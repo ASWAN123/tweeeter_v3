@@ -32,7 +32,7 @@ const DropDownMenu = ( { user }) => {
                 />
             </div>
         </Menu.Button>
-        <Menu.Items className="flex flex-col gap-2 absolute z-30 bg-white p-4  rounded-md  -ml-8 md:ml-2 w-[280px] md:w-[192px] top-[60px] shadow-lg  border mt-2 ">
+        <Menu.Items className="flex flex-col gap-2 absolute z-30 bg-white p-4  rounded-md  right-12 md:ml-2 w-[180px] md:w-[192px] top-[60px] shadow-lg  border mt-2 ">
             <Menu.Item>
                 <Link href="/profile" className="flex gap-2 items-center p-2 rounded hover:bg-gray-200">
                     <ProfileIcon width={24} height={24} className="text-gray-500" />
