@@ -4,7 +4,11 @@ import FilterCard from "../compoenents/FilterCard";
 import Post from "../compoenents/post/Post";
 import ProfileUserCard from "./ProfileUserCard";
 import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    useInfiniteQuery,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
 import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 import { userDetailsConfig, userPostsConfig } from "../queryConfig";
@@ -15,17 +19,11 @@ import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
 
-
-
-
-
-
 const Page = ({ searchParams: { id: userId } }) => {
     const { data: session } = useSession();
 
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
-    const [filter , setFilter ] = useState( "Tweets" )
-
+    const [filter, setFilter] = useState("Tweets");
 
     const id = uuidv4();
 
@@ -33,22 +31,28 @@ const Page = ({ searchParams: { id: userId } }) => {
 
     const [url, setUrl] = useState();
 
-    const { data: userDetails, isLoading: isUserLoading ,  isFetched } = useQuery(
-        userDetailsConfig(userId)
-    );
+    const {
+        data: userDetails,
+        isLoading: isUserLoading,
+        isFetched,
+    } = useQuery(userDetailsConfig(userId));
 
+    const {
+        data: userPosts,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading: isUserPostsLoading,
+    } = useInfiniteQuery(userPostsConfig(userId ,  "=====>" ,  filter));
 
+    // we  have  to  pass  some  filter in point  for  top and  media  and  shit
 
-    const { data: userPosts, isLoading: isUserPostsLoading } = useQuery(
-        userPostsConfig(userId)
-    );
-    
 
 
     useEffect(() => {
         const updateUserData = async () => {
             const response = await axios.post("/api/user/update", {
-                cover : url ,
+                cover: url,
             });
 
             queryClient.invalidateQueries({ queryKey: ["userDetails"] });
@@ -57,30 +61,25 @@ const Page = ({ searchParams: { id: userId } }) => {
         if (url) {
             updateUserData();
         }
-    }, [ url , queryClient]);
+    }, [url, queryClient]);
 
+    // let AllPosts;
 
-    let AllPosts;
-
-    switch (filter) {
-        case 'Tweets & replies' :
-            AllPosts = userPosts ;
-            break ;
-        case 'Media':
-            AllPosts = userPosts.filter((x:any) => x.media_url != null )
-            break;
-        case 'Likes':
-            // console.log(userPosts)
-            AllPosts = userPosts.filter((x:any) => x.likes.length > 0 )
-            break;
-        default:
-            AllPosts = userPosts;
-            break;
-    }
-      
-
-
-
+    // switch (filter) {
+    //     case "Tweets & replies":
+    //         AllPosts = userPosts;
+    //         break;
+    //     case "Media":
+    //         AllPosts = userPosts.filter((x: any) => x.media_url != null);
+    //         break;
+    //     case "Likes":
+    //         // console.log(userPosts)
+    //         AllPosts = userPosts.filter((x: any) => x.likes.length > 0);
+    //         break;
+    //     default:
+    //         AllPosts = userPosts;
+    //         break;
+    // }
 
     return (
         <main className=" w-full    ">
@@ -113,24 +112,62 @@ const Page = ({ searchParams: { id: userId } }) => {
 
                 {/* pay attention to  this  part  update  later */}
 
-                {
-                    userDetails ? <ProfileUserCard user={userDetails} /> : < SkeletonUserCard  />
-                }
+                {userDetails ? (
+                    <ProfileUserCard user={userDetails} />
+                ) : (
+                    <SkeletonUserCard />
+                )}
 
-                <FilterCard options={options}  filter={filter} setFilter ={setFilter} />
+                <FilterCard
+                    options={options}
+                    filter={filter}
+                    setFilter={setFilter}
+                />
 
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isUserPostsLoading && <SkeletonPost />}
-                    {AllPosts?.map((post: any) => {
-                        return <Post postid={post.id} key={post.id} />;
-                    })}
 
-                    {
-                        AllPosts?.length == 0 && <div className=" mx-auto ">
-                             <p className=" font-notoSans "> No post to display </p>
+
+
+                    {/* {AllPosts?.map((post: any) => {
+                        return <Post postid={post.id} key={post.id} />;
+                    })} */}
+
+
+
+{isFetched &&
+                        userPosts &&
+                        userPosts?.pages?.map((group, index) => (
+                            <>
+                                {group?.posts.map((post: any, index: any) => {
+                                    return (
+                                        <Post key={index} postid={post.id}   />
+                                    );
+                                })}
+                            </>
+                        ))}
+
+
+
+                    {/* {AllPosts?.length == 0 && (
+                        <div className=" mx-auto ">
+                            <p className=" font-notoSans ">
+                                {" "}
+                                No post to display{" "}
+                            </p>
                         </div>
-                    }
+                    )} */}
                 </div>
+                <button
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                >
+                    {isFetchingNextPage
+                        ? "Loading more..."
+                        : hasNextPage
+                        ? "Load More"
+                        : "Nothing more to load"}
+                </button>
             </div>
         </main>
     );

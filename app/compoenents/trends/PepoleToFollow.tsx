@@ -30,12 +30,12 @@ const PepoleToFollow = () => {
                 <li className="flex flex-col gap-4">
                     {
                         isFetched && usersToFollow.map(( user ,  index) => {
-                            return  < User_card   key={index} user = {user} />
+                            return  <>< User_card   key={index} user = {user} /><hr /></>
                         })
                     }
                     {/* < User_card  image = "/post_image3.jpg" /> */}
                 </li>
-                    <hr />
+                    
                 
             </ul>
         </div>

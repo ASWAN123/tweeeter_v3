@@ -4,12 +4,13 @@ import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
-
+const LIMIT = 3;
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const url = new URL(req.url);
         const id = url.searchParams.get("id");
-
+        const pageN = url.searchParams.get("cursor");
+        const filter = url.searchParams.get("filter");
 
         const session = await getServerSession(authOptions);
 
@@ -20,38 +21,51 @@ export async function GET(req: NextRequest, res: NextResponse) {
             );
         }
 
+        const user_id = id || session?.user?.sub;
 
-        const user_id = id || session?.user?.sub || '2' ;
-        // const user_id = 2
-  
-
-        const posts = await db.user.findMany({
+        const count_posts = await db.post.findMany({
             where: {
-                id: Number(user_id),
-            },
-            select: {
-                posts: {
-                    select: {
-                        id: true,
-                        media_url: true,
-                        likes : {
-                            select:{
-                                id: true,
-                            }
-                        }
-                        
-                    },
-                    orderBy: {
-                        created_at: "desc",
-                    },
-                },
+                authorId: Number(user_id),
             },
         });
 
+        const count = count_posts.length;
+
+        const posts = await db.post.findMany({
+            where: {
+                authorId: Number(user_id),
+            },
+
+            select: {
+                id: true,
+                media_url: true,
+                likes: {
+                    select: {
+                        id: true,
+                    },
+                },
+            },
+            orderBy: {
+                created_at: "desc",
+            },
+
+            take: LIMIT,
+            skip: (+pageN - 1) * LIMIT,
+        }) ;
 
 
+        console.log(posts)
+ 
 
-        return NextResponse.json( posts[0]['posts'] , { status: 200 });
+        // set up config of  filtering  with this  part
+
+        return NextResponse.json(
+            {
+                posts,
+                nextPage: +pageN * LIMIT < count ? +pageN + 1 : undefined,
+            },
+            { status: 200 }
+        );
     } catch (error) {
         console.log(error);
         return NextResponse.json(

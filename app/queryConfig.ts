@@ -3,9 +3,9 @@ import axios from "axios";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
 //  you gonna  mentio  one  thing here is that  home post  only  with folowing  relation
-const getExplorePosts = async () => {
+const getExplorePosts = async ({ pageParam = 1 }) => {
     try {
-        const response = await axios.get("/api/posts/explore");
+        const response = await axios.get("/api/posts/explore?cursor=" + pageParam);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -57,9 +57,9 @@ const getHashTags = async () => {
     }
 };
 
-const getUserPosts = async (id: any | undefined) => {
+const getUserPosts = async ( pageParam , id: any | undefined) => {
     const response = await axios.get(
-        "/api/user/posts?" + (id ? `id=${id}` : "")
+        "/api/user/posts?cursor=" + pageParam + (id ? `&id=${id}` : "" )
     );
     return response.data;
 };
@@ -68,7 +68,11 @@ const userPosts = "userPosts";
 const userPostsConfig = (id) => {
     return {
         queryKey: [userPosts, id],
-        queryFn: async () => await getUserPosts(id),
+        queryFn: async ({ pageParam = 1 }) => await getUserPosts( pageParam  , id ),
+        getNextPageParam: (lastPage: any) => {
+            console.log(lastPage) ;
+            return lastPage?.nextPage ;
+        },
     };
 };
 
@@ -89,6 +93,10 @@ const explorePosts = "explorePosts";
 const explorePostsConfig = {
     queryKey: [explorePosts],
     queryFn: getExplorePosts,
+    getNextPageParam: (lastPage: any) => {
+        console.log(lastPage) ;
+        return lastPage?.nextPage ;
+    },
 };
 
 const userDetailsKey = "userDetails";
