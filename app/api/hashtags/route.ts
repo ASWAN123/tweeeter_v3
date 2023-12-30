@@ -26,10 +26,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 name: true ,
                 userId:true
             }
-
-
-
-
+            
         }) ;
 
 

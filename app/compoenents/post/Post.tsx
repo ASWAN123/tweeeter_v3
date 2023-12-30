@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import EngagementActions from "./EngagementActions";
 import CreateNewComment from "../comment/CommentForm";
 import Comment from "../comment/Comment";

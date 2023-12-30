@@ -12,9 +12,9 @@ const getExplorePosts = async () => {
     }
 };
 
-const getHomePosts = async () => {
+const getHomePosts = async ({ pageParam = 1 }) => {
     try {
-        const response = await axios.get("/api/posts/home");
+        const response = await axios.get("/api/posts/home?cursor=" + pageParam);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -73,7 +73,14 @@ const userPostsConfig = (id) => {
 };
 
 const homePosts = "homePosts";
-const homePostsConfig = { queryKey: [homePosts], queryFn: getHomePosts };
+const homePostsConfig = {
+    queryKey: [homePosts],
+    queryFn: getHomePosts,
+    getNextPageParam: (lastPage: any) => {
+        console.log(lastPage) ;
+        return lastPage?.nextPage ;
+    },
+};
 
 const savedPosts = "bookmarksPosts";
 const savedPostsConfig = { queryKey: [savedPosts], queryFn: getSavedPosts };

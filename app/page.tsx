@@ -4,24 +4,33 @@ import Post from "./compoenents/post/Post";
 import Hashtags from "./compoenents/trends/Hashtags";
 import PepoleToFollow from "./compoenents/trends/PepoleToFollow";
 import SkeletonPost from "./compoenents/skeletons/skeletonPost";
-import { useQuery } from "@tanstack/react-query";
-import { hashTagsConfig, homePostsConfig, userDetailsConfig } from "./queryConfig";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+    hashTagsConfig,
+    homePostsConfig,
+    userDetailsConfig,
+} from "./queryConfig";
 import SkeletonHashtags from "./compoenents/skeletons/SkeletonHashtags";
 import PostForm from "./compoenents/post/PostForm";
 
 export default function Home() {
-    const { data: homePosts, isLoading, isFetched } = useQuery(homePostsConfig);
+    const {
+        data: homePosts,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isFetched,
+    } = useInfiniteQuery(homePostsConfig);
     const { data: hashTags, isLoading: isHashtagsLoading } =
         useQuery(hashTagsConfig);
-    
 
-
-    
+    console.log(homePosts);
 
     return (
         <main className=" container w-[95%]  md:w-[80%] mx-auto mt-8 flex gap-4 ">
             <section className="w-full md:w-[70%] h-[50px] ">
-                <PostForm  />
+                <PostForm />
                 <div className="flex flex-col gap-4 mt-8">
                     {isLoading && (
                         <>
@@ -32,10 +41,27 @@ export default function Home() {
                     )}
 
                     {isFetched &&
-                        homePosts?.map((post: any, index: any) => {
-                            return <Post key={index} postid={post.id} />;
-                        })}
+                        homePosts &&
+                        homePosts?.pages.map((group, index) => (
+                            <>
+                                {group?.posts.map((post: any, index: any) => {
+                                    return (
+                                        <Post key={index} postid={post.id} />
+                                    );
+                                })}
+                            </>
+                        ))}
                 </div>
+                <button
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                >
+                    {isFetchingNextPage
+                        ? "Loading more..."
+                        : hasNextPage
+                        ? "Load More"
+                        : "Nothing more to load"}
+                </button>
             </section>
             <section className=" min-w-[30%] max-w-[30%]  hidden md:block space-y-4 ">
                 {isHashtagsLoading ? (

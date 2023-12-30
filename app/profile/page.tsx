@@ -63,8 +63,8 @@ const Page = ({ searchParams: { id: userId } }) => {
     let AllPosts;
 
     switch (filter) {
-        case 'Tweets & replies':
-            AllPosts = userPosts;
+        case 'Tweets & replies' :
+            AllPosts = userPosts ;
             break ;
         case 'Media':
             AllPosts = userPosts.filter((x:any) => x.media_url != null )
