@@ -3,14 +3,27 @@ import axios from "axios";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
 //  you gonna  mentio  one  thing here is that  home post  only  with folowing  relation
-const getExplorePosts = async ({ pageParam = 1 }) => {
+const getExplorePosts = async (pageParam, filter) => {
     try {
-        const response = await axios.get("/api/posts/explore?cursor=" + pageParam);
+        const response = await axios.get(
+            "/api/posts/explore?cursor=" + pageParam + "&filter=" + filter
+        );
         return response.data;
     } catch (error) {
         console.error(error);
     }
 };
+
+const explorePosts = "explorePosts";
+const explorePostsConfig = (filter) => ({
+    queryKey: [explorePosts, filter],
+    queryFn: async ({ pageParam = 1 }) =>
+        await getExplorePosts(pageParam, filter),
+    getNextPageParam: (lastPage: any) => {
+        console.log(lastPage);
+        return lastPage?.nextPage;
+    },
+});
 
 const getHomePosts = async ({ pageParam = 1 }) => {
     try {
@@ -32,9 +45,9 @@ const getUser = async (id: string | undefined) => {
     }
 };
 
-const getSavedPosts = async () => {
+const getSavedPosts = async (pageParam, filter) => {
     try {
-        const response = await axios.get("/api/user/bookmarks");
+        const response = await axios.get("/api/user/bookmarks?cursor=" + pageParam + "&filter=" + filter);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -57,21 +70,26 @@ const getHashTags = async () => {
     }
 };
 
-const getUserPosts = async ( pageParam , id: any | undefined) => {
+const getUserPosts = async (pageParam, id: any | undefined, filter) => {
     const response = await axios.get(
-        "/api/user/posts?cursor=" + pageParam + (id ? `&id=${id}` : "" )
+        "/api/user/posts?cursor=" +
+            pageParam +
+            (id ? `&id=${id}` : "") +
+            "&filter=" +
+            filter
     );
     return response.data;
 };
 
 const userPosts = "userPosts";
-const userPostsConfig = (id) => {
+const userPostsConfig = (id, filter) => {
     return {
-        queryKey: [userPosts, id],
-        queryFn: async ({ pageParam = 1 }) => await getUserPosts( pageParam  , id ),
+        queryKey: [userPosts, id, filter],
+        queryFn: async ({ pageParam = 1 }) =>
+            await getUserPosts(pageParam, id, filter),
         getNextPageParam: (lastPage: any) => {
-            console.log(lastPage) ;
-            return lastPage?.nextPage ;
+            console.log(lastPage);
+            return lastPage?.nextPage;
         },
     };
 };
@@ -81,22 +99,22 @@ const homePostsConfig = {
     queryKey: [homePosts],
     queryFn: getHomePosts,
     getNextPageParam: (lastPage: any) => {
-        console.log(lastPage) ;
-        return lastPage?.nextPage ;
+        console.log(lastPage);
+        return lastPage?.nextPage;
     },
 };
 
 const savedPosts = "bookmarksPosts";
-const savedPostsConfig = { queryKey: [savedPosts], queryFn: getSavedPosts };
-
-const explorePosts = "explorePosts";
-const explorePostsConfig = {
-    queryKey: [explorePosts],
-    queryFn: getExplorePosts,
-    getNextPageParam: (lastPage: any) => {
-        console.log(lastPage) ;
-        return lastPage?.nextPage ;
-    },
+const savedPostsConfig = (filter) => {
+    return {
+        queryKey: [savedPosts, filter],
+        queryFn: async ({ pageParam = 1 }) =>
+            await getSavedPosts(pageParam, filter),
+        getNextPageParam: (lastPage: any) => {
+            console.log(lastPage);
+            return lastPage?.nextPage;
+        },
+    };
 };
 
 const userDetailsKey = "userDetails";

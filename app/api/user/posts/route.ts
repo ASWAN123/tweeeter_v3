@@ -23,15 +23,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
         const user_id = id || session?.user?.sub;
 
-        const count_posts = await db.post.findMany({
-            where: {
-                authorId: Number(user_id),
-            },
-        });
-
-        const count = count_posts.length;
-
-        const posts = await db.post.findMany({
+        const data0 = await db.post.findMany({
             where: {
                 authorId: Number(user_id),
             },
@@ -39,23 +31,93 @@ export async function GET(req: NextRequest, res: NextResponse) {
             select: {
                 id: true,
                 media_url: true,
+                created_at:true ,
                 likes: {
                     select: {
                         id: true,
+                        userId: true,
+                        postId: true,
+                    },
+                },
+                comments: {
+                    select: {
+                        id: true,
+                        userId: true,
+                        postId: true,
                     },
                 },
             },
             orderBy: {
                 created_at: "desc",
             },
+        });
 
-            take: LIMIT,
-            skip: (+pageN - 1) * LIMIT,
-        }) ;
+        const data1 = await db.retweet.findMany({
+            where: {
+                userId: Number(user_id),
+            },
 
+            select: {
+                Post:{
+                    select:{
+                        id: true,
+                        media_url: true,
+                        created_at:true ,
+                        likes: {
+                            select: {
+                                id: true,
+                                userId: true,
+                                postId: true,
+                            },
+                        },
+                        comments: {
+                            select: {
+                                id: true,
+                                userId: true,
+                                postId: true,
+                            },
+                        },
+                    },
+                }
+                
+            },
 
-        console.log(posts)
- 
+        });
+
+        const data = data1.map((elem) => {
+            let newobj = {...elem.Post} ; 
+            newobj['retweeted'] = true  ; 
+            return newobj
+        } ).concat(data0)
+        
+        
+        
+        // { ...elem.Post ,  'retweeted':true  } ).concat(data0)
+        
+
+        let myPosts : any = [];
+
+        switch (filter) {
+            
+            case "Tweets":
+                myPosts = data.sort((a:any ,  b:any ) =>  new Date(b.created_at) - new Date(a.created_at) ) 
+                break;
+            case "Tweets & replies" :
+                myPosts = data ;
+                break;
+            case "Media":
+                myPosts = data.filter((x: any) => x.media_url != null);
+                break;
+            case "Likes":
+                myPosts = data.filter((x: any) =>  x.likes && x.likes.length > 0 );
+                break;
+        }
+
+        console.log("myPosts ===> ", myPosts);
+
+        const count = myPosts.length;
+        const skip = (+pageN - 1) * LIMIT;
+        let posts = myPosts.slice(skip, skip + LIMIT);
 
         // set up config of  filtering  with this  part
 

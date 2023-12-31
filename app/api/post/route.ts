@@ -24,7 +24,6 @@ export async function GET(req: NextRequest) {
         const post = await db.post.findUnique({
             where: {
                 id: Number(id),
-                everyone_can_reply : true ,
             },
             select: {
                 content: true,
@@ -70,8 +69,20 @@ export async function GET(req: NextRequest) {
                         userId: true, 
                     },
                 },
-                saves:true , 
-                Retweets: true , 
+                saves:{ 
+                    select: { 
+                        id: true, 
+                        postId: true, 
+                        userId: true, 
+                    },
+                } , 
+                Retweets: { 
+                    select: { 
+                        id: true, 
+                        postId: true, 
+                        userId: true, 
+                    },
+                } , 
 
             },
         });

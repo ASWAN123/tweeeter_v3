@@ -16,16 +16,16 @@ const PostForm = () => {
         userDetailsConfig(undefined)
     );
 
-    const [url, setUrl] = useState<string>();
+    const [url, setUrl] = useState(null);
     const [isPublic, setIsPublic] = useState(true);
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState(null);
     const queryClient = useQueryClient();
 
     const id = uuidv4();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (content.trim() === "" && url?.trim() === "") return;
+        if (content?.trim() === "" && url?.trim() === "") return;
         const hashtags = content.match(/#\w+/g);
         let newHashtags = hashtags?.map((x, index) => {
             return { name: x.toLowerCase() };

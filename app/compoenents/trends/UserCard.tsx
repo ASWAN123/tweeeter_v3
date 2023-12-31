@@ -80,11 +80,11 @@ const User_card = ({ user }) => {
                                 {userDetails.followers.length} followers
                             </span>
                         </div>
-                        <button className="flex  gap-1 bg-blue-500 px-2 rounded-sm py-1 text-white ml-auto ">
+                        <button onClick={handleToggle} className="flex  gap-1 bg-blue-500 px-2 rounded-sm py-1 text-white ml-auto ">
                             <FriendIcon
                                 width={16}
                                 height={16}
-                                className=" text-white "
+                                className= { follow ? " hidden" : " text-white "}
                             />
                             {follow ? "Following" : "+ Follow"}
                         </button>{" "}

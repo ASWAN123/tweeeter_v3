@@ -5,40 +5,45 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { postDetailsConfig } from "@/app/queryConfig";
+import { useSession } from "next-auth/react";
 
 const EngagementActions = ({ post }) => {
     const queryClient = useQueryClient();
+    const { data : session } = useSession()
+    let loggedInUser = session?.user?.sub
 
     let postId = post.id;
-    let author = post.author.id;
+    let author = post.authorId ;
 
     // like
     const alreadyliked = post.likes.find(
-        (x: any) => x.postId == postId && x.userId == author
+        (x: any) => x.postId == postId && x.userId == loggedInUser
     );
+
     let likeID = alreadyliked?.id;
     const [like, setLike] = useState(alreadyliked);
     const [likeId, setLikeId] = useState(likeID);
 
     // comment
     let alreadyCommented = post.comments.find(
-        (x: any) => x.postId == postId && x.userId == author
+        (x: any) => x.postId == postId && x.userId == loggedInUser
     );
-    
+
     let commentID = alreadyCommented?.id;
     const [comment, setComment] = useState(alreadyCommented);
 
     // saved
     const alreadySaved = post.saves.find(
-        (x: any) => x.postId == postId && x.userId == author
+        (x: any) => x.postId == postId && x.userId == loggedInUser
     );
+
     let saveID = alreadySaved?.id;
     const [save, setSave] = useState(alreadySaved);
     const [saveId, setSaveId] = useState(saveID);
 
     // retweet
     const alreadyRetweeted = post.Retweets.find(
-        (x: any) => x.postId == postId && x.userId == author
+        (x: any) => x.postId == postId && x.userId == loggedInUser
     );
     let retweetID = alreadyRetweeted?.id;
     const [retweet, setRetweet] = useState(retweetID);

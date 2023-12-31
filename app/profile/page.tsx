@@ -20,6 +20,7 @@ import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
 
 const Page = ({ searchParams: { id: userId } }) => {
+    console.log("compo updated !!!");
     const { data: session } = useSession();
 
     const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
@@ -43,11 +44,9 @@ const Page = ({ searchParams: { id: userId } }) => {
         hasNextPage,
         isFetchingNextPage,
         isLoading: isUserPostsLoading,
-    } = useInfiniteQuery(userPostsConfig(userId ,  "=====>" ,  filter));
+    } = useInfiniteQuery(userPostsConfig(userId, filter));
 
     // we  have  to  pass  some  filter in point  for  top and  media  and  shit
-
-
 
     useEffect(() => {
         const updateUserData = async () => {
@@ -62,24 +61,6 @@ const Page = ({ searchParams: { id: userId } }) => {
             updateUserData();
         }
     }, [url, queryClient]);
-
-    // let AllPosts;
-
-    // switch (filter) {
-    //     case "Tweets & replies":
-    //         AllPosts = userPosts;
-    //         break;
-    //     case "Media":
-    //         AllPosts = userPosts.filter((x: any) => x.media_url != null);
-    //         break;
-    //     case "Likes":
-    //         // console.log(userPosts)
-    //         AllPosts = userPosts.filter((x: any) => x.likes.length > 0);
-    //         break;
-    //     default:
-    //         AllPosts = userPosts;
-    //         break;
-    // }
 
     return (
         <main className=" w-full    ">
@@ -122,32 +103,28 @@ const Page = ({ searchParams: { id: userId } }) => {
                     options={options}
                     filter={filter}
                     setFilter={setFilter}
+                    functionality = {userPosts}
+                    userId={userId}
                 />
 
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isUserPostsLoading && <SkeletonPost />}
 
-
-
                     {/* {AllPosts?.map((post: any) => {
                         return <Post postid={post.id} key={post.id} />;
                     })} */}
 
-
-
-{isFetched &&
+                    {isFetched &&
                         userPosts &&
                         userPosts?.pages?.map((group, index) => (
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={index} postid={post.id}   />
+                                        <Post key={post.id} postid={post.id}  retweeted={ post?.retweeted }/>
                                     );
                                 })}
                             </>
                         ))}
-
-
 
                     {/* {AllPosts?.length == 0 && (
                         <div className=" mx-auto ">

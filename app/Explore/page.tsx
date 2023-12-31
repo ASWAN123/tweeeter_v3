@@ -21,7 +21,7 @@ const Page = () => {
         isFetching,
         error,
         status
-    } = useInfiniteQuery(explorePostsConfig);
+    } = useInfiniteQuery(explorePostsConfig(filter));
 
     // let AllPosts  = [].concat(...explorePosts?.pages)
 
@@ -51,6 +51,7 @@ const Page = () => {
                     options={options}
                     filter={filter}
                     setFilter={setFilter}
+                    functionality = {explorePostsConfig}
                 />
             </section>
             <section className="w-full md:w-[70%]  ">

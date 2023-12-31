@@ -1,7 +1,16 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { userPostsConfig } from "../queryConfig";
+import { useQueryClient } from "@tanstack/react-query";
 
-const FilterCard = ({ options   , filter ,  setFilter }) => {
+const FilterCard = ({ options   , filter ,  setFilter ,functionality  ,  userId = null }) => {
+    const queryClient = useQueryClient();
+
+    const HandlefilterToggle  = (filterType) => {
+        setFilter(filterType)
+        queryClient.invalidateQueries(functionality(userId  ,  filterType ));
+    }
 
 
     
@@ -16,7 +25,7 @@ const FilterCard = ({ options   , filter ,  setFilter }) => {
                     return (
                         <li
                             key={index}
-                            onClick={() => {setFilter(option)}}
+                            onClick={() => {HandlefilterToggle(option)}}
                             className={` py-1 items-center   flex flex-row     hover:cursor-pointer ${ filter === option ? "text-[#2F80ED] " : " text-neutral-500" }`}
                         >
                             

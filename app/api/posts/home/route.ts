@@ -2,13 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { number } from "zod";
 
 const  LIMIT = 3
 
 export async function GET(req: NextRequest, res: NextResponse) {
-
-
-
 
     try {
         const url = new URL(req.url);
@@ -25,11 +23,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
         }
 
 
-        const  count = await db.post.count() ;
+        // const  count = await db.post.count() ;
+        const  followers = await db.follower.findMany({
+            where:{
+                userId: Number(session?.user?.sub)
+            },
+            select:{
+                followerId:true ,
+            }
+        })
 
-        console.log(count)
-
-        const posts = await db.post.findMany({
+        const data = await db.post.findMany({
             orderBy : {
                 created_at:'desc',
             } ,
@@ -38,12 +42,30 @@ export async function GET(req: NextRequest, res: NextResponse) {
             },
             select: {
                 id: true  ,
+                authorId:true ,
             },
-            take : LIMIT ,
-            skip : ( +pageN - 1) * LIMIT
+
         }) ;
 
-        console.log(posts)
+
+        // filter based posts  from friends  only
+        let followersArray  = followers.map((x) => x.followerId )
+        let posts = data.filter((post) => {
+            // if  auther  id  of  this  post  exist  in the  follower  array  that  mean  good
+            if ( followersArray.find( (flw_id) => flw_id == post.authorId )  || post.authorId == session?.user?.sub ){
+                return post
+            }
+            
+        })
+
+
+
+
+        const count = posts.length ;
+        const skip = (+pageN - 1) * LIMIT ;
+        posts = posts.slice(skip, skip + LIMIT );
+
+        
 
 
         
