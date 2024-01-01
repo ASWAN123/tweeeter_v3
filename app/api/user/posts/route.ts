@@ -171,7 +171,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 posts = await db.$queryRaw`SELECT
                     "Post".id,
                     "Post".media_url,
-                    "Post".created_at
+                    "Post".created_at,
+                    -- COALESCE("Retweet"."userId", ${user_id})
+                    FALSE AS is_retweet
                   FROM
                     "User"
                   JOIN
@@ -184,7 +186,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
                   SELECT
                     "Post".id,
                     "Post".media_url,
-                    "Post".created_at
+                    "Post".created_at,
+                    TRUE AS is_retweet
+                    -- COALESCE("Retweet"."userId", ${user_id})
                     
                   FROM
                     "Retweet"

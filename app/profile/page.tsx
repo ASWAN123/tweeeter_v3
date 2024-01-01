@@ -120,7 +120,7 @@ const Page = ({ searchParams: { id: userId } }) => {
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={post.id} postid={post.id}  />
+                                        <Post key={post.id} postid={post.id} is_retweet = {post.is_retweet} />
                                     );
                                 })}
                             </>
