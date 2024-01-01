@@ -3,7 +3,6 @@ import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
-
 const LIMIT = 3;
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
@@ -23,10 +22,27 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
         const user_id = id || session?.user?.sub;
 
-        // const user_id = 2;
+        
         let posts;
         switch (filter) {
             case "Tweets":
+                let postsCountTweets = await db.$queryRaw`
+                  
+                  SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
+                    
+                  FROM
+                    "Save"
+                  JOIN
+                    "Post" ON "Save"."postId" = "Post"."id"
+                  WHERE
+                    "Save"."userId" = ${Number(user_id)}
+                  
+                  
+                  
+                  `;
                 posts = await db.$queryRaw`
                   
                   SELECT
@@ -52,13 +68,36 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     {
                         posts,
                         nextPage:
-                            +pageN * LIMIT < posts.length
+                            +pageN * LIMIT < postsCountTweets.length
                                 ? +pageN + 1
                                 : undefined,
                     },
                     { status: 200 }
                 );
             case "Media":
+                let postsCountMedia = await db.$queryRaw`
+                
+                  
+                  SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
+                    
+                  FROM
+                    "Save"
+                  JOIN
+                    "Post" ON "Save"."postId" = "Post"."id"
+                  WHERE
+                    "Save"."userId" = ${Number(
+                        user_id
+                    )} AND "Post".media_url IS NOT NULL
+                  
+                 
+
+
+              
+                  
+                  `;
                 posts = await db.$queryRaw`
                 
                   
@@ -72,7 +111,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
                   JOIN
                     "Post" ON "Save"."postId" = "Post"."id"
                   WHERE
-                    "Save"."userId" = ${Number(user_id)} AND "Post".media_url IS NOT NULL
+                    "Save"."userId" = ${Number(
+                        user_id
+                    )} AND "Post".media_url IS NOT NULL
                   
                   ORDER BY
                     created_at DESC 
@@ -87,7 +128,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     {
                         posts,
                         nextPage:
-                            +pageN * LIMIT < posts.length
+                            +pageN * LIMIT < postsCountMedia.length
                                 ? +pageN + 1
                                 : undefined,
                     },
@@ -95,6 +136,23 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 );
 
             case "Likes":
+                let postsCountLike = await db.$queryRaw`                  
+                SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
+                    
+                  FROM
+                    "Like"
+                  JOIN
+                    "Post" ON "Like"."postId" = "Post"."id"
+                  WHERE
+                    "Like"."userId" = ${Number(user_id)}
+                  
+                    
+                  
+                  
+                  `;
                 posts = await db.$queryRaw`                  
                 SELECT
                     "Post".id,
@@ -120,7 +178,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     {
                         posts,
                         nextPage:
-                            +pageN * LIMIT < posts.length
+                            +pageN * LIMIT < postsCountLike.length
                                 ? +pageN + 1
                                 : undefined,
                     },

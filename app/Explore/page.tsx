@@ -5,7 +5,8 @@ import SearchInput from "./SearchInput";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 import { explorePostsConfig } from "../queryConfig";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const Page = () => {
     const options = ["Top", "Lastest", "Media"];
@@ -23,26 +24,17 @@ const Page = () => {
         status
     } = useInfiniteQuery(explorePostsConfig(filter));
 
-    // let AllPosts  = [].concat(...explorePosts?.pages)
 
-    // switch (filter) {
-    //     case "Media":
-    //         AllPosts = AllPosts.filter((x: any) => x.media_url != null );
-    //         break;
-    //     case "Lastest":
-    //         // latest is the  default  params  for  api
-    //         AllPosts = explorePosts;
-    //         break;
-    //     case "People":
-    //         // people  i only have  posts  for  people no group invoves in social  media app
-    //         AllPosts = explorePosts;
-    //         break;
-    //     default:
-    //         // && b.likes - a.likes && b.saves - a.saves
-    //         AllPosts = AllPosts?.sort((a, b) => b.comments - a.comments && );
-    //         console.log(AllPosts);
-    //         break;
-    // }
+
+
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView && hasNextPage ) {
+                console.log('updated' ,  inView)
+                fetchNextPage()
+        }
+    }, [ inView ,  hasNextPage , fetchNextPage]);
 
     return (
         <main className=" w-[95%] container  md:w-[80%] mx-auto mt-4 flex gap-4 flex-col md:flex-row ">
@@ -77,9 +69,10 @@ const Page = () => {
                                 })}
                             </>
                         ))}
-                </div>
-                <button
-                    onClick={() => fetchNextPage()}
+
+<button
+                    ref={ref}
+                    className="text-gray-500  min-h-[200px] max-h-[200px] font-poppins my-8 "
                     disabled={!hasNextPage || isFetchingNextPage}
                 >
                     {isFetchingNextPage
@@ -88,6 +81,8 @@ const Page = () => {
                         ? "Load More"
                         : "Nothing more to load"}
                 </button>
+                </div>
+                
             </section>
         </main>
     );

@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const User_card = ({ user }) => {
     const { data: session } = useSession();
@@ -71,11 +72,13 @@ const User_card = ({ user }) => {
                             alt="cover author"
                         />
                         <div className="flex flex-col ">
+                            <Link href={`/profile?id=${userDetails.id}`}>
                             <p className="font-semibold text-[14px]">
                                 {userDetails.name.length > 12
                                     ? `${userDetails.name.substring(0, 12)}...`
                                     : userDetails.name}
                             </p>
+                            </Link>
                             <span className="text-neutral-300">
                                 {userDetails.followers.length} followers
                             </span>

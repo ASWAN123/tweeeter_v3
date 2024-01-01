@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 
 //  you gonna  mentio  one  thing here is that  home post  only  with folowing  relation
 const getExplorePosts = async (pageParam, filter) => {
@@ -20,7 +19,7 @@ const explorePostsConfig = (filter) => ({
     queryFn: async ({ pageParam = 1 }) =>
         await getExplorePosts(pageParam, filter),
     getNextPageParam: (lastPage: any) => {
-        console.log(lastPage);
+        // console.log(lastPage);
         return lastPage?.nextPage;
     },
 });
@@ -37,7 +36,7 @@ const getHomePosts = async ({ pageParam = 1 }) => {
 const getUser = async (id: string | undefined) => {
     try {
         const url =
-            "http://localhost:3000/api/user/profile" + (id ? `?id=${id}` : "");
+            "/api/user/profile" + (id ? `?id=${id}` : "");
         const response = await axios.get(url);
         return response.data;
     } catch (error) {
@@ -55,7 +54,7 @@ const getSavedPosts = async (pageParam, filter) => {
 };
 
 const getPostDetails = async (id: any) => {
-    console.log();
+    // console.log();
     const requestURL = `/api/post?id=${id}`;
     const response = await axios.get(requestURL);
     return response.data;
@@ -88,7 +87,7 @@ const userPostsConfig = (id, filter) => {
         queryFn: async ({ pageParam = 1 }) =>
             await getUserPosts(pageParam, id, filter),
         getNextPageParam: (lastPage: any) => {
-            console.log(lastPage);
+            // console.log(lastPage);
             return lastPage?.nextPage;
         },
     };
@@ -99,7 +98,7 @@ const homePostsConfig = {
     queryKey: [homePosts],
     queryFn: getHomePosts,
     getNextPageParam: (lastPage: any) => {
-        console.log(lastPage);
+        // console.log(lastPage);
         return lastPage?.nextPage;
     },
 };

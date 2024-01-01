@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterCard from "../compoenents/FilterCard";
 import Post from "../compoenents/post/Post";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { savedPostsConfig } from "../queryConfig";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
+import { useInView } from "react-intersection-observer";
 
 const Page = () => {
     const options = ["Tweets",  "Media", "Likes"];
@@ -18,6 +19,15 @@ const Page = () => {
         isFetching,
         error,
     } = useInfiniteQuery(savedPostsConfig(filter));
+
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView && hasNextPage ) {
+                console.log('updated' ,  inView)
+                fetchNextPage()
+        }
+    }, [ inView ,  hasNextPage , fetchNextPage]);
 
     return (
         <main className=" w-[95%] container  md:w-[80%] mx-auto mt-4 flex gap-4 flex-col md:flex-row ">
@@ -51,16 +61,17 @@ const Page = () => {
                             </>
                         ))}
 
-                    <button
-                        onClick={() => fetchNextPage()}
-                        disabled={!hasNextPage || isFetchingNextPage}
-                    >
-                        {isFetchingNextPage
-                            ? "Loading more..."
-                            : hasNextPage
-                            ? "Load More"
-                            : "Nothing more to load"}
-                    </button>
+<button
+                    ref={ref}
+                    className="text-gray-500  min-h-[200px] max-h-[200px] font-poppins my-8 "
+                    disabled={!hasNextPage || isFetchingNextPage}
+                >
+                    {isFetchingNextPage
+                        ? "Loading more..."
+                        : hasNextPage
+                        ? "Load More"
+                        : "Nothing more to load"}
+                </button>
                 </div>
             </section>
         </main>

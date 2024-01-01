@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-
 import EngagementActions from "./EngagementActions";
 import CreateNewComment from "../comment/CommentForm";
 import Comment from "../comment/Comment";
@@ -111,11 +110,7 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
                                     )
                                 )}
 
-                            {!!postDetails.comments.length && (
-                                <div className="w-full flex items-center justify-center my-4">
-                                    <p>No comments for this post</p>
-                                </div>
-                            )}
+                            
                         </div>
                     </div>
                 </div>

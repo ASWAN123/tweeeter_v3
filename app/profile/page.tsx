@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import React from "react";
 import FilterCard from "../compoenents/FilterCard";
 import Post from "../compoenents/post/Post";
 import ProfileUserCard from "./ProfileUserCard";
@@ -18,9 +19,9 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
+import { useInView } from "react-intersection-observer";
 
 const Page = ({ searchParams: { id: userId } }) => {
-    // console.log("compo updated !!!");
     const { data: session } = useSession();
 
     const options = ["Tweets", "Media", "Likes"];
@@ -46,8 +47,18 @@ const Page = ({ searchParams: { id: userId } }) => {
         isLoading: isUserPostsLoading,
     } = useInfiniteQuery(userPostsConfig(userId, filter));
 
-    // we  have  to  pass  some  filter in point  for  top and  media  and  shit
+    const { ref, inView } = useInView();
 
+    useEffect(() => {
+        if (inView && hasNextPage ) {
+                console.log('updated' ,  inView)
+                fetchNextPage()
+        }
+    }, [ inView ,  hasNextPage , fetchNextPage]);
+
+
+
+    // useEffect  to  update the  profile  cover
     useEffect(() => {
         const updateUserData = async () => {
             const response = await axios.post("/api/user/update", {
@@ -85,14 +96,6 @@ const Page = ({ searchParams: { id: userId } }) => {
                 )}
             </div>
             <div className="w-[95%]  md:w-[80%] mx-auto mt-4 flex flex-col md:grid md:grid-cols-3    md:items-start gap-4 relative">
-                {/* { ( ( isUserLoading && userDetails ) || isFetched ) ? (
-                    <SkeletonUserCard />
-                ) : (
-                    < ProfileUserCard user={userDetails} />
-                )} */}
-
-                {/* pay attention to  this  part  update  later */}
-
                 {userDetails ? (
                     <ProfileUserCard user={userDetails} />
                 ) : (
@@ -103,16 +106,12 @@ const Page = ({ searchParams: { id: userId } }) => {
                     options={options}
                     filter={filter}
                     setFilter={setFilter}
-                    functionality = {userPosts}
+                    functionality={userPosts}
                     userId={userId}
                 />
 
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
                     {isUserPostsLoading && <SkeletonPost />}
-
-                    {/* {AllPosts?.map((post: any) => {
-                        return <Post postid={post.id} key={post.id} />;
-                    })} */}
 
                     {isFetched &&
                         userPosts &&
@@ -120,31 +119,39 @@ const Page = ({ searchParams: { id: userId } }) => {
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={post.id} postid={post.id} is_retweet = {post.is_retweet} />
+                                        <Post
+                                            key={post.id}
+                                            postid={post.id}
+                                            is_retweet={post.is_retweet}
+                                        />
                                     );
                                 })}
                             </>
                         ))}
 
-                    {/* {AllPosts?.length == 0 && (
-                        <div className=" mx-auto ">
-                            <p className=" font-notoSans ">
-                                {" "}
-                                No post to display{" "}
-                            </p>
-                        </div>
-                    )} */}
-                </div>
+
+
+
+
                 <button
-                    onClick={() => fetchNextPage()}
+                    ref={ref}
+                    className="text-gray-500 w-full min-h-[200px] max-h-[200px] font-poppins my-8 "
                     disabled={!hasNextPage || isFetchingNextPage}
                 >
                     {isFetchingNextPage
                         ? "Loading more..."
                         : hasNextPage
                         ? "Load More"
-                        : "Nothing more to load"}
+                        : "Nothing more to load" }
                 </button>
+
+                
+
+
+
+                </div>
+
+                    
             </div>
         </main>
     );

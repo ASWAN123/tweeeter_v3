@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
 
 const ProfileUserCard = ({ user }) => {
-    console.log(user);
+    // console.log(user);
 
     const { data: session } = useSession();
     const queryClient = useQueryClient();
@@ -130,9 +130,9 @@ const ProfileUserCard = ({ user }) => {
                     </div>
                 </div>
 
-                <label htmlFor="" className=" max-w-[50%] flex flex-col md:flex-row  items-center gap-2 font-notoSans">
+                <label htmlFor="" className=" md:max-w-[50%] flex flex-col md:flex-row  items-center gap-2 font-notoSans">
                     <textarea
-                        className=" p-1  font-medium text-[#828282] resize-none bg-transparent w-full placeholder:w-fit  text-[16px]  "
+                        className=" p-1 font-medium text-[#828282] resize-none bg-transparent w-full placeholder:w-fit  text-[16px]  "
                         
                         placeholder={
                             user.bio && user.id == session?.user?.sub
