@@ -8,7 +8,7 @@ import { explorePostsConfig } from "../queryConfig";
 import { useState } from "react";
 
 const Page = () => {
-    const options = ["Top", "Lastest", "People", "Media"];
+    const options = ["Top", "Lastest", "Media"];
     const [filter, setFilter] = useState("Top");
 
 

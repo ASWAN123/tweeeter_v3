@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-
+import { authOptions } from "../auth/[...nextauth]/route";
 
 const LIMIT = 3;
 export async function GET(req: NextRequest, res: NextResponse) {
@@ -39,7 +38,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                   JOIN
                     "Post" ON "Save"."postId" = "Post"."id"
                   WHERE
-                    "Save"."userId" = ${Number(user_id)}
+                    "Save"."userId" = ${user_id}
                   
                   ORDER BY
                     created_at DESC 
@@ -72,7 +71,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                   JOIN
                     "Post" ON "Save"."postId" = "Post"."id"
                   WHERE
-                    "Save"."userId" = ${Number(user_id)} AND "Post".media_url IS NOT NULL
+                    "Save"."userId" = ${user_id} AND "Post".media_url IS NOT NULL
                   
                   ORDER BY
                     created_at DESC 
@@ -95,8 +94,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 );
 
             case "Likes":
-                posts = await db.$queryRaw`                  
-                SELECT
+                posts = await db.$queryRaw`                  SELECT
                     "Post".id,
                     "Post".media_url,
                     "Post".created_at
@@ -106,9 +104,22 @@ export async function GET(req: NextRequest, res: NextResponse) {
                   JOIN
                     "Post" ON "Like"."postId" = "Post"."id"
                   WHERE
-                    "Like"."userId" = ${Number(user_id)}
+                    "Like"."userId" = ${user_id}
                   
+                  UNION ALL
+                  
+                  SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
                     
+                  FROM
+                    "Save"
+                  JOIN
+                    "Post" ON "Save"."postId" = "Post"."id"
+                  WHERE
+                    "Save"."userId" = ${user_id}
+                  
                   ORDER BY
                     created_at DESC 
                   

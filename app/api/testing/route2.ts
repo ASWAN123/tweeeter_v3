@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-
+import { authOptions } from "../auth/[...nextauth]/route";
 
 const LIMIT = 3;
 export async function GET(req: NextRequest, res: NextResponse) {
@@ -14,20 +13,30 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
         const session = await getServerSession(authOptions);
 
-        if (!session) {
-            return NextResponse.json(
-                { Error: " You are not authorized " },
-                { status: 401 }
-            );
-        }
+        // if (!session) {
+        //     return NextResponse.json(
+        //         { Error: " You are not authorized " },
+        //         { status: 401 }
+        //     );
+        // }
 
-        const user_id = id || session?.user?.sub;
-
-        // const user_id = 2;
+        // const user_id = id || session?.user?.sub;
+        const user_id = 2;
         let posts;
         switch (filter) {
             case "Tweets":
-                posts = await db.$queryRaw`
+                posts = await db.$queryRaw`SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
+                  FROM
+                    "User"
+                  JOIN
+                    "Post" ON "User"."id" = "Post"."authorId"
+                  WHERE
+                    "User"."id" = ${user_id} 
+                  
+                  UNION ALL
                   
                   SELECT
                     "Post".id,
@@ -35,11 +44,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     "Post".created_at
                     
                   FROM
-                    "Save"
+                    "Retweet"
                   JOIN
-                    "Post" ON "Save"."postId" = "Post"."id"
+                    "Post" ON "Retweet"."postId" = "Post"."id"
                   WHERE
-                    "Save"."userId" = ${Number(user_id)}
+                    "Retweet"."userId" = ${user_id}
                   
                   ORDER BY
                     created_at DESC 
@@ -60,7 +69,18 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 );
             case "Media":
                 posts = await db.$queryRaw`
-                
+                SELECT
+                    "Post".id,
+                    "Post".media_url,
+                    "Post".created_at
+                  FROM
+                    "User"
+                  JOIN
+                    "Post" ON "User"."id" = "Post"."authorId"
+                  WHERE
+                    "User"."id" = ${user_id}  AND "Post".media_url IS NOT NULL
+                  
+                  UNION ALL
                   
                   SELECT
                     "Post".id,
@@ -68,11 +88,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     "Post".created_at
                     
                   FROM
-                    "Save"
+                    "Retweet"
                   JOIN
-                    "Post" ON "Save"."postId" = "Post"."id"
+                    "Post" ON "Retweet"."postId" = "Post"."id"
                   WHERE
-                    "Save"."userId" = ${Number(user_id)} AND "Post".media_url IS NOT NULL
+                    "Retweet"."userId" = ${user_id} AND "Post".media_url IS NOT NULL
                   
                   ORDER BY
                     created_at DESC 
@@ -94,38 +114,46 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     { status: 200 }
                 );
 
-            case "Likes":
-                posts = await db.$queryRaw`                  
-                SELECT
-                    "Post".id,
-                    "Post".media_url,
-                    "Post".created_at
+
+
+            case 'Likes' :
+                let likedPosts = await  db.like.findMany({
+                    where : {
+                        userId: Number(user_id), 
+                    },
+                    select:{
+                        Post : {
+                            select:{
+                                id:true ,
+                                media_url: true ,
+                                created_at : true ,
+                            },
+                        }
+                    },
+
+                    take : LIMIT ,
+                    skip : (+pageN - 1) * LIMIT ,
                     
-                  FROM
-                    "Like"
-                  JOIN
-                    "Post" ON "Like"."postId" = "Post"."id"
-                  WHERE
-                    "Like"."userId" = ${Number(user_id)}
-                  
                     
-                  ORDER BY
-                    created_at DESC 
-                  
-                  LIMIT ${LIMIT} OFFSET ${(+pageN - 1) * LIMIT};
-                  
-                  `;
+                    
+
+                })
+
+                posts = likedPosts.reverse().map((elem) => elem.Post )
 
                 return NextResponse.json(
                     {
-                        posts,
+                        posts , 
                         nextPage:
                             +pageN * LIMIT < posts.length
                                 ? +pageN + 1
                                 : undefined,
                     },
                     { status: 200 }
-                );
+                ) ;
+
+
+
         }
     } catch (error) {
         console.log(error);

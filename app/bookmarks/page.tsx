@@ -7,7 +7,7 @@ import { savedPostsConfig } from "../queryConfig";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 
 const Page = () => {
-    const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
+    const options = ["Tweets",  "Media", "Likes"];
     const [filter, setFilter] = useState("Tweets");
     const {
         data: savedPosts,

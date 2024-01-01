@@ -6,14 +6,14 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
-        const session = await getServerSession(authOptions);
+        // const session = await getServerSession(authOptions);
 
-        if (!session) {
-            return NextResponse.json(
-                { Error: " You are not authorized " },
-                { status: 401 }
-            );
-        }
+        // if (!session) {
+        //     return NextResponse.json(
+        //         { Error: " You are not authorized " },
+        //         { status: 401 }
+        //     );
+        // }
 
         let hashtags = await db.hashtags.findMany({
             where:{

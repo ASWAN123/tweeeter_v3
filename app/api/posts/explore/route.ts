@@ -3,12 +3,15 @@ import { db } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
+
 const LIMIT = 3;
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const url = new URL(req.url);
+        const id = url.searchParams.get("id");
         const pageN = url.searchParams.get("cursor");
         const filter = url.searchParams.get("filter");
+
         const session = await getServerSession(authOptions);
 
         if (!session) {
@@ -18,90 +21,134 @@ export async function GET(req: NextRequest, res: NextResponse) {
             );
         }
 
-        let data = await db.post.findMany({
+        const user_id = id || session?.user?.sub;
 
-            select: {
-                id: true,
-                saves: {
-                    select: {
-                        id: true,
-                    },
-                },
-                likes: {
-                    select: {
-                        id: true,
-                    },
-                },
-                comments: {
-                    select: {
-                        id: true,
-                    },
-                },
-                Retweets: {
-                    select: {
-                        id: true,
-                    },
-                },
-                media_url: true,
-            },
-            orderBy: {
-                created_at: "desc",
-            },
-        });
-
-        let Formated_posts = data.map((x) => {
-            return {
-                ...x,
-                saves: x.saves.length,
-                likes: x.likes.length,
-                comments: x.comments.length,
-                Retweets: x.Retweets.length,
-            };
-        });
-
-        let posts: any = [];
-
+        // const user_id = 2;
+        let posts;
         switch (filter) {
             case "Top":
-                posts = Formated_posts.sort((a, b) => {
-                    if (b.comments !== a.comments) {
-                        return b.comments - a.comments;
-                    }
+                let allPosts = await db.post.findMany({
+                    where: {
+                        authorId: { not: Number(user_id) },
+                        everyone_can_reply: true,
+                    },
 
-                    if (b.likes !== a.likes) {
-                        return b.likes - a.likes;
-                    }
-
-                    return b.Retweets - a.Retweets;
+                    select: {
+                        id: true,
+                        media_url: true,
+                        created_at: true,
+                        authorId: true,
+                        _count: {
+                            select: {
+                                comments: true,
+                                Retweets: true,
+                                saves: true,
+                                likes: true,
+                            },
+                        },
+                    },
                 });
 
-                break;
-            case "Media":
-                posts = Formated_posts.filter((x: any) => x.media_url != null);
-                break;
+                let sortedData = allPosts.sort((a, b) => {
+                    if (b._count.comments !== a._count.comments) {
+                        return b._count.comments - a._count.comments;
+                    }
+
+                    if (b._count.likes !== a._count.likes) {
+                        return b._count.likes - a._count.likes;
+                    }
+
+                    if (b._count.saves !== a._count.saves) {
+                        return b._count.saves - a._count.saves;
+                    }
+
+                    return b._count.Retweets - a._count.Retweets;
+                });
+
+                const skip = (+pageN - 1) * LIMIT;
+                posts = sortedData.slice(skip, skip + LIMIT);
+                posts = posts.map(({ _count, ...rest }) => rest);
+
+                return NextResponse.json(
+                    {
+                        posts,
+                        nextPage:
+                            +pageN * LIMIT < sortedData.length
+                                ? +pageN + 1
+                                : undefined,
+                    },
+                    { status: 200 }
+                );
+
+
+
             case "Lastest":
-                posts = Formated_posts;
-                break;
-            case "People":
-                // people  i only have  posts  for  people no group invoves in social  media app
-                posts = Formated_posts;
-                break;
+                posts = await db.post.findMany({
+                    where: {
+                        authorId: { not: Number(user_id) },
+                        everyone_can_reply: true,
+                    },
+
+                    select: {
+                        id: true,
+                        media_url: true,
+                        created_at: true,
+                        authorId: true,
+                    },
+                    orderBy: {
+                        created_at: "desc",
+                    },
+                    take: 3,
+                    skip: (+pageN - 1) * LIMIT,
+                });
+
+                return NextResponse.json(
+                  {
+                      posts,
+                      nextPage:
+                          +pageN * LIMIT < posts.length
+                              ? +pageN + 1
+                              : undefined,
+                  },
+                  { status: 200 }
+              );
+
+            case 'Media' :
+              posts = await db.post.findMany({
+                where: {
+                    authorId: { not: Number(user_id) },
+                    everyone_can_reply: true,
+                    media_url : { not : null }
+                },
+
+                select: {
+                    id: true,
+                    media_url: true,
+                    created_at: true,
+                    authorId: true,
+                    
+                },
+                take : 3 ,
+                skip: (+pageN - 1) * LIMIT, 
+            });
+
+            return NextResponse.json(
+              {
+                  posts,
+                  nextPage:
+                      +pageN * LIMIT < posts.length
+                          ? +pageN + 1
+                          : undefined,
+              },
+              { status: 200 }
+            );
+
+
         }
 
-        const count = posts.length;
-        const skip = (+pageN - 1) * LIMIT;
-        posts = posts.slice(skip, skip + LIMIT);
 
-        
-
-        return NextResponse.json(
-            {
-                posts,
-                nextPage: +pageN * LIMIT < count ? +pageN + 1 : undefined,
-            },
-            { status: 200 }
-        );
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { Error: "Internal Server Erorr" },
             { status: 500 }

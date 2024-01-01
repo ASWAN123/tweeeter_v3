@@ -20,10 +20,10 @@ import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
 
 const Page = ({ searchParams: { id: userId } }) => {
-    console.log("compo updated !!!");
+    // console.log("compo updated !!!");
     const { data: session } = useSession();
 
-    const options = ["Tweets", "Tweets & replies", "Media", "Likes"];
+    const options = ["Tweets", "Media", "Likes"];
     const [filter, setFilter] = useState("Tweets");
 
     const id = uuidv4();
@@ -120,7 +120,7 @@ const Page = ({ searchParams: { id: userId } }) => {
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={post.id} postid={post.id}  retweeted={ post?.retweeted }/>
+                                        <Post key={post.id} postid={post.id}  />
                                     );
                                 })}
                             </>

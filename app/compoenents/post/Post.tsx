@@ -11,8 +11,10 @@ import SkeletonComment from "../skeletons/SkeletonComment";
 import SkeletonPost from "../skeletons/skeletonPost";
 import { postDetailsConfig } from "../../queryConfig";
 import { RetweetIcon } from "../icons/Icons";
+import { useSession } from "next-auth/react";
 
 const Post = ({ postid ,  retweeted = undefined }) => {
+    const { data : session } = useSession() ;
     const {
         data: postDetails,
         isLoading,
@@ -25,14 +27,14 @@ const Post = ({ postid ,  retweeted = undefined }) => {
         <>
             {postDetails && (
                 <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
-                    { retweeted && <div className=" rounded-md w-fit  flex gap-2 text-green-800 text-[16px] bg-green-300 px-2 py-1">
+                    {/* { postDetails.author.id != session?.user?.sub &&  <div className=" rounded-md w-fit  flex gap-2 text-green-800 text-[16px] bg-green-300 px-2 py-1">
                     <RetweetIcon
                         width={20}
                         height={20}
                         className="text-green-800 md:w-[20px] md:h-[20px]"
                     />
                     <p className=" font-notoSans">Retweeted</p>
-                    </div> }
+                    </div>    } */}
                     <div className="flex items-center gap-4">
                         <div className="relative w-[40px] h-[40px]">
                             <Image
