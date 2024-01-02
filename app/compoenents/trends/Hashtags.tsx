@@ -10,7 +10,7 @@ const Hashtags = ({ hashTags }) => {
             <ul className=" space-y-4  mt-2">
                 {hashTags.map((elem, index) => {
                     return (
-                        <li key={index} className="flex flex-col gap-2">
+                        <li key={elem.name} className="flex flex-col gap-2">
                             <p className="text-[16px] font-semibold font-notoSans text-[#333333] leading-[21px] ">
                                 {elem.name}
                             </p>

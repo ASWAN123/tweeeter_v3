@@ -3,6 +3,7 @@ import React from "react";
 import User_card from "./UserCard";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Skeletontrends from "../skeletons/Skeletontrends";
 
 const PepoleToFollow = () => {
 
@@ -29,8 +30,11 @@ const PepoleToFollow = () => {
             <ul className=" space-y-4  mt-2">
                 <li className="flex flex-col gap-4">
                     {
-                        isFetched && usersToFollow.map(( user ,  index) => {
-                            return  <>< User_card   key={index} user = {user} /><hr /></>
+                        isLoading &&<> <Skeletontrends /> <hr /> <Skeletontrends /></>
+                    }
+                    {
+                         isFetched && usersToFollow && usersToFollow?.map(( user ,  index) => {
+                            return  <>< User_card   key={user.id} user = {user} /><hr /></>
                         })
                     }
                     {/* < User_card  image = "/post_image3.jpg" /> */}

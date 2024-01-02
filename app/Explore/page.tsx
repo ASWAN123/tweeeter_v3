@@ -31,7 +31,7 @@ const Page = () => {
 
     useEffect(() => {
         if (inView && hasNextPage ) {
-                console.log('updated' ,  inView)
+                
                 fetchNextPage()
         }
     }, [ inView ,  hasNextPage , fetchNextPage]);
@@ -64,7 +64,7 @@ const Page = () => {
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={index} postid={post.id}   />
+                                        <Post key={post.id} postid={post.id}   />
                                     );
                                 })}
                             </>

@@ -55,7 +55,7 @@ export default function Home() {
                             <>
                                 {group?.posts.map((post: any, index: any) => {
                                     return (
-                                        <Post key={index} postid={post.id} />
+                                        <Post key={post.id} postid={post.id} />
                                     );
                                 })}
                             </>

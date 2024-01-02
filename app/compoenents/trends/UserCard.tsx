@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { FriendIcon } from "../icons/Icons";
 import { userDetailsConfig } from "@/app/queryConfig";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -10,22 +10,30 @@ import Link from "next/link";
 
 const User_card = ({ user }) => {
     const { data: session } = useSession();
+    const queryClient = useQueryClient();
     const { data: userDetails, isLoading: isUserLoading } = useQuery(
         userDetailsConfig(user.id)
     );
 
     // update  this  to  work with  the  user  objects
+    // const afollower = userDetails?.followers.find(
+    //     (x) => x.userId == session?.user?.sub
+    // );
+    // console.log(afollower ,  user.id  )
 
-    const [follow, setFollow] = useState(false);
+    
 
+    const [follow, setFollow] = useState();
+        
+    
     useEffect(() => {
-        if (userDetails) {
-            const afollower = userDetails.followers.find(
-                (x) => x.userId == session?.user?.sub
-            );
-            setFollow(afollower ? true : false);
+        let check  = userDetails?.followers.find(
+            (x) => x.userId == session?.user?.sub
+        )
+        if(check){
+            setFollow(check.id)
         }
-    }, [userDetails, session?.user?.sub]);
+    } ,  [session?.user?.sub, userDetails])
 
     const doFolllow = async () => {
         setFollow(true);
@@ -35,23 +43,24 @@ const User_card = ({ user }) => {
             userId,
         });
 
-        console.log(response);
+        setFollow(response.data.addedfollower.id)
+        queryClient.invalidateQueries(userDetailsConfig(user.id ));
+        
     };
 
     const undoFollow = async () => {
         setFollow(false);
-        const id = userDetails.followers.find(
-            (x) => x.userId == session?.user?.sub
-        ).id;
+        const id = follow
         const response = await axios.post("/api/userIntraction/unfollow", {
-            id,
+            id ,
         });
+        queryClient.invalidateQueries(userDetailsConfig(user.id )) ;
 
         console.log(response);
     };
 
     const handleToggle = () => {
-        console.log("clicked");
+        
         if (follow) {
             undoFollow();
         } else {

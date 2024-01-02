@@ -26,7 +26,7 @@ const PostForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (content?.trim() === "" && url?.trim() === "") return;
-        const hashtags = content.match(/#\w+/g);
+        const hashtags = content?.match(/#\w+/g);
         let newHashtags = hashtags?.map((x, index) => {
             return { name: x.toLowerCase() };
         });
@@ -152,6 +152,7 @@ const PostForm = () => {
                     <input
                         type="submit"
                         value="Tweet"
+                        disabled={ !(content?.length > 0) && !(url?.length > 0) }
                         className=" font-notoSans cursor-pointer  w-fit px-6 font-semibold py-2 text-[12px] bg-[#2F80ED] text-white rounded-sm"
                     />
                 </div>

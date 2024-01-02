@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         const body = await req.json()
         
-        console.log(body)
+        
 
         const updatemedia = await db.user.update({
             where: {

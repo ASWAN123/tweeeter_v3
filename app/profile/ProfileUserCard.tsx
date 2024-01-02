@@ -9,9 +9,10 @@ import { useEdgeStore } from "../lib/edgestore";
 import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
+import { userDetailsConfig } from "../queryConfig";
 
 const ProfileUserCard = ({ user }) => {
-    // console.log(user);
+   
 
     const { data: session } = useSession();
     const queryClient = useQueryClient();
@@ -23,11 +24,21 @@ const ProfileUserCard = ({ user }) => {
     const  [ bioConent  , setBioContent  ] = useState( user.bio )
     
     // update  this  to  work with  the  user  objects
-    const afollower = user?.followers.find(
-        (x) => x.userId == session?.user?.sub
-    );
+    // const afollower = user?.followers.find(
+    //     (x) => x.userId == session?.user?.sub
+    // );
 
-    const [follow, setFollow] = useState(afollower ? true : false);
+
+    const [follow, setFollow] = useState();
+
+    useEffect(() => {
+        let check  = user?.followers.find(
+            (x) => x.userId == session?.user?.sub
+        )
+        if(check){
+            setFollow(check.id)
+        }
+    } ,  [session?.user?.sub, user])
 
     const id = uuidv4();
 
@@ -36,7 +47,7 @@ const ProfileUserCard = ({ user }) => {
             const response = await axios.post("/api/user/update", {
                 bio: bioConent,
             });
-            queryClient.invalidateQueries({ queryKey: ["userDetails"] });
+            queryClient.invalidateQueries(userDetailsConfig(user.id));
         };
 
         if (bioConent !== user.bio) {
@@ -50,7 +61,7 @@ const ProfileUserCard = ({ user }) => {
             const response = await axios.post("/api/user/update", {
                 media_url: url,
             });
-            queryClient.invalidateQueries({ queryKey: ["userDetails"] });
+            queryClient.invalidateQueries(userDetailsConfig(user.id));
         };
 
         if (url) {
@@ -65,22 +76,26 @@ const ProfileUserCard = ({ user }) => {
         const response = await axios.post("/api/userIntraction/dofollow", {
             userId,
         });
+        setFollow(response.data.addedfollower.id);
+        queryClient.invalidateQueries(userDetailsConfig(user.id));
+        // queryClient.invalidateQueries({ queryKey: ["userDetails" ,  user.id ] });
 
-        console.log(response);
+        // console.log(response);
     };
 
     const undoFollow = async () => {
         setFollow(false);
-        const id = afollower.id;
+        const id = follow ;
         const response = await axios.post("/api/userIntraction/unfollow", {
             id,
         });
-
-        console.log(response);
+        // queryClient.invalidateQueries({ queryKey: ["userDetails" ,  user.id ] });
+        queryClient.invalidateQueries(userDetailsConfig(user.id ));
+        // console.log(response);
     };
 
     const handleToggle = () => {
-        console.log("clicked");
+        
         if (follow) {
             undoFollow();
         } else {
@@ -131,19 +146,19 @@ const ProfileUserCard = ({ user }) => {
                 </div>
 
                 <label htmlFor="" className=" md:max-w-[50%] flex flex-col md:flex-row  items-center gap-2 font-notoSans">
-                    <textarea
+                    { user.id == session?.user?.sub && <textarea
                         className=" p-1 font-medium text-[#828282] resize-none bg-transparent w-full placeholder:w-fit  text-[16px]  "
                         
-                        placeholder={
-                            user.bio && user.id == session?.user?.sub
-                                ? user.bio
-                                : "write something about yourself"
-                        }
+                        placeholder= { ( user.bio && user.bio.length > 0 ) ? "write something about your self" : '' }
                         value={ bioConent }
                         onChange={(e) => {setBioContent(e.target.value)}}
                         onBlur={handleInputBlur}
                         rows={2}
-                    ></textarea>
+                    ></textarea> }
+                    {
+                      user.id != session?.user?.sub &&  <p className="p-1 font-medium text-[#828282]  bg-transparent w-full placeholder:w-fit  text-[16px]">{user.bio}</p>
+                    }
+
                 </label>
             </div>
             {session?.user?.sub != user?.id && (

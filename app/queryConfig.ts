@@ -19,7 +19,6 @@ const explorePostsConfig = (filter) => ({
     queryFn: async ({ pageParam = 1 }) =>
         await getExplorePosts(pageParam, filter),
     getNextPageParam: (lastPage: any) => {
-        // console.log(lastPage);
         return lastPage?.nextPage;
     },
 });
@@ -110,7 +109,7 @@ const savedPostsConfig = (filter) => {
         queryFn: async ({ pageParam = 1 }) =>
             await getSavedPosts(pageParam, filter),
         getNextPageParam: (lastPage: any) => {
-            console.log(lastPage);
+            // console.log(lastPage);
             return lastPage?.nextPage;
         },
     };
@@ -118,7 +117,7 @@ const savedPostsConfig = (filter) => {
 
 const userDetailsKey = "userDetails";
 const userDetailsConfig = (id: string | undefined) => ({
-    queryKey: [userDetailsKey, id],
+    queryKey: [userDetailsKey, `${id}`],
     queryFn: async () => await getUser(id),
 });
 

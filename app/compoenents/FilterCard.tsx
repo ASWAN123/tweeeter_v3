@@ -24,7 +24,7 @@ const FilterCard = ({ options   , filter ,  setFilter ,functionality  ,  userId 
                 {options.map((option, index) => {
                     return (
                         <li
-                            key={index}
+                            key={option}
                             onClick={() => {HandlefilterToggle(option)}}
                             className={` py-1 items-center   flex flex-row     hover:cursor-pointer ${ filter === option ? "text-[#2F80ED] " : " text-neutral-500" }`}
                         >

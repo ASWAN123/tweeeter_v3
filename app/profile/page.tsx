@@ -13,7 +13,6 @@ import {
 import SkeletonUserCard from "../compoenents/skeletons/SkeletonUserCard";
 import SkeletonPost from "../compoenents/skeletons/skeletonPost";
 import { userDetailsConfig, userPostsConfig } from "../queryConfig";
-import UploadImage from "../compoenents/post/UploadImage";
 import { EditIcon } from "../compoenents/icons/Icons";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -21,7 +20,7 @@ import { useSession } from "next-auth/react";
 import UploadImage2 from "../compoenents/post/UplaodImage2";
 import { useInView } from "react-intersection-observer";
 
-const Page = ({ searchParams: { id: userId } }) => {
+const Profile = ({ searchParams: { id: userId } }) => {
     const { data: session } = useSession();
 
     const options = ["Tweets", "Media", "Likes"];
@@ -51,7 +50,7 @@ const Page = ({ searchParams: { id: userId } }) => {
 
     useEffect(() => {
         if (inView && hasNextPage ) {
-                console.log('updated' ,  inView)
+               
                 fetchNextPage()
         }
     }, [ inView ,  hasNextPage , fetchNextPage]);
@@ -65,7 +64,7 @@ const Page = ({ searchParams: { id: userId } }) => {
                 cover: url,
             });
 
-            queryClient.invalidateQueries({ queryKey: ["userDetails"] });
+            queryClient.invalidateQueries({ queryKey: ["userDetails" ] });
         };
 
         if (url) {
@@ -106,12 +105,12 @@ const Page = ({ searchParams: { id: userId } }) => {
                     options={options}
                     filter={filter}
                     setFilter={setFilter}
-                    functionality={userPosts}
+                    functionality={userPostsConfig}
                     userId={userId}
                 />
 
                 <div className="flex flex-col gap-4 mt-4 col-span-2 ">
-                    {isUserPostsLoading && <SkeletonPost />}
+                    {isUserPostsLoading && <><SkeletonPost /><SkeletonPost /><SkeletonPost /></>}
 
                     {isFetched &&
                         userPosts &&
@@ -123,6 +122,7 @@ const Page = ({ searchParams: { id: userId } }) => {
                                             key={post.id}
                                             postid={post.id}
                                             is_retweet={post.is_retweet}
+                                            
                                         />
                                     );
                                 })}
@@ -157,4 +157,4 @@ const Page = ({ searchParams: { id: userId } }) => {
     );
 };
 
-export default Page;
+export default Profile;

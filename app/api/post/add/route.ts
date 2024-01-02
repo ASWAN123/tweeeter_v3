@@ -18,19 +18,28 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     const authorId = session?.user?.sub;
     let body = await req.json();
+    let  { hashtags , content  , media_url ,  ...rest } = body ;
 
-    const  newHashtags = body['hashtags']
-    delete body['hashtags']
-
+    if (!(content?.length > 0) && !(media_url?.length > 0)) {
+        return NextResponse.json(
+            { data: "Please add content or a media file" },
+            { status: 500 }
+        );
+    }
+    
     const createPost = await db.post.create({
         data: {
-            ...body,
-            authorId: Number(authorId),
-            hashtags : {
-                create : newHashtags.map((x:any) => {
-                    return { ...x ,  userId:Number(authorId)}
-                }) ,
-            }
+            ...(content && { content }),  
+            ...(media_url && { media_url }),  
+            author: {
+                connect: { id: Number(authorId) }
+            },
+            hashtags: {
+                create: hashtags.map((x: any) => {
+                    return { ...x, userId: Number(authorId) };
+                }),
+            },
+            ...rest,  
         },
     });
 

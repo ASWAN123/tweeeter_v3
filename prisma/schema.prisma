@@ -33,7 +33,7 @@ model Post {
   id                 Int        @id @default(autoincrement())
   created_at         DateTime   @default(now())
   update_at          DateTime   @updatedAt
-  content            String
+  content            String?
   everyone_can_reply Boolean
   media_url          String?
   author             User       @relation(fields: [authorId], references: [id])

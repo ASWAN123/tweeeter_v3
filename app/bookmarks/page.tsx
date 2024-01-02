@@ -24,7 +24,7 @@ const Page = () => {
 
     useEffect(() => {
         if (inView && hasNextPage ) {
-                console.log('updated' ,  inView)
+                
                 fetchNextPage()
         }
     }, [ inView ,  hasNextPage , fetchNextPage]);

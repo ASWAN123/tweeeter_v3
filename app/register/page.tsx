@@ -41,7 +41,7 @@ const Page = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         setLoading(true);
-        console.log(data);
+        
         const addNewUser = await axios.post("/api/register", data);
         if (addNewUser.status === 201) {
             route.push("/login");

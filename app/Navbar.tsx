@@ -13,6 +13,7 @@ import { userDetailsConfig } from "./queryConfig";
 
 const Navbar = () => {
     const pathname = usePathname();
+
     const { data: session } = useSession();
 
     const pages = [
@@ -35,7 +36,7 @@ const Navbar = () => {
                     href="/"
                     className=" font-poppins text-[18px] flex items-center gap-2 font-semibold md:text-black text-transparent "
                 >
-                    <AiFillCodeSandboxCircle size={24} color="blue" /> Tweeter
+                    <AiFillCodeSandboxCircle size={45} color="blue" /> Tweeter
                 </a>
                 {/* list  for desktop version */}
 
@@ -43,7 +44,7 @@ const Navbar = () => {
                     {pages.map((elem, index) => {
                         return (
                             <li
-                                key={index}
+                                key={elem.name}
                                 className="h-[60px]  flex flex-col w-full  items-center justify-center  gap-4  "
                             >
                                 <Link
@@ -81,20 +82,20 @@ const Navbar = () => {
             <ul className="flex md:hidden justify-between items-center px-8 h-[60px] w-full space-x-6 fixed bottom-0 bg-[#FFFFFF]  z-[1000] shadow-md border-t-1 ">
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
                     <Link href="/">
-                        <GoHomeFill size={30} color="gray" />
+                        <GoHomeFill size={30} color= { pathname == '/' ?  "blue" : "gray"} />
                     </Link>
                 </li>
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
                     <Link href="/explore" className="">
-                        <MdOutlineExplore size={30} color="blue" />
+                        <MdOutlineExplore size={30} color= { pathname == '/explore' ?  "blue" : "gray"} />
                     </Link>
                 </li>
                 <li className=" p-4 font-medium hover:cursor-pointer border-b-2 border-transparent hover:border-blue-500 transition  duration-300  ">
                     <Link href="/bookmarks">
                         <MdOutlineBookmark
                             size={30}
-                            color="gray"
-                            className=""
+                            color= { pathname == '/bookmarks' ?  "blue" : "gray"}
+                            
                         />
                     </Link>
                 </li>

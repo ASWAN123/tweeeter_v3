@@ -18,6 +18,14 @@ const SkeletonHashtags = () => {
                     <div className="rounded h-6 bg-gray-100 w-40 skeleton"></div>
                     <div className="rounded h-4 bg-gray-100 w-24 skeleton"></div>
                 </li>
+                <li className="flex flex-col gap-2">
+                    <div className="rounded h-6 bg-gray-100 w-40 skeleton"></div>
+                    <div className="rounded h-4 bg-gray-100 w-24 skeleton"></div>
+                </li>
+                <li className="flex flex-col gap-2">
+                    <div className="rounded h-6 bg-gray-100 w-40 skeleton"></div>
+                    <div className="rounded h-4 bg-gray-100 w-24 skeleton"></div>
+                </li>
             </ul>
         </div>
     );

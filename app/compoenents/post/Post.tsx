@@ -2,18 +2,21 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import EngagementActions from "./EngagementActions";
 import CreateNewComment from "../comment/CommentForm";
 import Comment from "../comment/Comment";
 import SkeletonComment from "../skeletons/SkeletonComment";
 import SkeletonPost from "../skeletons/skeletonPost";
-import { postDetailsConfig } from "../../queryConfig";
-import { RetweetIcon } from "../icons/Icons";
+import { hashTagsConfig, postDetailsConfig } from "../../queryConfig";
+import { DeleteIcon, RetweetIcon } from "../icons/Icons";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
-const Post = ({ postid ,  is_retweet = undefined }) => {
-    const { data : session } = useSession() ;
+const Post = ({ postid , is_retweet = undefined }) => {
+    const queryClient = useQueryClient();
+    const { data: session } = useSession();
     const {
         data: postDetails,
         isLoading,
@@ -22,19 +25,24 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
         error,
     } = useQuery(postDetailsConfig(postid));
 
+
+
+
     return (
         <>
             {postDetails && (
-                <div className="bg-[#ffffff] flex flex-col gap-3 p-4 relative shadow-md rounded-md last:mb-8">
-                    { is_retweet &&  <div className=" rounded-md w-fit  flex gap-2 text-green-800 text-[16px] bg-green-300 px-2 py-1">
-                    <RetweetIcon
-                        width={20}
-                        height={20}
-                        className="text-green-800 md:w-[20px] md:h-[20px]"
-                    />
-                    <p className=" font-notoSans">Retweeted</p>
-                    </div>    }
-                    <div className="flex items-center gap-4">
+                <div className="bg-[#ffffff] flex flex-col  gap-3 p-4 relative shadow-md rounded-md last:mb-8">
+                    {is_retweet && (
+                        <div className=" rounded-md w-fit  flex gap-2 text-green-800 text-[16px] bg-green-300 px-2 py-1">
+                            <RetweetIcon
+                                width={20}
+                                height={20}
+                                className="text-green-800 md:w-[20px] md:h-[20px]"
+                            />
+                            <p className=" font-notoSans">Retweeted</p>
+                        </div>
+                    )}
+                    <div className="flex items-center gap-4 ">
                         <div className="relative w-[40px] h-[40px]">
                             <Image
                                 className="rounded"
@@ -66,6 +74,7 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
                                 })}
                             </span>
                         </div>
+
                     </div>
 
                     <p className="text-[16px] md:text-[16px] font-notoSans font-normal text-[#4F4F4F] ">
@@ -73,7 +82,6 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
                     </p>
                     {postDetails.media_url && (
                         <div className=" h-[320px] md:h-[500px] w-full relative">
-                            
                             <Image
                                 src={postDetails.media_url}
                                 alt="Picture of the author"
@@ -81,7 +89,6 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
                                 layout="fill"
                                 objectFit="cover"
                             />
-
                         </div>
                     )}
 
@@ -105,12 +112,10 @@ const Post = ({ postid ,  is_retweet = undefined }) => {
                                     (comment: any, index: any) => (
                                         <Comment
                                             comment={comment}
-                                            key={index}
+                                            key={comment.id}
                                         />
                                     )
                                 )}
-
-                            
                         </div>
                     </div>
                 </div>

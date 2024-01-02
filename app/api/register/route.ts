@@ -33,7 +33,7 @@ export async function POST(req : NextRequest , res : NextResponse) {
   try {
     
     let addNewUser = await  db.user.create({
-      data : {...body , password: hashPassword ,  "bio": "" ,  "avatar" : ""}
+      data : {...body , password: hashPassword ,  "bio": null ,  "avatar" : ""}
     })
     return NextResponse.json(  {"user" : addNewUser  } ,  {status:201} )
 

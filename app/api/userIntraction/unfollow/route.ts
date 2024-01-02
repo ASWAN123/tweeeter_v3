@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         let body = await req.json();
         
-        console.log(body)
+  
         
 
         const  follower = await db.follower.delete({
