@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import DropDownMenu from "./compoenents/DropDownMenu";
 import { useQuery } from "@tanstack/react-query";
 import { userDetailsConfig } from "./queryConfig";
+import Image from "next/image";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -36,7 +37,9 @@ const Navbar = () => {
                     href="/"
                     className=" font-poppins text-[18px] flex items-center gap-2 font-semibold md:text-black text-transparent "
                 >
-                    <AiFillCodeSandboxCircle size={45} color="blue" /> Tweeter
+                    
+                    <img src="./favicon.png"  width={45} height={45} alt="" />
+                     Tweeter
                 </a>
                 {/* list  for desktop version */}
 

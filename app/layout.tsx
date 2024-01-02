@@ -30,6 +30,9 @@ export  const poppins = Poppins({
 export const metadata: Metadata = {
     title: "Tweeter",
     description: "Tweeter social app",
+    icons:{
+        icon:"./favicon.png"
+    }
 };
 
 export default async function RootLayout({
