@@ -123,28 +123,28 @@ const EngagementActions = ({ post }) => {
     };
 
     const LikeClass = classNames({
-        "flex gap-2  items-center lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-1  items-center lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-red-500": like ? true : false,
         "text-neutral-500": like ? false : true,
     });
 
     const CommentClass = classNames({
-        "flex gap-2  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-1  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-gray-900": comment ? true : false,
         " text-neutral-500": comment ? false : true,
     });
 
     const SaveClass = classNames({
-        "flex gap-2  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-1  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-blue-500": save ? true : false,
         "text-neutral-500": save ? false : true,
     });
 
     const RetweetClass = classNames({
-        "flex gap-2  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
+        "flex gap-1  items-center  lg:mx-2 lg:px-2 md:px-6 py-2 flex-1  justify-center hover:bg-neutral-100 rounded-md  md:text-[14px]":
             true,
         "text-green-300": retweet ? true : false,
         "text-neutral-500": retweet ? false : true,
