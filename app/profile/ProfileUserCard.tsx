@@ -67,7 +67,7 @@ const ProfileUserCard = ({ user }) => {
         if (url) {
             updateUserData();
         }
-    }, [queryClient, url]);
+    }, [queryClient, url, user.id]);
 
     const doFolllow = async () => {
         setFollow(true);

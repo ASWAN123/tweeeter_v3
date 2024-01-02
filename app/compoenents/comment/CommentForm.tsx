@@ -50,7 +50,7 @@ const CreateNewComment = ({ postId, profileimg }) => {
             }
         }
 
-    } , [url])
+    } , [id, url])
 
     return (
         <>
