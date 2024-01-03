@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { db } from "@/app/lib/db";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         let body = await req.json();
         const post_Id = body.postId;
 
-        const createComment = await prisma.comment.create({
+        const createComment = await db.comment.create({
             data: {
                 ...body,
                 userId: Number(authorId),
