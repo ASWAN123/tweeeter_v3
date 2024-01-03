@@ -26,6 +26,9 @@ const CreateNewComment = ({ postId, profileimg }) => {
             postId: postId,
         };
 
+
+        console.log(data)
+
         const response = await axios.post("/api/comment/add", {
             ...data,
         });
