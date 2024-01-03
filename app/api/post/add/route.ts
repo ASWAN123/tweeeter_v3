@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(req: NextRequest, res: NextResponse) {
+    try {
+
     
     const session = await getServerSession(authOptions);
 
@@ -52,6 +54,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
             { status: 201  }
         );
     }
+} catch (error) {
+    // console.log(error);
+    return NextResponse.json(
+      { Error: "Internal Server Erorr" },
+      { status: 500 }
+    );
+  }
 
     
 
