@@ -145,7 +145,7 @@ const ProfileUserCard = ({ user }) => {
                     </div>
                 </div>
 
-                <label htmlFor="" className=" md:max-w-[50%] flex flex-col md:flex-row  items-center gap-2 font-notoSans">
+                <label htmlFor="" className=" md:max-w-full flex flex-col md:flex-row  items-center gap-2 font-notoSans">
                     { user.id == session?.user?.sub && <textarea
                         className=" p-1 font-medium text-[#828282] resize-none bg-transparent w-full placeholder:w-fit  text-[16px]  "
                         
@@ -154,6 +154,7 @@ const ProfileUserCard = ({ user }) => {
                         onChange={(e) => {setBioContent(e.target.value)}}
                         onBlur={handleInputBlur}
                         rows={2}
+                        maxLength="120"
                     ></textarea> }
                     {
                       user.id != session?.user?.sub &&  <p className="p-1 font-medium text-[#828282]  bg-transparent w-full placeholder:w-fit  text-[16px]">{user.bio}</p>
